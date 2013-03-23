@@ -1,5 +1,7 @@
 package my.ui.topo
 {
+	import my.ui.topo.skins.DefaultLinkSkin;
+
 	[SkinState("normal")]
 	[SkinState("selected")]
 	[SkinState("mouseOver")]
@@ -19,6 +21,7 @@ package my.ui.topo
 		public function Link()
 		{
 			super();
+			setStyle("skinClass", DefaultLinkSkin);
 		}
 
 		public function get startNode():Node
