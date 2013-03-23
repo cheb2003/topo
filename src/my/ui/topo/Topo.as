@@ -76,8 +76,11 @@ import spark.skins.spark.SkinnableContainerSkin;
 		
 		public function set selectedNode(value:Node):void
 		{
-			_selectedNode = value;
-			_selectedNode.depth = int.MAX_VALUE;
+			if(value!=null&&selectedNode!=value){
+				_selectedNode = value;
+				_selectedNode.depth = int.MAX_VALUE;
+				invalidateProperties();
+			}
 		}
 
         public function get nodeDataProvider():ArrayCollection {
