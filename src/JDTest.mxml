@@ -1,13 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
-			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" preinitialize="application1_preinitializeHandler(event)" 
 			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600" xmlns:randomlayout="my.ui.topo.layout.randomlayout.*">
 	<fx:Script>
 		<![CDATA[
-			import my.ui.topo.layout.randomlayout.RandomPoint;
+			import mx.collections.ArrayList;
+			import mx.events.FlexEvent;
+			
+			import my.ui.topo.Node;
+			import my.ui.topo.Topo;
+			import my.ui.topo.layout.randomlayout.RandomLayout;
+			
+			[Bindable]
+			public var arr:ArrayList = new ArrayList();
+			
+			protected function application1_preinitializeHandler(event:FlexEvent):void
+			{
+				for (var i:int=0; i<50; i++){
+					arr.addItem(new Node());
+				}
+			}
+			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
 	</fx:Declarations>
-	<randomlayout:RandomPoint num="50" id="rp" width="100%" height="100%" />
+	<randomlayout:RandomLayout nodeDataProvider="{arr}"  id="rp" width="100%" height="100%" />
 </s:Application>
