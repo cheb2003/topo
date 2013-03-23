@@ -59,8 +59,6 @@ package my.ui.topo {
             }
             return _imageSource;
         }
-
-
 	
 		public function getCenterPoint():Point{
 			return new Point(this.x+this.skin.width/2, this.y+this.skin.height/2);
@@ -84,7 +82,7 @@ package my.ui.topo {
 		}
 
 		/**
-		 * 获取输出连线结合
+		 * 获取输出连线集合
 		 */ 
 		public function getOutgoingLinks():Vector.<Link>
 		{
