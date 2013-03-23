@@ -24,11 +24,13 @@ import my.ui.topo.layout.BaseLayoutFactory;
 	[SkinState("normal")]
     public class Topo extends SkinnableContainer {
 		/**节点集合*/
-		[Bindable]
-		public var nodeDataProvider:Object;
+        [Bindable]
+        private var _nodeDataProvider:ArrayCollection;
+        private var _nodeDataProviderChange:Boolean;
 		/**连线集合*/
-		[Bindable]
-		public var linkDataProvider:Object;
+        [Bindable]
+        private var _linkDataProvider:ArrayCollection;
+        private var _linkDataProviderChange:Boolean;
 		/**节点布局*/
 		[Bindable]
 		public var nodeLayout:BaseLayoutFactory = new RandomFactory();
@@ -48,7 +50,7 @@ import my.ui.topo.layout.BaseLayoutFactory;
 			if(nodeLayout){
 				nodeLayout.layoutRegion = new Rectangle(0, 0, this.width, this.height);
 			}
-			var nodes:ArrayCollection = ArrayCollection(nodeDataProvider);
+			var nodes:ArrayCollection = ArrayCollection(_nodeDataProvider);
 			for(var i:int=0;i<nodes.length;i++){
 				var node:Node = Node(nodes.getItemAt(i));
 				this.addElement(node);
@@ -57,7 +59,30 @@ import my.ui.topo.layout.BaseLayoutFactory;
         private function mouseDown(event:MouseEvent):void {
 
         }
-		
+
+        public function get nodeDataProvider():ArrayCollection {
+            return _nodeDataProvider;
+        }
+
+        public function set nodeDataProvider(value:ArrayCollection):void {
+            if(_nodeDataProvider != value || (value != null && value.length != _nodeDataProvider.length)) {
+                _nodeDataProviderChange = true;
+                _nodeDataProvider = value;
+                invalidateProperties();
+            }
+        }
+
+        public function get linkDataProvider():ArrayCollection {
+            return _linkDataProvider;
+        }
+
+        public function set linkDataProvider(value:ArrayCollection):void {
+            if(_linkDataProvider != value || (value != null && value.length != _linkDataProvider.length)) {
+                _linkDataProviderChange = true;
+                _linkDataProvider = value;
+                invalidateProperties();
+            }
+        }
     }
 
 }
