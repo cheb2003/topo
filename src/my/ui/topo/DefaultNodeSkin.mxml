@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" width="50" height="50">
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" width="153" height="133">
     <fx:Metadata>
         <![CDATA[
         [HostComponent("my.ui.topo.Node")]
@@ -17,4 +17,5 @@
             <s:SolidColor id="bgFill" color="#00ff33"/>
         </s:fill>
     </s:Rect>
+    <s:BitmapImage source="{hostComponent.imageSource}" width="{this.width}" height="{this.height}"/>
 </s:SparkSkin>
