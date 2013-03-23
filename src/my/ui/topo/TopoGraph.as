@@ -8,21 +8,21 @@
 package my.ui.topo {
 
 
-import flash.events.MouseEvent;
-import flash.geom.Rectangle;
+    import flash.events.MouseEvent;
+    import flash.geom.Rectangle;
     
     import mx.collections.ArrayCollection;
-    import mx.collections.ICollectionView;
-import mx.controls.Alert;
+    import mx.controls.Alert;
 
-import my.ui.topo.layout.BaseLayoutFactory;
+
+    import my.ui.topo.layout.BaseLayoutFactory;
     import my.ui.topo.layout.randomlayout.RandomFactory;
     
     import spark.components.SkinnableContainer;
     import spark.skins.spark.SkinnableContainerSkin;
 
 	[SkinState("normal")]
-    public class Topo extends SkinnableContainer {
+    public class TopoGraph extends SkinnableContainer {
 		/**节点集合*/
         [Bindable]
         private var _nodeDataProvider:ArrayCollection;
@@ -36,7 +36,7 @@ import my.ui.topo.layout.BaseLayoutFactory;
 		public var nodeLayout:BaseLayoutFactory = new RandomFactory();
 		
 		
-        public function Topo() {
+        public function TopoGraph() {
             super();
             setStyle("skinClass", SkinnableContainerSkin);
 			callLater(performGraphLayout);
@@ -57,7 +57,7 @@ import my.ui.topo.layout.BaseLayoutFactory;
 			}
 		}
         private function mouseDown(event:MouseEvent):void {
-
+            Alert.show("topo")
         }
 
         public function get nodeDataProvider():ArrayCollection {

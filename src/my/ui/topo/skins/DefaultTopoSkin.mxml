@@ -7,7 +7,7 @@
 
     <fx:Metadata>
     <![CDATA[
-        [HostComponent("my.ui.topo.Topo")]
+        [HostComponent("my.ui.topo.TopoGraph")]
         ]]>
     </fx:Metadata>
 

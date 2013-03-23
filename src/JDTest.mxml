@@ -4,24 +4,22 @@
 			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600" xmlns:randomlayout="my.ui.topo.layout.randomlayout.*">
 	<fx:Script>
 		<![CDATA[
-			import mx.collections.ArrayList;
-			import mx.events.FlexEvent;
-			
-			import my.ui.topo.Node;
-			import my.ui.topo.Topo;
-			import my.ui.topo.layout.randomlayout.RandomLayout;
-			
-			[Bindable]
-			public var arr:ArrayList = new ArrayList();
-			
-			protected function application1_preinitializeHandler(event:FlexEvent):void
-			{
-				for (var i:int=0; i<50; i++){
-					arr.addItem(new Node());
-				}
-			}
-			
-		]]>
+        import mx.collections.ArrayList;
+        import mx.events.FlexEvent;
+
+        import my.ui.topo.Node;
+        import my.ui.topo.TopoGraph;
+        import my.ui.topo.layout.randomlayout.RandomLayout;
+
+        [Bindable]
+        public var arr:ArrayList = new ArrayList();
+
+        protected function application1_preinitializeHandler(event:FlexEvent):void {
+            for (var i:int = 0; i < 50; i++) {
+                arr.addItem(new Node());
+            }
+        }
+        ]]>
 	</fx:Script>
 	<fx:Declarations>
 	</fx:Declarations>
