@@ -2,8 +2,9 @@
 package my.ui.topo {
     import flash.events.MouseEvent;
     import flash.geom.Point;
+    
     import my.ui.topo.layout.BaseLayoutFactory;
-	import my.ui.topo.skins.DefaultNodeSkin;
+    import my.ui.topo.skins.DefaultNodeSkin;
 
     [SkinState("normal")]
     [SkinState("selected")]
@@ -15,6 +16,11 @@ package my.ui.topo {
         private var _isMouseDown:Boolean;
         private var _isMouseOver:Boolean;
         public var topo:TopoGraph;
+		/**输入连线集合*/
+		private var _incomingLinks:Vector.<Link> = new Vector.<Link>();
+		/**输出连线集合*/
+		private var _outgoingLinks:Vector.<Link> = new Vector.<Link>();
+		
         public function Node() {
             super();
             setStyle("skinClass", DefaultNodeSkin);
@@ -67,5 +73,22 @@ package my.ui.topo {
 			//TODO 基准点判断规则
 			return false;
 		}
+
+		/**
+		 *	获取输入连线集合 
+		 */
+		public function getIncomingLinks():Vector.<Link>
+		{
+			return _incomingLinks;
+		}
+
+		/**
+		 * 获取输出连线结合
+		 */ 
+		public function getOutgoingLinks():Vector.<Link>
+		{
+			return _outgoingLinks;
+		}
+
     }
 }
