@@ -6,6 +6,7 @@ package my.ui.topo.layout.randomlayout
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.geom.Point;
+	import flash.geom.Rectangle;
 	
 	import mx.collections.ArrayList;
 	import mx.events.FlexEvent;
@@ -26,7 +27,19 @@ package my.ui.topo.layout.randomlayout
 		}
 		
 		protected override function layout():void{
-			
+			var rect:Rectangle = layoutRegion;
+			var xMin:Number = rect.x;
+			var yMin:Number = rect.y;
+			var xMax:Number = rect.x + rect.width;
+			var yMax:Number = rect.y + rect.height;
+			var x:Number;
+			var y:Number;
+			for(var i:int=0;i<topoGraph.nodeDataProvider.length;i++){
+				var node:Node = Node(topoGraph.nodeDataProvider.getItemAt(i));
+				x = xMin + (xMax - xMin) * Math.random();
+				y = yMin + (yMax - yMin) * Math.random();
+				topoGraph.moveNode(node, x, y);
+			}
 		}
 		
 //		private function completeHandle(evt:FlexEvent):void

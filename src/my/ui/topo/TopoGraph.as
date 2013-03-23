@@ -36,14 +36,11 @@ package my.ui.topo {
         private var _linkDataProvider:ArrayCollection;
         private var _linkDataProviderChange:Boolean;
 		/**节点布局*/
-		[Bindable]
-		public var nodeLayout:GraphLayout;
+		private var _nodeLayout:GraphLayout;
 		/**连线布局*/
-		[Bindable]
-		public var linkLayout:GraphLayout;
+		private var _linkLayout:GraphLayout;
 		/**当前选中节点*/
 		private var _selectedNode:Node;
-		
 		
         public function TopoGraph() {
             super();
@@ -61,10 +58,12 @@ package my.ui.topo {
 			}
 			nodeLayout.layoutRegion = new Rectangle(0, 0, this.width, this.height);
 			nodeLayout.topoGraph = this;
-//			if(linkLayout==null){
-//				linkLayout = new StraightLayout();
-//			}
-//			linkLayout.topoGraph = this;
+			nodeLayout.performLayout();
+			if(linkLayout==null){
+				linkLayout = new StraightLayout();
+			}
+			linkLayout.topoGraph = this;
+//			linkLayout.performLayout();
 			for(var i:int=0;i<nodeDataProvider.length;i++){
 				var node:Node = Node(nodeDataProvider.getItemAt(i));
 				this.addElement(node);
@@ -73,6 +72,14 @@ package my.ui.topo {
 				var link:Link = Link(linkDataProvider.getItemAt(j));
 				this.addElement(link);
 			}
+		}
+		
+		/**
+		 * 移动节点位置
+		 */ 
+		public function moveNode(node:Node, nodeX:Number, nodeY:Number):void {
+			node.x = nodeX;
+			node.y = nodeY;
 		}
 		
 		/**
@@ -149,6 +156,30 @@ package my.ui.topo {
         function set lastMovePoint(value:Point):void {
             _lastMovePoint = value;
         }
+
+		[Bindable]
+		public function get nodeLayout():GraphLayout
+		{
+			return _nodeLayout;
+		}
+
+		public function set nodeLayout(value:GraphLayout):void
+		{
+			_nodeLayout = value;
+		}
+
+		[Bindable]
+		public function get linkLayout():GraphLayout
+		{
+			return _linkLayout;
+		}
+
+		public function set linkLayout(value:GraphLayout):void
+		{
+			_linkLayout = value;
+		}
+
+
     }
 
 }

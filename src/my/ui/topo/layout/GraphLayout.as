@@ -22,23 +22,22 @@ package my.ui.topo.layout
 		public function GraphLayout()
 		{
 			init();
-			layout();
 		}
 		
 		/**
 		 * 初始化方法，子类继承该类通过重写该方法
 		 * 进行基础数据初始化
 		 */ 
-		protected function init():void{
-			
-		}
+		protected function init():void{}
 		
 		/**
-		 * 布局算法，不同布局算法实现切入点
+		 * 执行布局算法，不同布局算法实现切入点
 		 * 子类需重写
 		 */ 
-		protected function layout():void{
-			
+		protected function layout():void{}
+		
+		public function performLayout():void {
+			layout();
 		}
 		
 		public function get layoutRegion():Rectangle

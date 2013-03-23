@@ -13,10 +13,10 @@ package my.ui.topo.layout.basic
 			super();
 		}
 		
-		public override function layout():void{
-			for(var i:int=0;i<topoGraph.linkDataProvider.length;i++){
-				
-			}
+		protected override function layout():void{
+//			for(var i:int=0;i<topoGraph.linkDataProvider.length;i++){
+//				
+//			}
 		}
 	}
 }

@@ -2,8 +2,9 @@
 package my.ui.topo {
     import flash.events.MouseEvent;
     import flash.geom.Point;
+    
     import my.ui.topo.layout.BaseLayoutFactory;
-	import my.ui.topo.skins.DefaultNodeSkin;
+    import my.ui.topo.skins.DefaultNodeSkin;
 
 	[Bindable]
     [SkinState("normal")]
