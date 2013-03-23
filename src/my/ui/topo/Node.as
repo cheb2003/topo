@@ -25,39 +25,49 @@ package my.ui.topo {
         public function Node() {
             super();
             setStyle("skinClass", DefaultNodeSkin);
-            addEventListener(MouseEvent.MOUSE_OVER, mouseOverHandler, false, 0, true);
+            addEventListener(MouseEvent.ROLL_OVER, rollOverHandler, false, 0, true);
             addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler, false, 0, true);
-            addEventListener(MouseEvent.MOUSE_OUT, mouseOutHandler, false, 0, true);
-            addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler, false, 0, true);
+
 
         }
 
         private function mouseUpHandler(event:MouseEvent):void {
-            _isMouseDown = false;
-            stage.removeEventListener(MouseEvent.MOUSE_MOVE,mouseMoveHandler)
             event.stopPropagation();
+            _isMouseDown = false;
+            stage.removeEventListener(MouseEvent.MOUSE_MOVE,mouseMoveHandler);
+            stage.removeEventListener(MouseEvent.MOUSE_UP,mouseMoveHandler)
         }
 
-        private function mouseOutHandler(event:MouseEvent):void {
+        private function rollOutHandler(event:MouseEvent):void {
+            if(_isMouseDown){
+                return;
+            }
+            event.stopPropagation();
+            removeEventListener(MouseEvent.ROLL_OUT,rollOutHandler)
             _isMouseOver = false;
             invalidateSkinState()
-            event.stopPropagation();
+
         }
 
-        private function mouseOverHandler(event:MouseEvent):void {
+        private function rollOverHandler(event:MouseEvent):void {
+            event.stopPropagation();
             if(!_isMouseOver) {
                 _isMouseOver = true;
                 invalidateSkinState()
+                addEventListener(MouseEvent.ROLL_OUT, rollOutHandler, false, 0, true);
             }
-            event.stopPropagation();
+
         }
 
         private function mouseDownHandler(event:MouseEvent):void {
+            event.stopPropagation();
             _isMouseDown = true;
             topoGraph.selectedNode = this;
             stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler, false, 0, true);
+
+            stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler, false, 0, true);
             topoGraph.lastMovePoint = new Point(event.stageX, event.stageY);
-            event.stopPropagation();
+
         }
 
         private function mouseMoveHandler(event:MouseEvent):void {

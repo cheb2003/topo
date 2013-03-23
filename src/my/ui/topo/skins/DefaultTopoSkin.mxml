@@ -55,13 +55,11 @@
         more about it here: http://bugs.adobe.com/jira/browse/SDK-21143
     -->
     <!--- @copy spark.components.SkinnableContainer#contentGroup -->
-    <s:Scroller verticalScrollBar="{null}" horizontalScrollBar="{null}" left="0" right="0" top="0" bottom="0">
-        <s:Group id="contentGroup" width="100%" height="100%">
-            <s:layout>
-                <s:BasicLayout/>
-            </s:layout>
-        </s:Group>
-    </s:Scroller>
+    <s:Group id="contentGroup" width="100%" height="100%">
+        <s:layout>
+            <s:BasicLayout/>
+        </s:layout>
+    </s:Group>
 
 
 </s:Skin>
