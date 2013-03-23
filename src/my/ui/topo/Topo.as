@@ -11,6 +11,9 @@ package my.ui.topo {
     import mx.collections.ArrayCollection;
     import mx.collections.ICollectionView;
     
+    import my.ui.topo.layout.BaseLayoutFactory;
+    import my.ui.topo.layout.randomlayout.RandomFactory;
+    
     import spark.components.SkinnableContainer;
     import spark.skins.spark.SkinnableContainerSkin;
 
@@ -22,21 +25,28 @@ package my.ui.topo {
 		/**连线集合*/
 		[Bindable]
 		public var linkDataProvider:Object;
+		/**节点布局*/
+		[Bindable]
+		public var nodeLayout:BaseLayoutFactory = new RandomFactory();
 		
 		
         public function Topo() {
             super();
             setStyle("skinClass", SkinnableContainerSkin);
-			callLater(layoutGraph);
+			callLater(performGraphLayout);
         }
 		
-		public function layoutGraph():void {
+		/**
+		 * 执行布局算法
+		 */ 
+		public function performGraphLayout():void {
 			var nodes:ArrayCollection = ArrayCollection(nodeDataProvider);
 			for(var i:int=0;i<nodes.length;i++){
 				var node:Node = Node(nodes.getItemAt(i));
 				this.addElement(node);
 			}
 		}
+		
     }
 
 }
