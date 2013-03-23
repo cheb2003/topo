@@ -33,10 +33,6 @@ package my.ui.topo {
 			return new Point(this.x+this.skin.width/2, this.y+this.skin.height/2);
 		}
 		
-		public function isBase():Boolean{
-			return false;
-		}
-		
 		public function getCheckRepeatDistance():Number{
 			return BaseLayoutFactory.getDistance(new Point(this.x,this.y), getCenterPoint());
 		}
