@@ -12,11 +12,12 @@ package my.ui.topo {
     import flash.events.MouseEvent;
     import flash.geom.Point;
     import flash.geom.Rectangle;
-
+    
     import mx.collections.ArrayCollection;
     
     import my.ui.topo.layout.BaseLayoutFactory;
     import my.ui.topo.layout.GraphLayout;
+    import my.ui.topo.layout.basic.StraightLayout;
     import my.ui.topo.layout.randomlayout.RandomFactory;
     import my.ui.topo.layout.randomlayout.RandomLayout;
 import my.ui.topo.skins.DefaultTopoSkin;
@@ -38,6 +39,9 @@ import spark.components.SkinnableContainer;
 		/**节点布局*/
 		[Bindable]
 		public var nodeLayout:GraphLayout;
+		/**连线布局*/
+		[Bindable]
+		public var linkLayout:GraphLayout;
 		/**当前选中节点*/
 		private var _selectedNode:Node;
 		
@@ -57,10 +61,18 @@ import spark.components.SkinnableContainer;
 				nodeLayout = new RandomLayout();
 			}
 			nodeLayout.layoutRegion = new Rectangle(0, 0, this.width, this.height);
-			
+			nodeLayout.topoGraph = this;
+//			if(linkLayout==null){
+//				linkLayout = new StraightLayout();
+//			}
+//			linkLayout.topoGraph = this;
 			for(var i:int=0;i<nodeDataProvider.length;i++){
 				var node:Node = Node(nodeDataProvider.getItemAt(i));
 				this.addElement(node);
+			}
+			for(var j:int=0;j<linkDataProvider.length;j++){
+				var link:Link = Link(linkDataProvider.getItemAt(j));
+				this.addElement(link);
 			}
 		}
 		
