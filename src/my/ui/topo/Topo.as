@@ -24,13 +24,14 @@ import spark.skins.spark.SkinnableContainerSkin;
 
 	[SkinState("normal")]
     public class Topo extends SkinnableContainer {
-		/**节点集合*/
-		[Bindable]
-		public var nodeDataProvider:ArrayCollection;
-		/**连线集合*/
-		[Bindable]
-		public var linkDataProvider:ArrayCollection;
 		/**节点布局*/
+        [Bindable]
+        private var _nodeDataProvider:ArrayCollection;
+        private var _nodeDataProviderChange:Boolean;
+		/**连线集合*/
+        [Bindable]
+        private var _linkDataProvider:ArrayCollection;
+        private var _linkDataProviderChange:Boolean;
 		[Bindable]
 		public var nodeLayout:BaseLayoutFactory = new RandomFactory();
 		/**当前选中节点*/
@@ -67,7 +68,7 @@ import spark.skins.spark.SkinnableContainerSkin;
         private function mouseDown(event:MouseEvent):void {
 
         }
-		
+
 		public function get selectedNode():Node
 		{
 			return _selectedNode;
@@ -78,6 +79,30 @@ import spark.skins.spark.SkinnableContainerSkin;
 			_selectedNode = value;
 			_selectedNode.depth = int.MAX_VALUE;
 		}
+
+        public function get nodeDataProvider():ArrayCollection {
+            return _nodeDataProvider;
+        }
+
+        public function set nodeDataProvider(value:ArrayCollection):void {
+            if(_nodeDataProvider != value || (value != null && value.length != _nodeDataProvider.length)) {
+                _nodeDataProviderChange = true;
+                _nodeDataProvider = value;
+                invalidateProperties();
+            }
+        }
+
+        public function get linkDataProvider():ArrayCollection {
+            return _linkDataProvider;
+        }
+
+        public function set linkDataProvider(value:ArrayCollection):void {
+            if(_linkDataProvider != value || (value != null && value.length != _linkDataProvider.length)) {
+                _linkDataProviderChange = true;
+                _linkDataProvider = value;
+                invalidateProperties();
+            }
+        }
     }
 
 }
