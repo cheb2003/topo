@@ -46,7 +46,7 @@ package my.ui.topo.layout.randomlayout
 			{
 				this.addElement(baseNode);
 				baseNode.x = this.width/2;
-				baseNode.y = this.height/2;	
+				baseNode.y = this.height/2;
 			}
 		}
 		

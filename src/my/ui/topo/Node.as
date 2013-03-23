@@ -38,6 +38,7 @@ package my.ui.topo {
 		}
 		
 		public function isBase():Boolean{
+			//TODO 基准点判断规则
 			return false;
 		}
     }
