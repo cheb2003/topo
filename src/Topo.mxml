@@ -9,11 +9,11 @@
             var node:Node = new Node();
             node.x = 100;
             node.y = 100;
-            topo.addElement(node);
+            topo1.addElement(node);
         }
 
         ]]></fx:Script>
 
 
-    <topo:Topo id="topo" backgroundColor="#0088cc" width="600" height="500"/>
+    <topo:Topo id="topo1" backgroundColor="#0088cc" width="600" height="500"/>
 </s:Application>
