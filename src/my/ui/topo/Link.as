@@ -16,13 +16,12 @@ package my.ui.topo
 		private var _startPort:Port;
 		/**结束端点*/
 		private var _endPort:Port;
-		
 		private var _shapeType:String;
 		
 		public function Link()
 		{
 			super();
-			setStyle("skinClass", DefaultLinkSkin);
+			//setStyle("skinClass", DefaultLinkSkin);
 			this.depth = - Math.random();
 		}
 

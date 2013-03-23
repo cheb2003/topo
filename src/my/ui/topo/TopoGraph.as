@@ -64,7 +64,7 @@ import spark.components.SkinnableContainer;
 				linkLayout = new StraightLayout();
 			}
 			linkLayout.topoGraph = this;
-//			linkLayout.performLayout();
+			linkLayout.performLayout();
 			for(var i:int=0;i<nodeDataProvider.length;i++){
 				var node:Node = Node(nodeDataProvider.getItemAt(i));
 				this.addElement(node);
