@@ -10,12 +10,9 @@
         <s:State name="selected"/>
         <s:State name="mouseOver"/>
     </s:states>
-	<s:Group id="contentGroup">
-		
     <s:Line xFrom="{hostComponent.startNode.x}" xTo="{hostComponent.endNode.x}" yFrom="{hostComponent.startNode.y}" yTo="{hostComponent.endNode.y}">
 		<s:stroke>
 			<s:SolidColorStroke color="0x00ff33" weight="1" caps="square"/>
 		</s:stroke>
 	</s:Line>
-	</s:Group>
 </s:SparkSkin>
