@@ -8,21 +8,50 @@
 package my.ui.topo {
 
 
+    import flash.geom.Rectangle;
+    
+    import mx.collections.ArrayCollection;
+    import mx.collections.ICollectionView;
+    
+    import my.ui.topo.layout.BaseLayoutFactory;
+    import my.ui.topo.layout.randomlayout.RandomFactory;
+    
     import spark.components.SkinnableContainer;
     import spark.skins.spark.SkinnableContainerSkin;
 
 	[SkinState("normal")]
     public class Topo extends SkinnableContainer {
 		/**节点集合*/
-		protected var nodeDataProvider:Object;
+		[Bindable]
+		public var nodeDataProvider:Object;
 		/**连线集合*/
-		protected var linkDataProvider:Object;
+		[Bindable]
+		public var linkDataProvider:Object;
+		/**节点布局*/
+		[Bindable]
+		public var nodeLayout:BaseLayoutFactory = new RandomFactory();
 		
 		
         public function Topo() {
             super();
             setStyle("skinClass", SkinnableContainerSkin);
+			callLater(performGraphLayout);
         }
+		
+		/**
+		 * 执行布局算法
+		 */ 
+		public function performGraphLayout():void {
+			if(nodeLayout){
+				nodeLayout.layoutRegion = new Rectangle(0, 0, this.width, this.height);
+			}
+			var nodes:ArrayCollection = ArrayCollection(nodeDataProvider);
+			for(var i:int=0;i<nodes.length;i++){
+				var node:Node = Node(nodes.getItemAt(i));
+				this.addElement(node);
+			}
+		}
+		
     }
 
 }

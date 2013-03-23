@@ -4,9 +4,15 @@ package my.ui.topo.layout
 	
 	import mx.charts.HitData;
 	import mx.collections.ArrayList;
+	import flash.geom.Rectangle;
 
 	public class BaseLayoutFactory
 	{
+		/**
+		 *	布局算法计算区域，边界对象 
+		 */
+		protected var _layoutRegion:Rectangle;
+		
 		public function BaseLayoutFactory()
 		{
 		}
@@ -37,6 +43,16 @@ package my.ui.topo.layout
 		private static function checkRepeat(p1:Point, p2:Point, distance:Number, offset:uint=0):Boolean{
 			
 			return getDistance(p1,p2)<distance+offset;
+		}
+		
+		public function get layoutRegion():Rectangle
+		{
+			return _layoutRegion;
+		}
+		
+		public function set layoutRegion(value:Rectangle):void
+		{
+			_layoutRegion = value;
 		}
 	}
 }
