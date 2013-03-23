@@ -7,6 +7,7 @@ package my.ui.topo {
 
     [SkinState("normal")]
     [SkinState("selected")]
+    [SkinState("mouseOver")]
     [SkinState("selectedAndShowLabel")]
     public class Node extends Renderer {
         [Embed('/my/ui/topo/asserts/person.png')]
@@ -25,7 +26,7 @@ package my.ui.topo {
 
         private function mouseOutHandler(event:MouseEvent):void {
             _isMouseOver = false;
-
+            invalidateSkinState()
             event.stopPropagation();
         }
 
@@ -67,5 +68,13 @@ package my.ui.topo {
 			//TODO 基准点判断规则
 			return false;
 		}
+
+        override protected function getCurrentSkinState():String {
+            if(_isMouseOver){
+                return "mouseOver";
+            } else {
+                return "normal";
+            }
+        }
     }
 }

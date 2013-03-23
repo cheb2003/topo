@@ -9,14 +9,15 @@
         <s:State name="normal"/>
         <s:State name="selectedAndShowLabel"/>
         <s:State name="selected"/>
+        <s:State name="mouseOver"/>
     </s:states>
     <s:Rect left="0" right="0" top="0" bottom="0">
         <s:stroke>
-            <s:SolidColorStroke color="#FF0000"/>
+            <s:SolidColorStroke color="#FF0000" />
         </s:stroke>
         <s:fill>
             <!--- @private -->
-            <s:SolidColor id="bgFill" color="#00ff33"/>
+            <s:SolidColor id="bgFill" color="#00ff33" color.mouseOver="#0000ff"/>
         </s:fill>
     </s:Rect>
     <s:BitmapImage source="{hostComponent.imageSource}" width="{this.width}" height="{this.height}"/>
