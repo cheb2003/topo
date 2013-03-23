@@ -2,6 +2,8 @@ package my.ui.topo.layout
 {
 	import flash.events.EventDispatcher;
 	import flash.geom.Rectangle;
+	
+	import my.ui.topo.TopoGraph;
 
 	/**
 	 * 布局算法基类
@@ -12,6 +14,10 @@ package my.ui.topo.layout
 		 *	布局算法计算区域，边界对象 
 		 */
 		protected var _layoutRegion:Rectangle;
+		/**
+		 * 拓扑图形对象
+		 */
+		private var _topoGraph:TopoGraph;
 		
 		public function GraphLayout()
 		{
@@ -44,5 +50,16 @@ package my.ui.topo.layout
 		{
 			_layoutRegion = value;
 		}
+
+		public function get topoGraph():TopoGraph
+		{
+			return _topoGraph;
+		}
+
+		public function set topoGraph(value:TopoGraph):void
+		{
+			_topoGraph = value;
+		}
+
 	}
 }

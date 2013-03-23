@@ -1,5 +1,8 @@
 package my.ui.topo
 {
+	[SkinState("normal")]
+	[SkinState("selected")]
+	[SkinState("mouseOver")]
 	public class Link extends Renderer
 	{
 		/**开始节点*/
