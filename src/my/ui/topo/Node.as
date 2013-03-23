@@ -30,7 +30,7 @@ package my.ui.topo {
         }
 	
 		public function getCenterPoint():Point{
-			return new Point(this.x+this.width/2, this.y+this.height/2);
+			return new Point(this.x+this.skin.width/2, this.y+this.skin.height/2);
 		}
 		
 		public function getCheckRepeatDistance():Number{

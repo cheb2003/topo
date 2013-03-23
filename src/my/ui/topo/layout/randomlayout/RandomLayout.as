@@ -26,9 +26,9 @@ package my.ui.topo.layout.randomlayout
 			addNodes();
 		}
 		
-		public function addNodes():void{
-//			var distance:Number = (nodeDataProvider.getItemAt(i) as Node).getCheckRepeatDistance();
-			var distance:Number = 30;
+		public function addNodes():void
+		{
+			var distance:Number = (nodeDataProvider.getItemAt(i) as Node).getCheckRepeatDistance();
 			var arr:ArrayList = RandomFactory.getRandomPointList(nodeDataProvider.length,null,distance,10);
 			for (var i:uint=0; i<arr.length; i++)
 			{
