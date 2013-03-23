@@ -4,6 +4,7 @@ package my.ui.topo.layout.randomlayout
 	
 	import mx.collections.ArrayList;
 	
+	import my.ui.topo.Node;
 	import my.ui.topo.layout.BaseLayoutFactory;
 
 	public class RandomFactory extends BaseLayoutFactory
@@ -16,8 +17,10 @@ package my.ui.topo.layout.randomlayout
 			return new Point(getRandomNumber(startX, endX),getRandomNumber(startY, endY));
 		}
 		
-		public static function getRandomPointList(num:int,basePoint:Point,distance:Number,offset:uint=0):ArrayList{
+		public static function getRandomPointList(num:int,baseNode:Node,distance:Number,offset:uint=0):ArrayList{
 			var arr:ArrayList = new ArrayList();
+			if (baseNode!=null)
+				arr.addItem(new Point(baseNode.x,baseNode.y));
 			while (arr.length<num){
 				var p:Point = getRandomPoint(0,500,0,500);
 				checkRepeatArray(arr,p,distance,offset);
