@@ -15,6 +15,12 @@ package my.ui.topo {
         private var _imageSource:*;
         private var _isMouseDown:Boolean;
         private var _isMouseOver:Boolean;
+        
+		/**输入连线集合*/
+		private var _incomingLinks:Vector.<Link> = new Vector.<Link>();
+		/**输出连线集合*/
+		private var _outgoingLinks:Vector.<Link> = new Vector.<Link>();
+		
         public var topoGraph:TopoGraph;
         public function Node() {
             super();
@@ -82,6 +88,22 @@ package my.ui.topo {
 		public function isBase():Boolean{
 			//TODO 基准点判断规则
 			return false;
+		}
+
+		/**
+		 *	获取输入连线集合 
+		 */
+		public function getIncomingLinks():Vector.<Link>
+		{
+			return _incomingLinks;
+		}
+
+		/**
+		 * 获取输出连线结合
+		 */ 
+		public function getOutgoingLinks():Vector.<Link>
+		{
+			return _outgoingLinks;
 		}
 
         override protected function getCurrentSkinState():String {
