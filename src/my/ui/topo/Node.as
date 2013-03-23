@@ -1,5 +1,7 @@
 
 package my.ui.topo {
+	import my.ui.topo.skins.DefaultNodeSkin;
+
     [SkinState("normal")]
     [SkinState("selected")]
     [SkinState("selectedAndShowLabel")]
