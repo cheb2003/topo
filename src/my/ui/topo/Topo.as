@@ -11,11 +11,15 @@ package my.ui.topo {
     import spark.components.SkinnableContainer;
     import spark.skins.spark.SkinnableContainerSkin;
 
-[SkinState("normal")]
+	[SkinState("normal")]
     public class Topo extends SkinnableContainer {
-
+		/**节点集合*/
+		protected var nodeDataProvider:Object;
+		/**连线集合*/
+		protected var linkDataProvider:Object;
+		
+		
         public function Topo() {
-
             super();
             setStyle("skinClass", SkinnableContainerSkin);
         }

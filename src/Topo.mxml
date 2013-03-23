@@ -10,10 +10,12 @@
             node.x = 100;
             node.y = 100;
             topo1.addElement(node);
+
         }
+
 
         ]]></fx:Script>
 
-
     <topo:Topo id="topo1" backgroundColor="#0088cc" width="600" height="500"/>
+
 </s:Application>
