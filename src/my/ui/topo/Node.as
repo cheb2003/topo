@@ -36,5 +36,9 @@ package my.ui.topo {
 		public function getCheckRepeatDistance():Number{
 			return BaseLayoutFactory.getDistance(new Point(this.x,this.y), getCenterPoint());
 		}
+		
+		public function isBase():Boolean{
+			return false;
+		}
     }
 }

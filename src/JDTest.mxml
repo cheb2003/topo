@@ -16,7 +16,7 @@
 			
 			protected function application1_preinitializeHandler(event:FlexEvent):void
 			{
-				for (var i:int=0; i<50; i++){
+				for (var i:int=0; i<10; i++){
 					arr.addItem(new Node());
 				}
 			}
