@@ -7,6 +7,8 @@
     </fx:Metadata>
     <s:states>
         <s:State name="normal"/>
+        <s:State name="selectedAndShowLabel"/>
+        <s:State name="selected"/>
     </s:states>
     <s:Rect left="0" right="0" top="0" bottom="0">
         <s:stroke>
