@@ -11,6 +11,8 @@ package my.ui.topo
 		/**结束端点*/
 		private var _endPort:Port;
 		
+		private var _shapeType:String;
+		
 		public function Link()
 		{
 			super();

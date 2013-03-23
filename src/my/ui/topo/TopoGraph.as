@@ -10,17 +10,16 @@ package my.ui.topo {
 
 
     import flash.events.MouseEvent;
-import flash.geom.Point;
-import flash.geom.Rectangle;
+    import flash.geom.Point;
+    import flash.geom.Rectangle;
 
     import mx.collections.ArrayCollection;
-
-
-
-
+    
     import my.ui.topo.layout.BaseLayoutFactory;
+    import my.ui.topo.layout.GraphLayout;
     import my.ui.topo.layout.randomlayout.RandomFactory;
-
+    import my.ui.topo.layout.randomlayout.RandomLayout;
+    
     import spark.components.SkinnableContainer;
     import spark.skins.spark.SkinnableContainerSkin;
 
@@ -37,7 +36,7 @@ import flash.geom.Rectangle;
         private var _linkDataProviderChange:Boolean;
 		/**节点布局*/
 		[Bindable]
-		public var nodeLayout:BaseLayoutFactory = new RandomFactory();
+		public var nodeLayout:GraphLayout;
 		/**当前选中节点*/
 		private var _selectedNode:Node;
 		
@@ -53,9 +52,11 @@ import flash.geom.Rectangle;
 		 * 执行布局算法
 		 */ 
 		public function performGraphLayout():void {
-			if(nodeLayout){
-				nodeLayout.layoutRegion = new Rectangle(0, 0, this.width, this.height);
+			if(nodeLayout==null){
+				nodeLayout = new RandomLayout();
 			}
+			nodeLayout.layoutRegion = new Rectangle(0, 0, this.width, this.height);
+			
 			for(var i:int=0;i<nodeDataProvider.length;i++){
 				var node:Node = Node(nodeDataProvider.getItemAt(i));
 				this.addElement(node);
