@@ -8,12 +8,14 @@
 package my.ui.topo {
 
 
-    import flash.geom.Rectangle;
+import flash.events.MouseEvent;
+import flash.geom.Rectangle;
     
     import mx.collections.ArrayCollection;
     import mx.collections.ICollectionView;
-    
-    import my.ui.topo.layout.BaseLayoutFactory;
+import mx.controls.Alert;
+
+import my.ui.topo.layout.BaseLayoutFactory;
     import my.ui.topo.layout.randomlayout.RandomFactory;
     
     import spark.components.SkinnableContainer;
@@ -36,6 +38,7 @@ package my.ui.topo {
             super();
             setStyle("skinClass", SkinnableContainerSkin);
 			callLater(performGraphLayout);
+            addEventListener(MouseEvent.MOUSE_DOWN, mouseDown, false, 0, true);
         }
 		
 		/**
@@ -51,6 +54,9 @@ package my.ui.topo {
 				this.addElement(node);
 			}
 		}
+        private function mouseDown(event:MouseEvent):void {
+
+        }
 		
     }
 
