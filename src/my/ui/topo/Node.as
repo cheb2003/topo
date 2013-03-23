@@ -5,6 +5,7 @@ package my.ui.topo {
     import my.ui.topo.layout.BaseLayoutFactory;
 	import my.ui.topo.skins.DefaultNodeSkin;
 
+	[Bindable]
     [SkinState("normal")]
     [SkinState("selected")]
     [SkinState("mouseOver")]

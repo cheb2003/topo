@@ -2,6 +2,7 @@ package my.ui.topo
 {
 	import my.ui.topo.skins.DefaultLinkSkin;
 
+	[Bindable]
 	[SkinState("normal")]
 	[SkinState("selected")]
 	[SkinState("mouseOver")]
@@ -22,6 +23,7 @@ package my.ui.topo
 		{
 			super();
 			setStyle("skinClass", DefaultLinkSkin);
+			this.depth = - Math.random();
 		}
 
 		public function get startNode():Node
