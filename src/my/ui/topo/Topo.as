@@ -8,6 +8,8 @@
 package my.ui.topo {
 
 
+    import flash.geom.Rectangle;
+    
     import mx.collections.ArrayCollection;
     import mx.collections.ICollectionView;
     
@@ -40,6 +42,9 @@ package my.ui.topo {
 		 * 执行布局算法
 		 */ 
 		public function performGraphLayout():void {
+			if(nodeLayout){
+				nodeLayout.layoutRegion = new Rectangle(0, 0, this.width, this.height);
+			}
 			var nodes:ArrayCollection = ArrayCollection(nodeDataProvider);
 			for(var i:int=0;i<nodes.length;i++){
 				var node:Node = Node(nodes.getItemAt(i));
