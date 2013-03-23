@@ -19,8 +19,9 @@ package my.ui.topo {
     import my.ui.topo.layout.GraphLayout;
     import my.ui.topo.layout.randomlayout.RandomFactory;
     import my.ui.topo.layout.randomlayout.RandomLayout;
-    
-    import spark.components.SkinnableContainer;
+import my.ui.topo.skins.DefaultTopoSkin;
+
+import spark.components.SkinnableContainer;
     import spark.skins.spark.SkinnableContainerSkin;
 
 	[SkinState("normal")]
@@ -43,9 +44,9 @@ package my.ui.topo {
 		
         public function TopoGraph() {
             super();
-            setStyle("skinClass", SkinnableContainerSkin);
+            setStyle("skinClass", DefaultTopoSkin);
 			callLater(performGraphLayout);
-            addEventListener(MouseEvent.MOUSE_DOWN, mouseDown, false, 0, true);
+            addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler, false, 0, true);
         }
 		
 		/**
@@ -70,7 +71,7 @@ package my.ui.topo {
 			node.depth = int.MAX_VALUE;
 		}
 		
-        private function mouseDown(event:MouseEvent):void {
+        private function mouseDownHandler(event:MouseEvent):void {
 
         }
 
@@ -83,10 +84,10 @@ package my.ui.topo {
 		{
 			if(value!=null&&selectedNode!=value){
                 if(_selectedNode != null) {
-                    //_selectedNode.depth = Math.abs(Math.random());
+                    _selectedNode.depth = Math.abs(Math.random());
                 }
 				_selectedNode = value;
-				//_selectedNode.depth = int.MAX_VALUE;
+				_selectedNode.depth = int.MAX_VALUE;
 
 				//invalidateProperties();
 			}
@@ -131,6 +132,8 @@ package my.ui.topo {
 
         public function moveSelectedNode(newPoint:Point):void {
             _selectedNode.move(_selectedNode.x + (newPoint.x - _lastMovePoint.x), _selectedNode.y + (newPoint.y - _lastMovePoint.y));
+            //_selectedNode.x = _selectedNode.x + (newPoint.x - _lastMovePoint.x);
+            //_selectedNode.y = _selectedNode.y + (newPoint.y - _lastMovePoint.y);
             _lastMovePoint = newPoint;
         }
 
