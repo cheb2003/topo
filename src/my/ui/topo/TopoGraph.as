@@ -10,7 +10,8 @@ package my.ui.topo {
 
 
     import flash.events.MouseEvent;
-    import flash.geom.Rectangle;
+import flash.geom.Point;
+import flash.geom.Rectangle;
 
     import mx.collections.ArrayCollection;
 
@@ -29,6 +30,7 @@ package my.ui.topo {
         [Bindable]
         private var _nodeDataProvider:ArrayCollection;
         private var _nodeDataProviderChange:Boolean;
+        private var _lastMovePoint:Point;
 		/**连线集合*/
         [Bindable]
         private var _linkDataProvider:ArrayCollection;
@@ -79,8 +81,12 @@ package my.ui.topo {
 		public function set selectedNode(value:Node):void
 		{
 			if(value!=null&&selectedNode!=value){
+                if(_selectedNode != null) {
+                    //_selectedNode.depth = Math.abs(Math.random());
+                }
 				_selectedNode = value;
-				_selectedNode.depth = int.MAX_VALUE;
+				//_selectedNode.depth = int.MAX_VALUE;
+
 				//invalidateProperties();
 			}
 		}
@@ -107,6 +113,28 @@ package my.ui.topo {
                 _linkDataProvider = value;
                 invalidateProperties();
             }
+        }
+
+        override protected function commitProperties():void {
+            super.commitProperties();
+            if(_nodeDataProviderChange) {
+                _nodeDataProviderChange = false;
+                for each(var node:Node in _nodeDataProvider) {
+                    node.topoGraph = this;
+                }
+            }
+            if(_linkDataProviderChange) {
+                _linkDataProviderChange = false;
+            }
+        }
+
+        public function moveSelectedNode(newPoint:Point):void {
+            _selectedNode.move(_selectedNode.x + (newPoint.x - _lastMovePoint.x), _selectedNode.y + (newPoint.y - _lastMovePoint.y));
+            _lastMovePoint = newPoint;
+        }
+
+        function set lastMovePoint(value:Point):void {
+            _lastMovePoint = value;
         }
     }
 

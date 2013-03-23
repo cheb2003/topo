@@ -15,13 +15,21 @@ package my.ui.topo {
         private var _imageSource:*;
         private var _isMouseDown:Boolean;
         private var _isMouseOver:Boolean;
-        public var topo:TopoGraph;
+        public var topoGraph:TopoGraph;
         public function Node() {
             super();
             setStyle("skinClass", DefaultNodeSkin);
             addEventListener(MouseEvent.MOUSE_OVER, mouseOverHandler, false, 0, true);
             addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler, false, 0, true);
             addEventListener(MouseEvent.MOUSE_OUT, mouseOutHandler, false, 0, true);
+            addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler, false, 0, true);
+
+        }
+
+        private function mouseUpHandler(event:MouseEvent):void {
+            _isMouseDown = false;
+            stage.removeEventListener(MouseEvent.MOUSE_MOVE,mouseMoveHandler)
+            event.stopPropagation();
         }
 
         private function mouseOutHandler(event:MouseEvent):void {
@@ -40,7 +48,14 @@ package my.ui.topo {
 
         private function mouseDownHandler(event:MouseEvent):void {
             _isMouseDown = true;
+            topoGraph.selectedNode = this;
+            stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler, false, 0, true);
+            topoGraph.lastMovePoint = new Point(event.stageX, event.stageY);
             event.stopPropagation();
+        }
+
+        private function mouseMoveHandler(event:MouseEvent):void {
+            topoGraph.moveSelectedNode(new Point(event.stageX,event.stageY));
         }
 
 
