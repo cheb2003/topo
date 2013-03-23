@@ -2,20 +2,32 @@
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
                xmlns:topo="my.ui.topo.*" creationComplete="fn()">
     <fx:Script><![CDATA[
+		import mx.collections.ArrayCollection;
+		
+		import my.ui.topo.Node;
 
-        import my.ui.topo.Node;
-
+		[Bindable]
+		public var nodes:ArrayCollection = null;
+		[Bindable]
+		public var links:ArrayCollection = null;
+		
+		
         private function fn():void{
-            var node:Node = new Node();
-            node.x = 100;
-            node.y = 100;
-            topo1.addElement(node);
-
+           
         }
+		
+		public function getNodes():ArrayCollection{
+			nodes = new ArrayCollection();
+			var node:Node = new Node();
+			node.x = 100;
+			node.y = 100;
+			nodes.addItem(node);
+			return nodes;
+		}
 
 
         ]]></fx:Script>
 
-    <topo:Topo id="topo1" backgroundColor="#0088cc" width="600" height="500"/>
+    <topo:Topo id="topo1" nodeDataProvider="{getNodes()}" backgroundColor="#0088cc" width="600" height="500"/>
 
 </s:Application>
