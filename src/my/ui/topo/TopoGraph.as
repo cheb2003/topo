@@ -84,7 +84,26 @@ import spark.components.SkinnableContainer;
 		}
 		
         private function mouseDownHandler(event:MouseEvent):void {
+            event.stopPropagation();
 
+            stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler, false, 0, true);
+
+            stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler, false, 0, true);
+            lastMovePoint = new Point(event.stageX, event.stageY);
+        }
+
+        private function mouseUpHandler(event:MouseEvent):void {
+            event.stopPropagation();
+            stage.removeEventListener(MouseEvent.MOUSE_MOVE,mouseMoveHandler);
+            stage.removeEventListener(MouseEvent.MOUSE_UP,mouseMoveHandler)
+        }
+
+        private function mouseMoveHandler(event:MouseEvent):void {
+            contentGroup.move(contentGroup.x + (event.stageX - _lastMovePoint.x), contentGroup.y + (event.stageY - _lastMovePoint.y));
+            //_selectedNode.x = _selectedNode.x + (newPoint.x - _lastMovePoint.x);
+            //_selectedNode.y = _selectedNode.y + (newPoint.y - _lastMovePoint.y);
+            _lastMovePoint.x = event.stageX;
+            _lastMovePoint.y = event.stageY;
         }
 
 		public function get selectedNode():Node
