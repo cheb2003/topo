@@ -21,7 +21,7 @@ package my.ui.topo
 		public function Link()
 		{
 			super();
-			//setStyle("skinClass", DefaultLinkSkin);
+			setStyle("skinClass", DefaultLinkSkin);
 			this.depth = - Math.random();
 		}
 

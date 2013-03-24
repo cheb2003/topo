@@ -6,26 +6,20 @@
  * To change this template use File | Settings | File Templates.
  */
 package my.ui.topo {
-
-
-
     import flash.events.MouseEvent;
     import flash.geom.Point;
     import flash.geom.Rectangle;
-    
     import mx.collections.ArrayCollection;
-    
-    import my.ui.topo.layout.BaseLayoutFactory;
     import my.ui.topo.layout.GraphLayout;
     import my.ui.topo.layout.basic.StraightLayout;
-    import my.ui.topo.layout.randomlayout.RandomFactory;
     import my.ui.topo.layout.randomlayout.RandomLayout;
-import my.ui.topo.skins.DefaultTopoSkin;
+    import my.ui.topo.skins.DefaultTopoSkin;
+    import spark.components.SkinnableContainer;
+    import spark.effects.Animate;
+    import spark.effects.animation.MotionPath;
+    import spark.effects.animation.SimpleMotionPath;
 
-import spark.components.SkinnableContainer;
-    import spark.skins.spark.SkinnableContainerSkin;
-
-	[SkinState("normal")]
+    [SkinState("normal")]
     public class TopoGraph extends SkinnableContainer {
 		
         [Bindable]
@@ -48,6 +42,34 @@ import spark.components.SkinnableContainer;
             setStyle("skinClass", DefaultTopoSkin);
 			callLater(performGraphLayout);
             addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler, false, 0, true);
+            addEventListener(MouseEvent.MOUSE_WHEEL,mouseWheelHandler,false,0,true)
+        }
+
+        private function mouseWheelHandler(event:MouseEvent):void {
+
+            if(event.delta > 0 && contentGroup.scaleX > 2) {
+                return
+            }
+            if(event.delta < 0 && contentGroup.scaleX < .5) {
+                return
+            }
+            var a:Animate = new Animate(contentGroup);
+            var ve:Vector.<MotionPath> = new Vector.<MotionPath>();
+            var aSX:SimpleMotionPath;
+            var aSY:SimpleMotionPath;
+
+
+            if(event.delta > 0) {
+
+                aSX = new SimpleMotionPath("scaleX",contentGroup.scaleX,contentGroup.scaleX +.3)
+                aSY = new SimpleMotionPath("scaleY",contentGroup.scaleX,contentGroup.scaleY +.3)
+            } else {
+                aSX = new SimpleMotionPath("scaleX",contentGroup.scaleX,contentGroup.scaleX -.3)
+                aSY = new SimpleMotionPath("scaleY",contentGroup.scaleX,contentGroup.scaleY -.3)
+            }
+            ve.push(aSX, aSY);
+            a.motionPaths = ve;
+            a.play()
         }
 		
 		/**
