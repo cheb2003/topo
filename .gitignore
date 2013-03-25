@@ -171,3 +171,4 @@ bin-debug/
 bin-release/
 .settings/
 player*.swf
+*.js
