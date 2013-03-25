@@ -65,6 +65,5 @@ package my.ui.topo
 		{
 			_endPort = value;
 		}
-
 	}
 }

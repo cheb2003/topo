@@ -25,7 +25,7 @@
 			nodes.addItem(node);
 
             var node1:Node = new Node();
-            node1.x = 200;
+            node1.x = 500;
             node1.y = 200;
             nodes.addItem(node1);
 			return nodes;
@@ -42,7 +42,7 @@
 
         ]]></fx:Script>
 
-    <topo1:TopoGraph id="topo1" nodeDataProvider="{getNodes()}" linkDataProvider="{getLinks()}" backgroundColor="#0088cc" width="600" height="500"/>
+    <topo1:TopoGraph id="topo1" nodeDataProvider="{getNodes()}" linkDataProvider="{getLinks()}" backgroundColor="#0088cc" width="1000" height="500"/>
 
     
 </s:Application>

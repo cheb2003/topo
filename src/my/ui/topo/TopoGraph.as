@@ -9,11 +9,16 @@ package my.ui.topo {
     import flash.events.MouseEvent;
     import flash.geom.Point;
     import flash.geom.Rectangle;
+    
     import mx.collections.ArrayCollection;
+    import mx.controls.Alert;
+    
+    import my.ui.topo.event.AdjustComplateEvent;
     import my.ui.topo.layout.GraphLayout;
     import my.ui.topo.layout.basic.StraightLayout;
     import my.ui.topo.layout.randomlayout.RandomLayout;
     import my.ui.topo.skins.DefaultTopoSkin;
+    
     import spark.components.SkinnableContainer;
     import spark.effects.Animate;
     import spark.effects.animation.MotionPath;
@@ -43,6 +48,7 @@ package my.ui.topo {
 			callLater(performGraphLayout);
             addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler, false, 0, true);
             addEventListener(MouseEvent.MOUSE_WHEEL,mouseWheelHandler,false,0,true)
+			addEventListener(AdjustComplateEvent.NODE_ADJUST_COMPLATE,addLinks,false,0,true);
         }
 
         private function mouseWheelHandler(event:MouseEvent):void {
@@ -88,17 +94,28 @@ package my.ui.topo {
 			}
 			
 			nodeLayout.performLayout();
+		}
+		
+		private function addLinks(evt:AdjustComplateEvent):void
+		{
 			if(linkLayout==null){
 				linkLayout = new StraightLayout();
 			}
-			linkLayout.topoGraph = this;
-			linkLayout.performLayout();
+			
 			for(var j:int=0;j<linkDataProvider.length;j++){
 				var link:Link = Link(linkDataProvider.getItemAt(j));
+				trace(link.startNode.x,link.startNode.y);
+//				Alert.show(link.startNode.x+" "+link.startNode.y);
 				this.addElement(link);
 			}
+//			linkLayout.topoGraph = this;
+//			var args:Array = new Array(linkLayout);
+//			callLater(reDraw,args);
 		}
 		
+		public function reDraw(layout:GraphLayout):void{
+			layout.performLayout();
+		}
 		/**
 		 * 移动节点位置
 		 */ 

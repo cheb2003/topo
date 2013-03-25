@@ -3,6 +3,8 @@ package my.ui.topo.layout
 	import flash.events.EventDispatcher;
 	import flash.geom.Rectangle;
 	
+	import mx.events.FlexEvent;
+	
 	import my.ui.topo.TopoGraph;
 
 	/**
@@ -24,6 +26,13 @@ package my.ui.topo.layout
 			init();
 		}
 		
+		/**
+		 * 组件加载完成后，调用布局方法 
+		 */
+		private function onComplate(evt:FlexEvent):void
+		{
+			layout();
+		}
 		/**
 		 * 初始化方法，子类继承该类通过重写该方法
 		 * 进行基础数据初始化
@@ -58,6 +67,7 @@ package my.ui.topo.layout
 		public function set topoGraph(value:TopoGraph):void
 		{
 			_topoGraph = value;
+//			_topoGraph.addEventListener(FlexEvent.CREATION_COMPLETE,onComplate);
 		}
 
 	}
