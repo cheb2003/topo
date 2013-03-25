@@ -100,15 +100,6 @@ package my.ui.topo {
 			return false;
 		}
 
-		//获取锚点（中心点）
-		private var _anchor:Point;
-		public function get anchor():Point{
-			if (this.skin)
-				return new Point(this.x+this.skin.width/2, this.y+this.skin.height/2);
-			else
-				return new Point(this.x, this.y);
-		}
-		
 		/**
 		 *	获取输入连线集合 
 		 */
