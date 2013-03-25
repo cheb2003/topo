@@ -18,6 +18,8 @@
         }
 		
 		public function getNodes():ArrayCollection{
+			if (nodes!=null)
+				return nodes;
 			nodes = new ArrayCollection();
 			var node:Node = new Node();
 			node.x = 100;

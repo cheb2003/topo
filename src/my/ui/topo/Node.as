@@ -101,9 +101,14 @@ package my.ui.topo {
 		}
 
 		//获取锚点（中心点）
-//		public function getAnchor():Point{
-//			return new Point(this.x+this.skin.width/2, this.y+this.skin.height/2);
-//		}
+		private var _anchor:Point;
+		public function get anchor():Point{
+			if (this.skin)
+				return new Point(this.x+this.skin.width/2, this.y+this.skin.height/2);
+			else
+				return new Point(this.x, this.y);
+		}
+		
 		/**
 		 *	获取输入连线集合 
 		 */
