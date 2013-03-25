@@ -81,16 +81,18 @@ package my.ui.topo {
 			}
 			nodeLayout.layoutRegion = new Rectangle(0, 0, this.width, this.height);
 			nodeLayout.topoGraph = this;
+			
+			for(var i:int=0;i<nodeDataProvider.length;i++){
+				var node:Node = Node(nodeDataProvider.getItemAt(i));
+				this.addElement(node);
+			}
+			
 			nodeLayout.performLayout();
 			if(linkLayout==null){
 				linkLayout = new StraightLayout();
 			}
 			linkLayout.topoGraph = this;
 			linkLayout.performLayout();
-			for(var i:int=0;i<nodeDataProvider.length;i++){
-				var node:Node = Node(nodeDataProvider.getItemAt(i));
-				this.addElement(node);
-			}
 			for(var j:int=0;j<linkDataProvider.length;j++){
 				var link:Link = Link(linkDataProvider.getItemAt(j));
 				this.addElement(link);

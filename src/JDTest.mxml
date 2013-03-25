@@ -1,29 +1,39 @@
-<?xml version="1.0" encoding="utf-8"?>
-<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
-			   xmlns:s="library://ns.adobe.com/flex/spark" preinitialize="application1_preinitializeHandler(event)" 
-			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600" xmlns:randomlayout="my.ui.topo.layout.randomlayout.*">
-	<fx:Script>
-		<![CDATA[
-			import mx.collections.ArrayList;
-			import mx.events.FlexEvent;
+<?xml version="1.0"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:topo1="my.ui.topo.*" creationComplete="fn()" maxHeight="600" maxWidth="800">
+	<fx:Script><![CDATA[
+		import mx.collections.ArrayCollection;
+		
+		import my.ui.topo.Link;
+		import my.ui.topo.Node;
+		
+		[Bindable]
+		public var nodes:ArrayCollection = null;
+		[Bindable]
+		public var links:ArrayCollection = null;
+		
+		
+		private function fn():void{
 			
-			import my.ui.topo.Node;
-			import my.ui.topo.Topo;
-			import my.ui.topo.layout.randomlayout.RandomLayout;
-			
-			[Bindable]
-			public var arr:ArrayList = new ArrayList();
-			
-			protected function application1_preinitializeHandler(event:FlexEvent):void
+		}
+		
+		public function getNodes():ArrayCollection{
+			nodes = new ArrayCollection();
+			for (var i:int=0;i<10;i++)
 			{
-				for (var i:int=0; i<10; i++){
-					arr.addItem(new Node());
-				}
+				var node:Node = new Node();
+				nodes.addItem(node);
 			}
-			
-		]]>
-	</fx:Script>
-	<fx:Declarations>
-	</fx:Declarations>
-	<randomlayout:RandomLayout nodeDataProvider="{arr}"  id="rp" width="100%" height="100%" />
+			return nodes;
+		}
+		
+		public function getLinks():ArrayCollection{
+			return new ArrayCollection();
+		}
+		
+	]]></fx:Script>
+	
+	<topo1:TopoGraph id="topo1" nodeDataProvider="{getNodes()}" linkDataProvider="{getLinks()}" backgroundColor="#0088cc" width="1000" height="600"/>
+	
+	
 </s:Application>

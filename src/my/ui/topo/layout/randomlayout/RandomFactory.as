@@ -1,6 +1,7 @@
 package my.ui.topo.layout.randomlayout
 {
 	import flash.geom.Point;
+	import flash.geom.Rectangle;
 	
 	import mx.collections.ArrayList;
 	
@@ -13,16 +14,14 @@ package my.ui.topo.layout.randomlayout
 		{
 		}
 		
-		public static function getRandomPoint(startX:int,endX:int,startY:int,endY:int):Point {
-			return new Point(getRandomNumber(startX, endX),getRandomNumber(startY, endY));
+		public static function getRandomPoint(rect:Rectangle):Point {
+			return new Point(getRandomNumber(rect.topLeft.x, rect.bottomRight.x),getRandomNumber(rect.topLeft.y, rect.bottomRight.y));
 		}
 		
-		public static function getRandomPointList(num:int,baseNode:Node,distance:Number,offset:uint=0):ArrayList{
+		public static function getRandomPointList(num:int,distance:Number,rect:Rectangle,offset:uint=0):ArrayList{
 			var arr:ArrayList = new ArrayList();
-			if (baseNode!=null)
-				arr.addItem(new Point(baseNode.x, baseNode.y));
 			while (arr.length<num){
-				var p:Point = getRandomPoint(0,500,0,500);
+				var p:Point = getRandomPoint(rect);
 				checkRepeatArray(arr,p,distance,offset);
 			}
 			return arr;

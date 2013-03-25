@@ -18,7 +18,7 @@ package my.ui.topo.layout.randomlayout
 	
 	public class RandomLayout extends GraphLayout
 	{
-		public var nodeDataProvider:ArrayList;
+//		public var nodeDataProvider:ArrayList;
 		
 		
 		public function RandomLayout()
@@ -26,19 +26,49 @@ package my.ui.topo.layout.randomlayout
 //			this.addEventListener(FlexEvent.CREATION_COMPLETE,completeHandle);
 		}
 		
+		/*
+		 * 重设布局边界
+		 */
+		private var REGION_OFFSET:uint = 10;
+		private function resetLayoutRegion():Rectangle{
+			var startX:Number = layoutRegion.topLeft.x;
+			var startY:Number = layoutRegion.topLeft.y;
+			var endX:Number = layoutRegion.bottomRight.x;
+			var endY:Number = layoutRegion.bottomRight.y;
+			
+			startX += REGION_OFFSET;
+			startY += REGION_OFFSET;
+			
+			var node:Node = topoGraph.nodeDataProvider.getItemAt(0) as Node;
+			endX = endX - node.skin.width -REGION_OFFSET;
+			endY = endY - node.skin.height - REGION_OFFSET;
+			return new Rectangle(startX, startY, endX-startX, endY-startY);
+		}
+		
 		protected override function layout():void{
-			var rect:Rectangle = layoutRegion;
-			var xMin:Number = rect.x;
-			var yMin:Number = rect.y;
-			var xMax:Number = rect.x + rect.width;
-			var yMax:Number = rect.y + rect.height;
-			var x:Number;
-			var y:Number;
+//			var rect:Rectangle = layoutRegion;
+//			var xMin:Number = rect.x;
+//			var yMin:Number = rect.y;
+//			var xMax:Number = rect.x + rect.width;
+//			var yMax:Number = rect.y + rect.height;
+//			var x:Number;
+//			var y:Number;
+//			for(var i:int=0;i<topoGraph.nodeDataProvider.length;i++){
+//				var node:Node = Node(topoGraph.nodeDataProvider.getItemAt(i));
+//				x = xMin + (xMax - xMin) * Math.random();
+//				y = yMin + (yMax - yMin) * Math.random();
+//				topoGraph.moveNode(node, x, y);
+//			}
+			var distance:Number = (topoGraph.nodeDataProvider.getItemAt(0) as Node).getCheckRepeatDistance();
+			var arr:ArrayList = RandomFactory.getRandomPointList(topoGraph.nodeDataProvider.length, distance, resetLayoutRegion());
 			for(var i:int=0;i<topoGraph.nodeDataProvider.length;i++){
 				var node:Node = Node(topoGraph.nodeDataProvider.getItemAt(i));
-				x = xMin + (xMax - xMin) * Math.random();
-				y = yMin + (yMax - yMin) * Math.random();
-				topoGraph.moveNode(node, x, y);
+				if (node.isBase())
+					topoGraph.moveNode(node, layoutRegion.x + layoutRegion.width/2, layoutRegion.y + layoutRegion.height/2);
+				else{
+					var p:Point = arr.getItemAt(i) as Point;
+					topoGraph.moveNode(node, p.x, p.y);
+				}
 			}
 		}
 		
@@ -49,7 +79,7 @@ package my.ui.topo.layout.randomlayout
 		
 //		private var baseNode:Node;
 //		private function getBaseNode():Node{
-//			for each (var node:Node in nodeDataProvider){
+//			for each (var node:Node in topoGraph.nodeDataProvider){
 //				if (node.isBase()){
 //					nodeDataProvider.removeItem(node);
 //					baseNode = node;
