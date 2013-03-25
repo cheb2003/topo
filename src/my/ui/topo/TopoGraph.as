@@ -85,7 +85,14 @@ package my.ui.topo {
 			if(nodeLayout==null){
 				nodeLayout = new RandomLayout();
 			}
-			nodeLayout.layoutRegion = new Rectangle(0, 0, this.width, this.height);
+			var totalWidth:Number = this.width;
+			if (totalWidth==0)
+				totalWidth = this.parentApplication.width * this.percentWidth/100;
+			var totalHeight:Number = this.height;
+			if (totalHeight==0)
+				totalHeight = this.parentApplication.height * this.percentHeight/100;
+			
+			nodeLayout.layoutRegion = new Rectangle(0, 0, totalWidth, totalHeight);
 			nodeLayout.topoGraph = this;
 			
 			for(var i:int=0;i<nodeDataProvider.length;i++){
@@ -104,18 +111,11 @@ package my.ui.topo {
 			
 			for(var j:int=0;j<linkDataProvider.length;j++){
 				var link:Link = Link(linkDataProvider.getItemAt(j));
-				trace(link.startNode.x,link.startNode.y);
-//				Alert.show(link.startNode.x+" "+link.startNode.y);
+				
 				this.addElement(link);
 			}
-//			linkLayout.topoGraph = this;
-//			var args:Array = new Array(linkLayout);
-//			callLater(reDraw,args);
 		}
 		
-		public function reDraw(layout:GraphLayout):void{
-			layout.performLayout();
-		}
 		/**
 		 * 移动节点位置
 		 */ 
@@ -216,7 +216,7 @@ package my.ui.topo {
             _lastMovePoint = newPoint;
         }
 
-        function set lastMovePoint(value:Point):void {
+       public function set lastMovePoint(value:Point):void {
             _lastMovePoint = value;
         }
 

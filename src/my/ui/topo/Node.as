@@ -77,7 +77,7 @@ package my.ui.topo {
         }
 
 
-        public function set imageSource(source:*) {
+        public function set imageSource(source:*):void {
             _imageSource = source;
         }
         public function get imageSource():* {
