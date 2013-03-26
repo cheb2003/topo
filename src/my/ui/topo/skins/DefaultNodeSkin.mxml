@@ -5,21 +5,84 @@
         [HostComponent("my.ui.topo.Node")]
         ]]>
     </fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.EffectEvent;
+			
+			protected function scaleBig_effectEndHandler(event:EffectEvent):void
+			{
+				this.addEventListener(MouseEvent.MOUSE_OVER,rollOverHandle);
+				var flag:Boolean = false;
+				if (this.mouseX<0 || this.mouseY<0)
+					flag = false;
+				else if (this.width<this.mouseX || this.height < this.mouseY)
+					flag = false;
+				else
+					flag = true;
+				if (flag)
+					this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_OVER));
+				else
+					this.removeEventListener(MouseEvent.MOUSE_OVER,rollOverHandle);
+			}
+			
+			private function rollOverHandle(evt:MouseEvent):void
+			{
+				this.removeEventListener(MouseEvent.MOUSE_OVER,rollOverHandle);
+				bc.includeInLayout = true;
+				bc.visible = true;
+				var lp:Point = new Point(img.x, img.y);
+				var pp:Point = localToGlobal(lp);
+				lp = globalToLocal(new Point((pp.x +img.width/2)-bc.width/2,pp.y+img.height*img.scaleY+2));
+				bc.x = lp.x;
+				bc.y = lp.y;
+			}
+			
+			protected function scaleSmall_effectStartHandler(event:EffectEvent):void
+			{
+				bc.includeInLayout = false;
+				bc.visible = false;
+			}
+			
+		]]>
+	</fx:Script>
 	
+	<fx:Declarations>
+		<s:Scale3D id="scaleBig" target="{group}" 
+				   scaleXFrom="1.0" scaleXTo="1.4" 
+				   scaleYFrom="1.0" scaleYTo="1.6" 
+				   scaleZFrom="1.0" scaleZTo="1.1"
+				   duration="500" effectEnd="scaleBig_effectEndHandler(event)"
+				   />
+		<s:Scale3D id="scaleSmall" target="{group}" effectStart="scaleSmall_effectStartHandler(event)" 
+				   scaleXFrom="1.4" scaleXTo="1.0" 
+				   scaleYFrom="1.6" scaleYTo="1.0" 
+				   scaleZFrom="1.1" scaleZTo="1.0"
+				   duration="500"
+				   />
+	</fx:Declarations>
     <s:states>
         <s:State name="normal"/>
         <s:State name="selectedAndShowLabel"/>
         <s:State name="selected"/>
         <s:State name="mouseOver"/>
     </s:states>
-    <s:Rect left="0" right="0" top="0" bottom="0">
-        <s:stroke>
-            <s:SolidColorStroke color="#FF0000" />
-        </s:stroke>
-        <s:fill>
-            <!--- @private -->
-            <s:SolidColor id="bgFill" color="#00ff33" color.mouseOver="#0000ff"/>
-        </s:fill>
-    </s:Rect>
-    <s:BitmapImage source="{hostComponent.imageSource}" width="{this.width}" height="{this.height}"/>
+	<s:Group id="group" mouseOver="{scaleBig.play()}" mouseOut="{scaleSmall.play()}">
+		<s:Rect left="0" right="0" top="0" bottom="0">
+			<s:stroke>
+				<s:SolidColorStroke color="#FF0000" />
+			</s:stroke>
+			<s:fill>
+				<!--- @private -->
+				<s:SolidColor id="bgFill" color="#00ff33" color.mouseOver="#0000ff"/>
+			</s:fill>
+		</s:Rect>
+		<s:BitmapImage 
+			source="{hostComponent.imageSource}" id="img" width="{this.width}" height="{this.height}"/>
+		<s:Label visible.normal="true" includeInLayout.normal="true" includeInLayout.mouseOver="false" visible.mouseOver="false" text="test" x="{img.x}" y="{img.y+img.height+5}" width="{img.width}" textAlign="center" />
+	</s:Group>
+	<s:BorderContainer id="bc" visible="false" includeInLayout="false" width="200" height="50" x="100" y="100"
+					   cornerRadius="15" borderWeight="0" 
+					   dropShadowVisible="false">
+		<s:Label text="user name" />
+	</s:BorderContainer>
 </s:SparkSkin>
