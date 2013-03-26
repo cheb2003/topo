@@ -16,8 +16,8 @@ package my.ui.topo
 		//间接关系线条颜色
 		private var _lineColor:uint=0x000000;
 		/**直接关系渐变线条起止端点颜色*/
-		private var _drlStartColor:uint=0xff0000;
-		private var _drlEndColor:uint=0x0000ff;
+		private var _drlStartColor:uint=0xff2500;
+		private var _drlEndColor:uint=0x2100ff;
 		
 		/**是否是直接关系*/
 		private var _isDirectRelation:Boolean;
@@ -52,7 +52,8 @@ package my.ui.topo
 		//绘制直接关系
 		public function drawDirectRelation():void {
 			this.graphics.clear();
-			this.graphics.lineGradientStyle(GradientType.LINEAR,[drlStartColor, drlEndColor], [1, 1], [0, 255]);
+			this.graphics.lineStyle(2);
+			this.graphics.lineGradientStyle(GradientType.LINEAR,[drlStartColor, drlEndColor], [1, 1], [125, 255]);
 			this.graphics.moveTo(xFrom,yFrom);
 			this.graphics.lineTo(xTo,yTo);
 		}
