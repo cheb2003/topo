@@ -12,9 +12,8 @@
 		[Bindable]
 		public var links:ArrayCollection = null;
 		
-		
         private function fn():void{
-           
+           topo1.nodeLayout.performLayout();
         }
 		
 		public function getNodes():ArrayCollection{
