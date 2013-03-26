@@ -12,8 +12,9 @@ package my.ui.topo {
     
     import mx.collections.ArrayCollection;
     import mx.controls.Alert;
-    
-    import my.ui.topo.event.AdjustComplateEvent;
+import mx.core.FlexGlobals;
+
+import my.ui.topo.event.AdjustComplateEvent;
     import my.ui.topo.layout.GraphLayout;
     import my.ui.topo.layout.basic.StraightLayout;
     import my.ui.topo.layout.randomlayout.RandomLayout;
@@ -242,7 +243,17 @@ package my.ui.topo {
 			_linkLayout = value;
 		}
 
-
+        public function fit():void{
+            var a:Animate = new Animate(contentGroup);
+            var ve:Vector.<MotionPath> = new Vector.<MotionPath>();
+            var aSX:SimpleMotionPath;
+            var aSY:SimpleMotionPath;
+            aSX = new SimpleMotionPath("x",contentGroup.x,0)
+            aSY = new SimpleMotionPath("y",contentGroup.y,0)
+            ve.push(aSX, aSY);
+            a.motionPaths = ve;
+            a.play()
+        }
     }
 
 }
