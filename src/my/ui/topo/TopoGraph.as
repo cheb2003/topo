@@ -13,10 +13,9 @@ package my.ui.topo {
     import flash.geom.Rectangle;
     
     import mx.collections.ArrayCollection;
-    import mx.controls.Alert;
-import mx.core.FlexGlobals;
 
-import my.ui.topo.event.AdjustComplateEvent;
+
+    import my.ui.topo.event.AdjustComplateEvent;
     import my.ui.topo.layout.GraphLayout;
     import my.ui.topo.layout.basic.StraightLayout;
     import my.ui.topo.layout.randomlayout.RandomFactory;
