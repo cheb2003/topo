@@ -6,6 +6,8 @@
  * To change this template use File | Settings | File Templates.
  */
 package my.ui.topo {
+    import com.greensock.TweenLite;
+    
     import flash.events.MouseEvent;
     import flash.geom.Point;
     import flash.geom.Rectangle;
@@ -17,6 +19,7 @@ import mx.core.FlexGlobals;
 import my.ui.topo.event.AdjustComplateEvent;
     import my.ui.topo.layout.GraphLayout;
     import my.ui.topo.layout.basic.StraightLayout;
+    import my.ui.topo.layout.randomlayout.RandomFactory;
     import my.ui.topo.layout.randomlayout.RandomLayout;
     import my.ui.topo.skins.DefaultTopoSkin;
     
@@ -79,6 +82,10 @@ import my.ui.topo.event.AdjustComplateEvent;
             a.play()
         }
 		
+		public function getCenterPoint():Point{
+			return new Point(this.x+this.width/2,this.y+this.height/2);
+		}
+		
 		/**
 		 * 执行布局算法
 		 */ 
@@ -98,10 +105,13 @@ import my.ui.topo.event.AdjustComplateEvent;
 			
 			for(var i:int=0;i<nodeDataProvider.length;i++){
 				var node:Node = Node(nodeDataProvider.getItemAt(i));
+				var p:Point = RandomFactory.getRandomPoint(new Rectangle(0,0,totalWidth,totalHeight));
 				this.addElement(node);
+				node.x = p.x;
+				node.y = p.y;
 			}
 			
-			nodeLayout.performLayout();
+//			nodeLayout.performLayout();
 		}
 		
 		private function addLinks(evt:AdjustComplateEvent):void
@@ -121,8 +131,9 @@ import my.ui.topo.event.AdjustComplateEvent;
 		 * 移动节点位置
 		 */ 
 		public function moveNode(node:Node, nodeX:Number, nodeY:Number):void {
-			node.x = nodeX;
-			node.y = nodeY;
+			TweenLite.to(node,1.5,{x:nodeX,y:nodeY});
+//			node.x = nodeX;
+//			node.y = nodeY;
 		}
 		
 		/**

@@ -11,7 +11,7 @@
         <s:State name="selected"/>
         <s:State name="mouseOver"/>
     </s:states>
-    <s:Line xFrom="{hostComponent.startNode.x+hostComponent.startNode.width/2}" xTo="{hostComponent.endNode.x+(hostComponent.endNode.width/2)}" yFrom="{hostComponent.startNode.y+(hostComponent.startNode.height/2)}" yTo="{hostComponent.endNode.y+(hostComponent.endNode.height/2)}">
+    <s:Line xFrom="{hostComponent.startNode.x+hostComponent.startNode.skin.width/2}" xTo="{hostComponent.endNode.x+(hostComponent.endNode.skin.width/2)}" yFrom="{hostComponent.startNode.y+(hostComponent.startNode.skin.height/2)}" yTo="{hostComponent.endNode.y+(hostComponent.endNode.skin.height/2)}">
 		<s:stroke>
 			<s:SolidColorStroke color="0x00ff33" weight="1" caps="square"/>
 		</s:stroke>
