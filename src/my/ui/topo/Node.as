@@ -3,6 +3,8 @@ package my.ui.topo {
     import flash.events.MouseEvent;
     import flash.geom.Point;
     
+    import mx.events.MoveEvent;
+    
     import my.ui.topo.layout.BaseLayoutFactory;
     import my.ui.topo.skins.DefaultNodeSkin;
 
@@ -22,17 +24,15 @@ package my.ui.topo {
 		private var _incomingLinks:Vector.<Link> = new Vector.<Link>();
 		/**输出连线集合*/
 		private var _outgoingLinks:Vector.<Link> = new Vector.<Link>();
-		
         public var topoGraph:TopoGraph;
         public function Node() {
-            super();
+        	super();
             setStyle("skinClass", DefaultNodeSkin);
             addEventListener(MouseEvent.ROLL_OVER, rollOverHandler, false, 0, true);
             addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler, false, 0, true);
-
-
         }
 
+		
         private function mouseUpHandler(event:MouseEvent):void {
             event.stopPropagation();
             _isMouseDown = false;

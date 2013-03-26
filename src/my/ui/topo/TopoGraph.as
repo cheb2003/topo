@@ -115,13 +115,12 @@ package my.ui.topo {
 		
 		private function addLinks(evt:AdjustComplateEvent):void
 		{
-			if(linkLayout==null){
-				linkLayout = new StraightLayout();
-			}
+//			if(linkLayout==null){
+//				linkLayout = new StraightLayout();
+//			}
 			
 			for(var j:int=0;j<linkDataProvider.length;j++){
 				var link:Link = Link(linkDataProvider.getItemAt(j));
-				
 				this.addElement(link);
 			}
 		}
@@ -131,8 +130,6 @@ package my.ui.topo {
 		 */ 
 		public function moveNode(node:Node, nodeX:Number, nodeY:Number):void {
 			TweenLite.to(node,1.5,{x:nodeX,y:nodeY});
-//			node.x = nodeX;
-//			node.y = nodeY;
 		}
 		
 		/**
