@@ -51,6 +51,11 @@
 			link.startNode = Node(nodes.getItemAt(0));
 			link.endNode = Node(nodes.getItemAt(1));
 			links.addItem(link);
+			
+			var link1:Link = new Link();
+			link1.startNode = Node(nodes.getItemAt(1));
+			link1.endNode = Node(nodes.getItemAt(2));
+			links.addItem(link1);
 			return links;
 		}
         private function click():void {
