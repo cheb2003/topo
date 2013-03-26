@@ -1,5 +1,6 @@
 package my.ui.topo
 {
+	import flash.display.GradientType;
 	import flash.events.MouseEvent;
 	
 	import mx.controls.Alert;
@@ -12,8 +13,14 @@ package my.ui.topo
 		private var _xTo:Number;
 		private var _yFrom:Number;
 		private var _yTo:Number;
-		//线条颜色
+		//间接关系线条颜色
 		private var _lineColor:uint=0x000000;
+		/**直接关系渐变线条起止端点颜色*/
+		private var _drlStartColor:uint=0xff0000;
+		private var _drlEndColor:uint=0x0000ff;
+		
+		/**是否是直接关系*/
+		private var _isDirectRelation:Boolean;
 		
 		public function LinkLine()
 		{
@@ -27,19 +34,36 @@ package my.ui.topo
 			Alert.show("mouse clicked!");
 		}
 		private function complateHandle(evt:FlexEvent):void{
-			drawLine();
+			
+			if(isDirectRelation)
+				drawDirectRelation();
+			else
+				drawIndirectRelation();
 		}
-		//画线
-		public function drawLine():void{
+		
+		//绘制间接关系
+		public function drawIndirectRelation():void{
 			this.graphics.clear();
 			this.graphics.lineStyle(2,lineColor);
 			this.graphics.moveTo(xFrom,yFrom);
 			this.graphics.lineTo(xTo,yTo);
 		}
+		
+		//绘制直接关系
+		public function drawDirectRelation():void {
+			this.graphics.clear();
+			this.graphics.lineGradientStyle(GradientType.LINEAR,[drlStartColor, drlEndColor], [1, 1], [0, 255]);
+			this.graphics.moveTo(xFrom,yFrom);
+			this.graphics.lineTo(xTo,yTo);
+		}
+		
 		private function mouseOverHandle(evt:MouseEvent):void
 		{
 			this.lineColor = 0xFF0000;
-			this.drawLine();
+			if(isDirectRelation)
+				drawDirectRelation();
+			else
+				drawIndirectRelation();
 		}
 		
 		public function removeLine():void{
@@ -85,8 +109,43 @@ package my.ui.topo
 		}
 		
 		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
-			drawLine();
+			if(isDirectRelation)
+				drawDirectRelation();
+			else
+				drawIndirectRelation();
 			super.updateDisplayList(unscaledWidth, unscaledHeight);
 		}
+
+		public function get isDirectRelation():Boolean
+		{
+			return _isDirectRelation;
+		}
+
+		public function set isDirectRelation(value:Boolean):void
+		{
+			_isDirectRelation = value;
+		}
+
+		public function get drlStartColor():uint
+		{
+			return _drlStartColor;
+		}
+
+		public function set drlStartColor(value:uint):void
+		{
+			_drlStartColor = value;
+		}
+
+		public function get drlEndColor():uint
+		{
+			return _drlEndColor;
+		}
+
+		public function set drlEndColor(value:uint):void
+		{
+			_drlEndColor = value;
+		}
+
+
 	}
 }

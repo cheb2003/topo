@@ -55,6 +55,7 @@
 			var link1:Link = new Link();
 			link1.startNode = Node(nodes.getItemAt(1));
 			link1.endNode = Node(nodes.getItemAt(2));
+			link1.isDirectRelation = true;
 			links.addItem(link1);
 			return links;
 		}

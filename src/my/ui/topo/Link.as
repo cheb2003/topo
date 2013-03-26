@@ -16,6 +16,8 @@ package my.ui.topo
 		private var _startPort:Port;
 		/**结束端点*/
 		private var _endPort:Port;
+		/**是否是直接关系*/
+		private var _isDirectRelation:Boolean;
 		private var _shapeType:String;
 		
 		public function Link()
@@ -65,5 +67,20 @@ package my.ui.topo
 		{
 			_endPort = value;
 		}
+
+		/**是否是直接关系*/
+		public function get isDirectRelation():Boolean
+		{
+			return _isDirectRelation;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set isDirectRelation(value:Boolean):void
+		{
+			_isDirectRelation = value;
+		}
+
 	}
 }
