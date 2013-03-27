@@ -13,8 +13,7 @@ package my.ui.topo {
     import flash.geom.Rectangle;
     
     import mx.collections.ArrayCollection;
-
-
+    
     import my.ui.topo.event.AdjustComplateEvent;
     import my.ui.topo.layout.GraphLayout;
     import my.ui.topo.layout.basic.StraightLayout;
@@ -22,6 +21,7 @@ package my.ui.topo {
     import my.ui.topo.layout.randomlayout.RandomLayout;
     import my.ui.topo.skins.DefaultTopoSkin;
     
+    import spark.components.Group;
     import spark.components.SkinnableContainer;
     import spark.effects.Animate;
     import spark.effects.animation.MotionPath;
@@ -78,8 +78,22 @@ package my.ui.topo {
             }
             ve.push(aSX, aSY);
             a.motionPaths = ve;
-            a.play()
+            a.play();
+			var p:Point = this.getCenterPoint();
+			trace(p.x,p.y)
+			var lgPoint:Point = contentGroup.localToGlobal(p);
+			trace(lgPoint.x,lgPoint.y);
+//			scaleAtPoint(contentGroup,getCenterPoint());
         }
+		
+		private function scaleAtPoint(target:Group,point:Point):void{
+//			var stagePoint:Point = point
+//			var currentStagePoint:Point = target.localToGlobal(point);
+			target.x = -target.width/2;
+//			target.y = target.height/2;
+//			target.x-=currentStagePoint.x-stagePoint.x;
+//			target.y-=currentStagePoint.y-stagePoint.y;
+		} 
 		
 		public function getCenterPoint():Point{
 			return new Point(this.x+this.width/2,this.y+this.height/2);

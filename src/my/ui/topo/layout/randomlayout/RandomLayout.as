@@ -65,7 +65,7 @@ package my.ui.topo.layout.randomlayout
 			var arr:ArrayList = RandomFactory.getRandomPointList(topoGraph.nodeDataProvider.length, distance, resetCircleLayoutRegion());
 			for(var i:int=0;i<topoGraph.nodeDataProvider.length;i++){
 				var node:Node = Node(topoGraph.nodeDataProvider.getItemAt(i));
-				if (node.isBase())
+				if (node.isBase)
 					topoGraph.moveNode(node, layoutRegion.x + layoutRegion.width/2, layoutRegion.y + layoutRegion.height/2);
 				else{
 					var p:Point = arr.getItemAt(i) as Point;

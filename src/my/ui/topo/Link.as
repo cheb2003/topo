@@ -19,7 +19,7 @@ package my.ui.topo
 		/**是否是直接关系*/
 		private var _isDirectRelation:Boolean;
 		private var _shapeType:String;
-		
+		public var linkName:String = "";
 		public function Link()
 		{
 			super();
