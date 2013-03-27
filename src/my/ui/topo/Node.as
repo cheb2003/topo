@@ -19,6 +19,7 @@ package my.ui.topo {
         private var _imageSource:*;
         private var _isMouseDown:Boolean;
         private var _isMouseOver:Boolean;
+        public var isPlaying:Boolean;
         
 		/**输入连线集合*/
 		private var _incomingLinks:Vector.<Link> = new Vector.<Link>();
@@ -28,7 +29,7 @@ package my.ui.topo {
         public function Node() {
         	super();
             setStyle("skinClass", DefaultNodeSkin);
-            addEventListener(MouseEvent.ROLL_OVER, rollOverHandler, false, 0, true);
+            //addEventListener(MouseEvent.ROLL_OVER, rollOverHandler, false, 0, true);
             addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler, false, 0, true);
         }
 
@@ -45,18 +46,25 @@ package my.ui.topo {
                 return;
             }
             event.stopPropagation();
-            removeEventListener(MouseEvent.ROLL_OUT,rollOutHandler)
             _isMouseOver = false;
+            if(isPlaying) {
+                return;
+            }
+            removeEventListener(MouseEvent.ROLL_OUT,rollOutHandler)
+            trace("rollOutHandler " + _isMouseOver)
             invalidateSkinState()
-
         }
 
         private function rollOverHandler(event:MouseEvent):void {
             event.stopPropagation();
             if(!_isMouseOver) {
+                trace("rollOverHandler " + _isMouseOver)
                 _isMouseOver = true;
+                if(isPlaying) {
+                    return;
+                }
                 invalidateSkinState()
-                addEventListener(MouseEvent.ROLL_OUT, rollOutHandler, false, 0, true);
+                addEventListener(MouseEvent.MOUSE_OUT, rollOutHandler, false, 0, true);
             }
 
         }
@@ -122,6 +130,9 @@ package my.ui.topo {
             } else {
                 return "normal";
             }
+        }
+        public function getSkinState():String{
+            return getCurrentSkinState();
         }
     }
 }
