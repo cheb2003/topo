@@ -18,13 +18,36 @@ package my.ui.topo
 		private var _endPort:Port;
 		/**是否是直接关系*/
 		private var _isDirectRelation:Boolean;
+
+		private var _isMouseOver:Boolean;
 		private var _shapeType:String;
 		public var linkName:String = "";
+		
 		public function Link()
 		{
 			super();
 			setStyle("skinClass", DefaultLinkSkin);
 			this.depth = - Math.random();
+		}
+		
+		override protected function getCurrentSkinState():String {
+			if(_isMouseOver){
+				return "mouseOver";
+			} else {
+				return "normal";
+			}
+		}
+		
+		/**显示悬停标记*/
+		public function showDecoration():void{
+			_isMouseOver = true;
+			invalidateSkinState();
+		}
+		
+		/**隐藏悬停标记*/
+		public function hideDecoration():void{
+			_isMouseOver = false;
+			invalidateSkinState();
 		}
 
 		public function get startNode():Node

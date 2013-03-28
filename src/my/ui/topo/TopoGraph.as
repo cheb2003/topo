@@ -8,6 +8,8 @@
 package my.ui.topo {
     import com.greensock.TweenLite;
     
+    import flash.display.DisplayObject;
+    import flash.display.DisplayObjectContainer;
     import flash.events.MouseEvent;
     import flash.geom.Point;
     import flash.geom.Rectangle;
@@ -23,10 +25,11 @@ package my.ui.topo {
     
     import spark.components.Group;
     import spark.components.SkinnableContainer;
+    import spark.components.supportClasses.SkinnableComponent;
     import spark.effects.Animate;
     import spark.effects.animation.MotionPath;
     import spark.effects.animation.SimpleMotionPath;
-
+	
     [SkinState("normal")]
     public class TopoGraph extends SkinnableContainer {
 		
@@ -44,7 +47,8 @@ package my.ui.topo {
 		private var _linkLayout:GraphLayout;
 		/**当前选中节点*/
 		private var _selectedNode:Node;
-		
+		private var g:Group = new Group();
+				
         public function TopoGraph() {
             super();
             setStyle("skinClass", DefaultTopoSkin);
@@ -52,48 +56,54 @@ package my.ui.topo {
             addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler, false, 0, true);
             addEventListener(MouseEvent.MOUSE_WHEEL,mouseWheelHandler,false,0,true)
 			addEventListener(AdjustComplateEvent.NODE_ADJUST_COMPLATE,addLinks,false,0,true);
+			this.addElement(g);
         }
 
         private function mouseWheelHandler(event:MouseEvent):void {
-
-            if(event.delta > 0 && contentGroup.scaleX > 2) {
-                return
-            }
-            if(event.delta < 0 && contentGroup.scaleX < .5) {
-                return
-            }
-            var a:Animate = new Animate(contentGroup);
-            var ve:Vector.<MotionPath> = new Vector.<MotionPath>();
-            var aSX:SimpleMotionPath;
-            var aSY:SimpleMotionPath;
-
-
-            if(event.delta > 0) {
-
-                aSX = new SimpleMotionPath("scaleX",contentGroup.scaleX,contentGroup.scaleX +.3)
-                aSY = new SimpleMotionPath("scaleY",contentGroup.scaleX,contentGroup.scaleY +.3)
-            } else {
-                aSX = new SimpleMotionPath("scaleX",contentGroup.scaleX,contentGroup.scaleX -.3)
-                aSY = new SimpleMotionPath("scaleY",contentGroup.scaleX,contentGroup.scaleY -.3)
-            }
-            ve.push(aSX, aSY);
-            a.motionPaths = ve;
-            a.play();
-			var p:Point = this.getCenterPoint();
-			trace(p.x,p.y)
-			var lgPoint:Point = contentGroup.localToGlobal(p);
-			trace(lgPoint.x,lgPoint.y);
-//			scaleAtPoint(contentGroup,getCenterPoint());
+			if (event.delta>0){
+				if (g.scaleX<1.4){
+					g.scaleX = g.scaleX+0.1;
+					g.scaleY = g.scaleY+0.1;
+					
+					contentGroup.x = contentGroup.x - (contentGroup.width*0.1)/2;
+					contentGroup.y = contentGroup.y - (contentGroup.height*0.1)/2;
+				}
+			}else if (event.delta<0){
+				if (g.scaleX>0.8){
+					g.scaleX = g.scaleX-0.1;
+					g.scaleY = g.scaleY-0.1;
+					
+					contentGroup.x = contentGroup.x + (contentGroup.width*0.1)/2;
+					contentGroup.y = contentGroup.y + (contentGroup.height*0.1)/2;
+				}
+			}
+			
+//			scaleAtPoint(contentGroup,new Point(contentGroup.width/2, contentGroup.height/2));
+//            if(event.delta > 0 && contentGroup.scaleX > 2) {
+//                return
+//            }
+//            if(event.delta < 0 && contentGroup.scaleX < .5) {
+//                return
+//            }
+//            var a:Animate = new Animate(contentGroup);
+//            var ve:Vector.<MotionPath> = new Vector.<MotionPath>();
+//            var aSX:SimpleMotionPath;
+//            var aSY:SimpleMotionPath;
+//
+//
+//            if(event.delta > 0) {
+//
+//                aSX = new SimpleMotionPath("scaleX",contentGroup.scaleX,contentGroup.scaleX +.3)
+//                aSY = new SimpleMotionPath("scaleY",contentGroup.scaleX,contentGroup.scaleY +.3)
+//            } else {
+//                aSX = new SimpleMotionPath("scaleX",contentGroup.scaleX,contentGroup.scaleX -.3)
+//                aSY = new SimpleMotionPath("scaleY",contentGroup.scaleX,contentGroup.scaleY -.3)
+//            }
+//            ve.push(aSX, aSY);
+//            a.motionPaths = ve;
+//            a.play();
+//			scaleAtPoint(contentGroup,new Point(contentGroup.width/2, contentGroup.height/2));
         }
-		
-		private function scaleAtPoint(target:Group,point:Point):void{
-//			var stagePoint:Point = point
-//			var currentStagePoint:Point = target.localToGlobal(point);
-			target.x = -target.width/2;
-//			target.y = target.height/2;
-//			target.x-=currentStagePoint.x-stagePoint.x;
-//			target.y-=currentStagePoint.y-stagePoint.y;
-		} 
 		
 		public function getCenterPoint():Point{
 			return new Point(this.x+this.width/2,this.y+this.height/2);
@@ -119,7 +129,7 @@ package my.ui.topo {
 			for(var i:int=0;i<nodeDataProvider.length;i++){
 				var node:Node = Node(nodeDataProvider.getItemAt(i));
 				var p:Point = RandomFactory.getRandomPoint(new Rectangle(0,0,totalWidth,totalHeight));
-				this.addElement(node);
+				g.addElement(node);
 				node.x = p.x;
 				node.y = p.y;
 			}
@@ -135,7 +145,7 @@ package my.ui.topo {
 			
 			for(var j:int=0;j<linkDataProvider.length;j++){
 				var link:Link = Link(linkDataProvider.getItemAt(j));
-				this.addElement(link);
+				g.addElement(link);
 			}
 		}
 		

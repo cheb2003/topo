@@ -9,10 +9,18 @@
         <s:State name="normal"/>
         <s:State name="selected"/>
         <s:State name="mouseOver"/>
+		<fx:Script>
+			<![CDATA[
+				import spark.primitives.Line;
+			]]>
+		</fx:Script>
     </s:states>
-	<topo:LinkLine id="line" xFrom="{hostComponent.startNode.x}"
-				   xTo="{hostComponent.endNode.x}"
-				   yFrom="{hostComponent.startNode.y}"
-				   yTo="{hostComponent.endNode.y}"
-				   isDirectRelation="{hostComponent.isDirectRelation}"/>
+	<topo:LinkLine id="line" xFrom="{hostComponent.startNode.x+hostComponent.startNode.skin.width/2}" 
+				   xTo="{hostComponent.endNode.x+(hostComponent.endNode.skin.width/2)}" 
+				   yFrom="{hostComponent.startNode.y+(hostComponent.startNode.skin.height/2)}" 
+				   yTo="{hostComponent.endNode.y+(hostComponent.endNode.skin.height/2)}"
+				   isDirectRelation="{hostComponent.isDirectRelation}" link="{hostComponent}"/>
+	
+	<topo:LinkDecoration visible.mouseOver="true" visible="false" includeInLayout.mouseOver="true" includeInLayout="false"
+						x="{(line.xFrom+line.xTo)/2}" y="{(line.yFrom+line.yTo)/2}"/>
 </s:SparkSkin>
