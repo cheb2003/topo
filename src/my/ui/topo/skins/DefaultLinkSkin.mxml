@@ -10,9 +10,9 @@
         <s:State name="selected"/>
         <s:State name="mouseOver"/>
     </s:states>
-	<topo:LinkLine id="line" xFrom="{hostComponent.startNode.x+hostComponent.startNode.skin.width/2}" 
-				   xTo="{hostComponent.endNode.x+(hostComponent.endNode.skin.width/2)}" 
-				   yFrom="{hostComponent.startNode.y+(hostComponent.startNode.skin.height/2)}" 
-				   yTo="{hostComponent.endNode.y+(hostComponent.endNode.skin.height/2)}"
+	<topo:LinkLine id="line" xFrom="{hostComponent.startNode.x}"
+				   xTo="{hostComponent.endNode.x}"
+				   yFrom="{hostComponent.startNode.y}"
+				   yTo="{hostComponent.endNode.y}"
 				   isDirectRelation="{hostComponent.isDirectRelation}"/>
 </s:SparkSkin>
