@@ -1,17 +1,29 @@
 <?xml version="1.0"?>
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
-               xmlns:topo1="my.ui.topo.*" creationComplete="fn()" >
+               xmlns:topo1="my.ui.topo.*" creationComplete="fn()" preinitialize="pinit()" >
     <fx:Script><![CDATA[
 		import mx.collections.ArrayCollection;
+		import mx.collections.ArrayList;
 		
 		import my.ui.topo.Link;
 		import my.ui.topo.Node;
+		import my.ui.topo.data.DataAnalyzer;
 
 		[Bindable]
 		public var nodes:ArrayCollection = null;
 		[Bindable]
 		public var links:ArrayCollection = null;
 		
+		private function pinit():void
+		{
+			var str:String = '[{"name":"testNode1","id":"testid1","isBase":"true","relatedNodeIds":"testid2,testid3"}' +
+				',{"name":"testNode2","id":"testid2","isBase":"false","relatedNodeIds":"testid1"},' +
+				'{"name":"testNode3","id":"testid3","isBase":"false"}]';
+			var obj:Object = DataAnalyzer.analayzerData(str);
+			nodes = obj.nodeList as ArrayCollection;
+			links = obj.linkList as ArrayCollection;
+			
+		}
         private function fn():void{
            topo1.nodeLayout.performLayout();
         }
@@ -21,13 +33,13 @@
 				return nodes;
 			nodes = new ArrayCollection();
 			var node:Node = new Node();
-			node.x = 100;
-			node.y = 100;
+//			node.x = 100;
+//			node.y = 100;
 			nodes.addItem(node);
 
             var node1:Node = new Node();
-            node1.x = 500;
-            node1.y = 200;
+//            node1.x = 500;
+//            node1.y = 200;
             nodes.addItem(node1);
 			
 			nodes.addItem(new Node());

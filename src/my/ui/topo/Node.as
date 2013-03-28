@@ -20,12 +20,14 @@ package my.ui.topo {
         private var _isMouseDown:Boolean;
         private var _isMouseOver:Boolean;
         public var isPlaying:Boolean;
-        
 		/**输入连线集合*/
 		private var _incomingLinks:Vector.<Link> = new Vector.<Link>();
 		/**输出连线集合*/
 		private var _outgoingLinks:Vector.<Link> = new Vector.<Link>();
         public var topoGraph:TopoGraph;
+		public var isBase:Boolean = false;
+		public var labelName:String = "";
+		
         public function Node() {
         	super();
             setStyle("skinClass", DefaultNodeSkin);
@@ -103,10 +105,6 @@ package my.ui.topo {
 			return BaseLayoutFactory.getDistance(new Point(this.x,this.y), getCenterPoint());
 		}
 		
-		public function isBase():Boolean{
-			//TODO 基准点判断规则
-			return false;
-		}
 
 		/**
 		 *	获取输入连线集合 
