@@ -23,10 +23,6 @@ package my.ui.topo {
     import my.ui.topo.layout.randomlayout.RandomLayout;
     import my.ui.topo.skins.DefaultTopoSkin;
     
-    import org.un.cava.birdeye.ravis.graphLayout.visual.VisualGraph;
-    import org.un.cava.birdeye.ravis.utils.events.VGraphEvent;
-    import org.un.cava.birdeye.ravis.utils.geom.PoincareIsometry;
-    
     import spark.components.Group;
     import spark.components.SkinnableContainer;
     import spark.components.supportClasses.SkinnableComponent;
