@@ -64,7 +64,7 @@
         }
         ]]></fx:Script>
 
-    <topo1:TopoGraph id="topo1" nodeDataProvider="{getNodes()}" linkDataProvider="{getLinks()}" backgroundColor="#0088cc"  width="100%" height="100%"/>
+    <topo1:TopoGraph id="topo1" nodeDataProvider="{getNodes()}" linkDataProvider="{getLinks()}" backgroundColor="#ffffff"  width="100%" height="100%"/>
     <s:Button label="fit" click="click()"/>
     
 </s:Application>

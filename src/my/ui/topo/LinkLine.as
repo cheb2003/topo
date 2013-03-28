@@ -16,16 +16,19 @@ package my.ui.topo
 		//间接关系线条颜色
 		private var _lineColor:uint=0x000000;
 		/**直接关系渐变线条起止端点颜色*/
-		private var _drlStartColor:uint=0xff2500;
-		private var _drlEndColor:uint=0x2100ff;
+		private var _drlStartColor:uint=0xffff60;
+		private var _drlEndColor:uint=0xff6000;
 		
 		/**是否是直接关系*/
 		private var _isDirectRelation:Boolean;
+		
+		public var link:Link;
 		
 		public function LinkLine()
 		{
 			super();
 			this.addEventListener(MouseEvent.MOUSE_OVER, mouseOverHandle);
+			this.addEventListener(MouseEvent.MOUSE_OUT, mouseOutHandle);
 			this.addEventListener(FlexEvent.CREATION_COMPLETE,complateHandle);
 			this.addEventListener(MouseEvent.CLICK,mouseClickHandle);
 		}
@@ -53,7 +56,7 @@ package my.ui.topo
 		public function drawDirectRelation():void {
 			this.graphics.clear();
 			this.graphics.lineStyle(2);
-			this.graphics.lineGradientStyle(GradientType.LINEAR,[drlStartColor, drlEndColor], [1, 1], [125, 255]);
+			this.graphics.lineGradientStyle(GradientType.LINEAR,[drlStartColor, drlEndColor], [1, 1], [78, 255]);
 			this.graphics.moveTo(xFrom,yFrom);
 			this.graphics.lineTo(xTo,yTo);
 		}
@@ -65,6 +68,11 @@ package my.ui.topo
 				drawDirectRelation();
 			else
 				drawIndirectRelation();
+			link.showDecoration();
+		}
+		
+		private function mouseOutHandle(evt:MouseEvent):void{
+//			link.hideDecoration();
 		}
 		
 		public function removeLine():void{
