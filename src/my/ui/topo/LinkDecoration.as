@@ -1,48 +1,84 @@
 package my.ui.topo
 {
+	import flash.events.MouseEvent;
+	
 	import mx.core.UIComponent;
 	import mx.events.FlexEvent;
+	
+	import my.ui.topo.skins.DefaultLinkDecorationSkin;
 	
 	import spark.components.supportClasses.SkinnableComponent;
 	
 	/**
 	 * 连线悬停小圆标记类
 	 */ 
-	public class LinkDecoration extends UIComponent
+	[Bindable]
+	[SkinState("normal")]
+	[SkinState("mouseOver")]
+	public class LinkDecoration extends SkinnableComponent
 	{
-		private var _radius:Number = 5;
+		/**半径*/
+		private var _radius:Number = 10;
+		
+		private var _label:String = "8";
+		
+		private var _mouseOverFlag:Boolean = false;
 		
 		public function LinkDecoration()
 		{
 			super();
-			this.addEventListener(FlexEvent.CREATION_COMPLETE,complateHandle);
+			setStyle("skinClass", DefaultLinkDecorationSkin);
+			addEventListener(MouseEvent.MOUSE_OVER, mouseOverHandler, false, 0, true);
+			addEventListener(MouseEvent.MOUSE_OUT, mouseOutHandler, false, 0, true);
 		}
 		
-		private function complateHandle(event:FlexEvent):void{
-			drawCircle();
+		private function mouseOverHandler(evt:MouseEvent):void{
+			this.mouseOverFlag = true;
 		}
 		
-		private function drawCircle():void{
-			this.graphics.clear();
-			this.graphics.lineStyle(1, 0xff0000);
-			this.graphics.drawCircle(this.x + radius/2, this.y + radius/2, radius);
-			this.graphics.beginFill(0xff0000, 0.8);
-			this.graphics.endFill();
+		private function mouseOutHandler(evt:MouseEvent):void{
+			this.mouseOverFlag = false;
+		}
+		
+		protected override function getCurrentSkinState():String{
+			if(mouseOverFlag)
+				return "mouseOver";
+			else
+				return "normal";
 		}
 
-		/**半径*/
 		public function get radius():Number
 		{
 			return _radius;
 		}
 
-		/**
-		 * @private
-		 */
 		public function set radius(value:Number):void
 		{
 			_radius = value;
 		}
+
+		public function get label():String
+		{
+			return _label;
+		}
+
+		public function set label(value:String):void
+		{
+			_label = value;
+		}
+
+		public function get mouseOverFlag():Boolean
+		{
+			return _mouseOverFlag;
+		}
+
+		public function set mouseOverFlag(value:Boolean):void
+		{
+			if(value != this._mouseOverFlag)
+				invalidateSkinState();
+			this._mouseOverFlag = value;
+		}
+
 
 	}
 }

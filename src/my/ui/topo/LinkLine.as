@@ -16,10 +16,10 @@ package my.ui.topo
 		private var _yFrom:Number;
 		private var _yTo:Number;
 		//间接关系线条颜色
-		private var _lineColor:uint=0x000000;
+		private var _lineColor:uint=0x15719F;
 		/**直接关系渐变线条起止端点颜色*/
-		private var _drlStartColor:uint=0xffff60;
-		private var _drlEndColor:uint=0xff6000;
+		private var _drlStartColor:uint=0xf3955;
+		private var _drlEndColor:uint=0x97BED4;
 		/**线条粗细*/
 		private var _overThick:uint = 2;
 		
@@ -63,18 +63,16 @@ package my.ui.topo
 		
 		private function mouseOverHandle(evt:MouseEvent):void
 		{
-			this.lineColor = 0xFF0000;
 			this.overThick = 4;
 			link.showDecoration();
 			invalidateDisplayList();
 		}
 		
 		private function mouseOutHandle(evt:MouseEvent):void{
-//			link.hideDecoration();
 			var timer:Timer = new Timer(1000,1);
-			this.lineColor = 0x000000;
 			this.overThick = 2;
 			timer.addEventListener(TimerEvent.TIMER, function(evt:TimerEvent):void{
+				link.hideDecoration();
 				invalidateDisplayList();
 			});
 			timer.start();
