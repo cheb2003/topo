@@ -117,7 +117,7 @@
             </s:Animate>
         </s:Parallel>
 		
-		<s:Wipe id="nodeTipEffect"/>
+		<s:Move id="nodeTipEffect" target="{bc}" yFrom="{bc.y + 15}" yTo="{bc.y}" duration="300"/>
     </fx:Declarations>
 
     <s:states>
@@ -137,7 +137,5 @@
 		<s:Label x="20" y="5" text="Eric S. Lander" color="0x38A852"/>
 		<s:Label x="20" y="20" text="Massachusetts Institure of Technology" color="0x0ccff"/>
 	</s:BorderContainer>
-
-
 
 </s:SparkSkin>
