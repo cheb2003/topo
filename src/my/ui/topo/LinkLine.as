@@ -2,6 +2,8 @@ package my.ui.topo
 {
 	import flash.display.GradientType;
 	import flash.events.MouseEvent;
+	import flash.events.TimerEvent;
+	import flash.utils.Timer;
 	
 	import mx.controls.Alert;
 	import mx.core.UIComponent;
@@ -18,6 +20,8 @@ package my.ui.topo
 		/**直接关系渐变线条起止端点颜色*/
 		private var _drlStartColor:uint=0xffff60;
 		private var _drlEndColor:uint=0xff6000;
+		/**线条粗细*/
+		private var _overThick:uint = 2;
 		
 		/**是否是直接关系*/
 		private var _isDirectRelation:Boolean;
@@ -37,17 +41,13 @@ package my.ui.topo
 			Alert.show("mouse clicked!");
 		}
 		private function complateHandle(evt:FlexEvent):void{
-			
-			if(isDirectRelation)
-				drawDirectRelation();
-			else
-				drawIndirectRelation();
+			this.overThick = 2;
 		}
 		
 		//绘制间接关系
 		public function drawIndirectRelation():void{
 			this.graphics.clear();
-			this.graphics.lineStyle(2,lineColor);
+			this.graphics.lineStyle(this.overThick,lineColor);
 			this.graphics.moveTo(xFrom,yFrom);
 			this.graphics.lineTo(xTo,yTo);
 		}
@@ -55,7 +55,7 @@ package my.ui.topo
 		//绘制直接关系
 		public function drawDirectRelation():void {
 			this.graphics.clear();
-			this.graphics.lineStyle(2);
+			this.graphics.lineStyle(this.overThick);
 			this.graphics.lineGradientStyle(GradientType.LINEAR,[drlStartColor, drlEndColor], [1, 1], [78, 255]);
 			this.graphics.moveTo(xFrom,yFrom);
 			this.graphics.lineTo(xTo,yTo);
@@ -64,15 +64,27 @@ package my.ui.topo
 		private function mouseOverHandle(evt:MouseEvent):void
 		{
 			this.lineColor = 0xFF0000;
-			if(isDirectRelation)
-				drawDirectRelation();
-			else
-				drawIndirectRelation();
+			this.overThick = 4;
 			link.showDecoration();
+			invalidateDisplayList();
 		}
 		
 		private function mouseOutHandle(evt:MouseEvent):void{
 //			link.hideDecoration();
+			var timer:Timer = new Timer(1000,1);
+			this.lineColor = 0x000000;
+			this.overThick = 2;
+			timer.addEventListener(TimerEvent.TIMER, function(evt:TimerEvent):void{
+				invalidateDisplayList();
+			});
+			timer.start();
+		}
+		
+		private function refreshLine():void{
+			if(isDirectRelation)
+				drawDirectRelation();
+			else
+				drawIndirectRelation();
 		}
 		
 		public function removeLine():void{
@@ -111,17 +123,16 @@ package my.ui.topo
 			return this._yTo;
 		}
 		public function set lineColor(color:uint):void{
-			_lineColor=color;
+			if(this._lineColor != color)
+				invalidateProperties();
+			this._lineColor = color;
 		}
 		public function get lineColor():uint{
 			return _lineColor;
 		}
 		
 		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
-			if(isDirectRelation)
-				drawDirectRelation();
-			else
-				drawIndirectRelation();
+			refreshLine();
 			super.updateDisplayList(unscaledWidth, unscaledHeight);
 		}
 
@@ -153,6 +164,18 @@ package my.ui.topo
 		public function set drlEndColor(value:uint):void
 		{
 			_drlEndColor = value;
+		}
+
+		public function get overThick():uint
+		{
+			return _overThick;
+		}
+
+		public function set overThick(value:uint):void
+		{
+			if(this._overThick!=value)
+				invalidateProperties();
+			this._overThick = value;
 		}
 
 
