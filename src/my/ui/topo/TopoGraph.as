@@ -275,6 +275,8 @@ package my.ui.topo {
 		}
 
         public function fit():void{
+			g.scaleX = 1;
+			g.scaleY = 1;
             var a:Animate = new Animate(contentGroup);
             var ve:Vector.<MotionPath> = new Vector.<MotionPath>();
             var aSX:SimpleMotionPath;
