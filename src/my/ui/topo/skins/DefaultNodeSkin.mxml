@@ -116,6 +116,8 @@
                 <s:SimpleMotionPath property="y" valueFrom="{y}" valueTo="{y + 10}"/>
             </s:Animate>
         </s:Parallel>
+		
+		<s:Wipe id="nodeTipEffect"/>
     </fx:Declarations>
 
     <s:states>
@@ -129,9 +131,11 @@
 	<s:Image
 		source="{hostComponent.imageSource}" id="img" x="{-img.width/2}" y="{-img.height/2}" width="{this.width}" height="{this.height}"/>
     <s:Label id="label" text="test" x="{img.x}" y="{img.y+img.height+5}" width="{img.width}" textAlign="center" />
-	<s:BorderContainer id="bc" visible="false" includeInLayout="false" width="200" height="50" x="{img.x+img.width/2-this.width/2-30}" y="{img.y+img.height}"
-			cornerRadius="15" borderWeight="0" dropShadowVisible="false">
-		<s:Label x="7" y="2" text="user name" />
+	<s:BorderContainer id="bc" visible="false" includeInLayout="false" width="235" height="40" x="{img.x+img.width/2-this.width/2-30}" y="{img.y+img.height}"
+			cornerRadius="5" borderWeight="2" dropShadowVisible="false" showEffect="{nodeTipEffect}">
+		<s:Label x="5" y="13" text=">>" color="0x4fBEF1" fontWeight="bold"/>
+		<s:Label x="20" y="5" text="Eric S. Lander" color="0x38A852"/>
+		<s:Label x="20" y="20" text="Massachusetts Institure of Technology" color="0x0ccff"/>
 	</s:BorderContainer>
 
 
