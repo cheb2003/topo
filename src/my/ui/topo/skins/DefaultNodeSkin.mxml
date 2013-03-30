@@ -7,6 +7,7 @@
     </fx:Metadata>
 	<fx:Script>
 		<![CDATA[
+			import mx.events.EffectEvent;
 
         private var a1Playing:Boolean;
             private var isMouseOver:Boolean;
@@ -57,19 +58,43 @@
                 }
             }
 
+			protected function effectEndHandler(event:EffectEvent):void
+			{
+				if (a1Playing)
+				{
+					a1Playing = false;
+					label.includeInLayout = false;
+					label.visible = false;
+					bc.includeInLayout = true;
+					bc.visible = true;
+				}
+			}
+			
+			protected function effectStartHandler(event:EffectEvent):void
+			{
+				if (!a1Playing)
+				{
+					a1Playing = true;
+					label.includeInLayout = true;
+					label.visible = true;
+					bc.includeInLayout = false;
+					bc.visible = false;
+				}
+			}
+			
 		]]>
 	</fx:Script>
     <fx:Declarations>
         <s:Parallel id="p1">
-            <s:Resize target="{this}" id="r1" widthFrom="{width}" heightFrom="{height}" heightTo="{height + 40}" widthTo="{width + 40}"/>
-            <s:Animate id="a1" target="{this}" effectStart="{a1Playing = true}" effectEnd="{a1Playing = false}">
+            <s:Resize target="{this}" id="r1"  widthFrom="{width}" heightFrom="{height}" heightTo="{height + 40}" widthTo="{width + 40}"/>
+            <s:Animate id="a1" target="{this}" effectStart="{a1Playing = true}" effectEnd="effectEndHandler(event)">
                 <s:SimpleMotionPath property="x" valueFrom="{x}" valueTo="{x - 10}"/>
                 <s:SimpleMotionPath property="y" valueFrom="{y}" valueTo="{y - 10}"/>
             </s:Animate>
         </s:Parallel>
         <s:Parallel id="p2">
             <s:Resize target="{this}"  widthFrom="{width}" heightFrom="{height}" heightTo="{height - 40}" widthTo="{width - 40}"/>
-            <s:Animate target="{this}" effectStart="{a1Playing = true}" effectEnd="{a1Playing = false}">
+            <s:Animate target="{this}" effectStart="effectStartHandler(event)" effectEnd="{a1Playing = false}">
                 <s:SimpleMotionPath property="x" valueFrom="{x}" valueTo="{x + 10}"/>
                 <s:SimpleMotionPath property="y" valueFrom="{y}" valueTo="{y + 10}"/>
             </s:Animate>
@@ -95,7 +120,11 @@
 		</s:Rect>-->
 	<s:Image
 		source="{hostComponent.imageSource}" id="img" x="{-img.width/2}" y="{-img.height/2}" width="{this.width}" height="{this.height}"/>
-    <s:Label text="test" x="{img.x}" y="{img.y+img.height+5}" width="{img.width}" textAlign="center" />
+    <s:Label id="label" text="test" x="{img.x}" y="{img.y+img.height+5}" width="{img.width}" textAlign="center" />
+	<s:BorderContainer id="bc" visible="false" includeInLayout="false" width="200" height="50" x="{img.x+img.width/2-this.width/2-30}" y="{img.y+img.height}"
+			cornerRadius="15" borderWeight="0" dropShadowVisible="false">
+		<s:Label text="user name" />
+	</s:BorderContainer>
 
 
 
