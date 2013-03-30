@@ -1,6 +1,8 @@
 package my.ui.topo
 {
 	import flash.events.MouseEvent;
+	import flash.events.TimerEvent;
+	import flash.utils.Timer;
 	
 	import mx.core.UIComponent;
 	import mx.events.FlexEvent;
@@ -23,6 +25,7 @@ package my.ui.topo
 		private var _label:String = "8";
 		
 		private var _mouseOverFlag:Boolean = false;
+		public var linkLine:LinkLine;
 		
 		public function LinkDecoration()
 		{
@@ -34,10 +37,19 @@ package my.ui.topo
 		
 		private function mouseOverHandler(evt:MouseEvent):void{
 			this.mouseOverFlag = true;
+			linkLine.outFlag = false;
 		}
 		
 		private function mouseOutHandler(evt:MouseEvent):void{
-			this.mouseOverFlag = false;
+			var timer:Timer = new Timer(1000, 1);
+			timer.addEventListener(TimerEvent.TIMER, timerHandler);
+			timer.start();
+			this.linkLine.resetState();
+		}
+		
+		private function timerHandler(evt:TimerEvent):void{
+			if(linkLine.outFlag)
+				this.mouseOverFlag = false;			
 		}
 		
 		protected override function getCurrentSkinState():String{

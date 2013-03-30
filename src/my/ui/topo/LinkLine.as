@@ -25,7 +25,8 @@ package my.ui.topo
 		
 		/**是否是直接关系*/
 		private var _isDirectRelation:Boolean;
-		
+		/**线条悬停标记，用以控制是否真正改变悬停效果*/
+		private var _outFlag:Boolean;
 		public var link:Link;
 		
 		public function LinkLine()
@@ -64,18 +65,29 @@ package my.ui.topo
 		private function mouseOverHandle(evt:MouseEvent):void
 		{
 			this.overThick = 4;
+			this.outFlag = false;
 			link.showDecoration();
 			invalidateDisplayList();
 		}
 		
 		private function mouseOutHandle(evt:MouseEvent):void{
+			resetState();
+		}
+		
+		public function resetState():void{
 			var timer:Timer = new Timer(1000,1);
 			this.overThick = 2;
-			timer.addEventListener(TimerEvent.TIMER, function(evt:TimerEvent):void{
-				link.hideDecoration();
-				invalidateDisplayList();
-			});
+			this.outFlag = true;
+			timer.addEventListener(TimerEvent.TIMER, outTimerHandler);
 			timer.start();
+		}
+		
+		private function outTimerHandler(evt:TimerEvent):void{
+			if(this.outFlag){
+				link.hideDecoration();
+				this.outFlag = false;
+				invalidateDisplayList();
+			}
 		}
 		
 		private function refreshLine():void{
@@ -174,6 +186,16 @@ package my.ui.topo
 			if(this._overThick!=value)
 				invalidateProperties();
 			this._overThick = value;
+		}
+
+		public function get outFlag():Boolean
+		{
+			return _outFlag;
+		}
+
+		public function set outFlag(value:Boolean):void
+		{
+			_outFlag = value;
 		}
 
 
