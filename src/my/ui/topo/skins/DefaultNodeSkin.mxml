@@ -8,13 +8,18 @@
 	<fx:Script>
 		<![CDATA[
 			import mx.events.EffectEvent;
-
-        private var a1Playing:Boolean;
+			import flash.filters.BitmapFilterQuality;
+			import flash.filters.BitmapFilterType;
+      		private var a1Playing:Boolean;
             private var isMouseOver:Boolean;
             private var isMouseOver1:Boolean;
             private var isInvoke:Boolean;
-            private var interval:uint
+            private var interval:uint;
+			[Bindable]
+			private var arr:Array = new Array();
             private function init():void {
+				arr.push(glow);
+				img.filters = arr;
                 img.addEventListener(MouseEvent.ROLL_OVER, rollOverHandler, false, 0, true);
                 img.addEventListener(MouseEvent.ROLL_OUT, rollOutHandler, false, 0, true);
             }
@@ -85,6 +90,18 @@
 		]]>
 	</fx:Script>
     <fx:Declarations>
+		<s:GradientGlowFilter id="glow" 
+				  blurX="30" blurY="30"
+				  quality="{BitmapFilterQuality.HIGH}"
+				  type="{BitmapFilterType.OUTER}" 
+				  
+				  knockout="false">
+			<s:entries>
+				<s:GradientEntry alpha="0" color="0x3333FF" ratio="0"/>
+				<s:GradientEntry alpha="0.8" color="0x3333FF" ratio="128"/>
+				<s:GradientEntry alpha="0.8" color="0x3333FF" ratio="255"/>
+			</s:entries>
+		</s:GradientGlowFilter>
         <s:Parallel id="p1">
             <s:Resize target="{this}" id="r1"  widthFrom="{width}" heightFrom="{height}" heightTo="{height + 40}" widthTo="{width + 40}"/>
             <s:Animate id="a1" target="{this}" effectStart="{a1Playing = true}" effectEnd="effectEndHandler(event)">
@@ -109,15 +126,6 @@
         <s:State name="mouseOver"/>
     </s:states>
 
-		<!--<s:Rect left="0" right="0" top="0" bottom="0">
-			<s:stroke>
-				<s:SolidColorStroke color="#FF0000" />
-			</s:stroke>
-			<s:fill>
-				&lt;!&ndash;- @private &ndash;&gt;
-				<s:SolidColor id="bgFill" color="#00ff33" color.mouseOver="#0000ff"/>
-			</s:fill>
-		</s:Rect>-->
 	<s:Image
 		source="{hostComponent.imageSource}" id="img" x="{-img.width/2}" y="{-img.height/2}" width="{this.width}" height="{this.height}"/>
     <s:Label id="label" text="test" x="{img.x}" y="{img.y+img.height+5}" width="{img.width}" textAlign="center" />
