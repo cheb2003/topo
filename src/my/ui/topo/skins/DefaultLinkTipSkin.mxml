@@ -13,6 +13,7 @@
 	</s:states>
 
 	<s:BorderContainer cornerRadius="5" width="180" height="37" borderWeight="2" y="-55" x="-30">
+		<s:Label x="5" y="13" text=">>" color="0x4fBEF1" fontWeight="bold"/>
 		<s:Label x="20" y="5" text="user a, user b" color="0x38A852"/>
 		<s:Label x="20" y="19" text="21 co-authored publications" color="0x0ccff"/>
 	</s:BorderContainer>
