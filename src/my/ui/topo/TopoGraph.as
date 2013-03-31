@@ -15,7 +15,9 @@ package my.ui.topo {
     import flash.geom.Rectangle;
     
     import mx.collections.ArrayCollection;
+    import mx.messaging.errors.NoChannelAvailableError;
     
+    import my.ui.topo.data.DataAnalyzer;
     import my.ui.topo.event.AdjustComplateEvent;
     import my.ui.topo.layout.GraphLayout;
     import my.ui.topo.layout.basic.StraightLayout;
@@ -29,6 +31,7 @@ package my.ui.topo {
     import spark.effects.Animate;
     import spark.effects.animation.MotionPath;
     import spark.effects.animation.SimpleMotionPath;
+    import spark.primitives.Line;
 	
     [SkinState("normal")]
     public class TopoGraph extends SkinnableContainer {
@@ -77,32 +80,6 @@ package my.ui.topo {
 					contentGroup.y = contentGroup.y + (contentGroup.height*0.1)/2;
 				}
 			}
-			
-//			scaleAtPoint(contentGroup,new Point(contentGroup.width/2, contentGroup.height/2));
-//            if(event.delta > 0 && contentGroup.scaleX > 2) {
-//                return
-//            }
-//            if(event.delta < 0 && contentGroup.scaleX < .5) {
-//                return
-//            }
-//            var a:Animate = new Animate(contentGroup);
-//            var ve:Vector.<MotionPath> = new Vector.<MotionPath>();
-//            var aSX:SimpleMotionPath;
-//            var aSY:SimpleMotionPath;
-//
-//
-//            if(event.delta > 0) {
-//
-//                aSX = new SimpleMotionPath("scaleX",contentGroup.scaleX,contentGroup.scaleX +.3)
-//                aSY = new SimpleMotionPath("scaleY",contentGroup.scaleX,contentGroup.scaleY +.3)
-//            } else {
-//                aSX = new SimpleMotionPath("scaleX",contentGroup.scaleX,contentGroup.scaleX -.3)
-//                aSY = new SimpleMotionPath("scaleY",contentGroup.scaleX,contentGroup.scaleY -.3)
-//            }
-//            ve.push(aSX, aSY);
-//            a.motionPaths = ve;
-//            a.play();
-//			scaleAtPoint(contentGroup,new Point(contentGroup.width/2, contentGroup.height/2));
         }
 		
 		public function getCenterPoint():Point{
@@ -134,14 +111,10 @@ package my.ui.topo {
 				node.y = p.y;
 			}
 			
-//			nodeLayout.performLayout();
 		}
 		
 		private function addLinks(evt:AdjustComplateEvent):void
 		{
-//			if(linkLayout==null){
-//				linkLayout = new StraightLayout();
-//			}
 			
 			for(var j:int=0;j<linkDataProvider.length;j++){
 				var link:Link = Link(linkDataProvider.getItemAt(j));
@@ -154,6 +127,12 @@ package my.ui.topo {
 		 */ 
 		public function moveNode(node:Node, nodeX:Number, nodeY:Number):void {
 			TweenLite.to(node,1.5,{x:nodeX,y:nodeY});
+		}
+		
+		public function moveOut(node:Node, nodeX:Number, nodeY:Number):void
+		{
+			TweenLite.to(node,1.5,{x:nodeX,y:nodeY});
+			g.removeElement(node);
 		}
 		
 		/**
@@ -287,6 +266,49 @@ package my.ui.topo {
             a.motionPaths = ve;
             a.play()
         }
+		
+		public function removeAllNode():void
+		{
+			var p:Point = getCenterPoint();
+			for (var j:int=0; j<linkDataProvider.length; j++){
+				var link:Link = linkDataProvider.getItemAt(j) as Link;
+				g.removeElement(link);
+			}
+			
+			
+			for (var i:int=0; i<nodeDataProvider.length; i++){
+				var node:Node = nodeDataProvider.getItemAt(i) as Node;
+				if (node.isBase){
+					g.removeElement(node);
+					continue;
+				}
+				if (node.x <= p.x){
+					if (node.y <= p.y)
+						moveOut(node,this.x,this.y)
+					else
+						moveOut(node,this.x, this.y+this.height);
+				}else{
+					if (node.y <= p.y)
+						moveOut(node, this.x+this.width, this.y);
+					else
+						moveOut(node, this.x+this.width,this.y+this.height);
+				}
+			}
+			
+			addNodes();
+		}
+		
+		public function addNodes():void{
+//			this.parentApplication.pinit();
+			var str:String = '[{"name":"testNode1","id":"testid1","isBase":"true","relatedNodeIds":"testid2,testid3"}' +
+				',{"name":"testNode2","id":"testid2","isBase":"false","relatedNodeIds":"testid1"},' +
+				'{"name":"testNode3","id":"testid3","isBase":"false"}]';
+			var obj:Object = DataAnalyzer.analayzerData(str);
+			nodeDataProvider = obj.nodeList; 
+			linkDataProvider = obj.linkList;
+			performGraphLayout();
+			this.parentApplication.fn();
+		}
     }
 
 }
