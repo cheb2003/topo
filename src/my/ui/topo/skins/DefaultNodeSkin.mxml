@@ -128,6 +128,14 @@
                 Alert.show("click")
             }
 
+			protected function img_doubleClickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				if (hostComponent.isBase)
+					return;
+				hostComponent.topoGraph.removeAllNode();
+			}
+			
 		]]>
 	</fx:Script>
     <fx:Declarations>
@@ -169,7 +177,7 @@
     </s:states>
 
     <s:SpriteVisualElement id="sve" y="60"></s:SpriteVisualElement>
-    <s:Image
+    <s:Image doubleClickEnabled="true" doubleClick="img_doubleClickHandler(event)"
             source="{hostComponent.imageSource}" id="img" x="{-img.width/2}" y="{-img.height/2}" width="{this.width}" height="{this.height}"/>
     <s:Label id="label" text="test" x="{img.x}" y="{img.y+img.height+5}" width="{img.width}" textAlign="center" />
     <s:BorderContainer mouseOver="{bc.setStyle('backgroundColor',0x544E6C)}" mouseOut="{bc.setStyle('backgroundColor',0xffffff)}" click="bcClick()" id="bc" visible="false" includeInLayout="false" width="235" height="40" x="{img.x+img.width/2-this.width/2-30}" y="{img.y+img.height}"

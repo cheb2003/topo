@@ -35,6 +35,11 @@ package my.ui.topo.data
 			jsonStr2 = JSON.encode( jsonObj2 );  
 			trace( jsonStr2 );       
 		}
+		
+		public static function getNodeList():String{
+			return "";
+		}
+		
 		public static function analayzerData(str:String):Object{
 			var arr:Array = JSON.decode(str) as Array;
 			var nodeList:NodeList = new NodeList();

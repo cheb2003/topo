@@ -35,12 +35,20 @@ package my.ui.topo {
             addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler, false, 0, true);
         }
 
+//		private function doubleClickHandle(evt:MouseEvent):void
+//		{
+//			if (isBase)
+//				return;
+//			this.topoGraph.removeAllNode();
+//		}
 		
         private function mouseUpHandler(event:MouseEvent):void {
             event.stopPropagation();
             _isMouseDown = false;
-            stage.removeEventListener(MouseEvent.MOUSE_MOVE,mouseMoveHandler);
-            stage.removeEventListener(MouseEvent.MOUSE_UP,mouseMoveHandler)
+			if (stage){
+	            stage.removeEventListener(MouseEvent.MOUSE_MOVE,mouseMoveHandler);
+	            stage.removeEventListener(MouseEvent.MOUSE_UP,mouseMoveHandler)
+			}
         }
 
         private function rollOutHandler(event:MouseEvent):void {
