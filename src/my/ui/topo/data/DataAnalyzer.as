@@ -51,6 +51,7 @@ package my.ui.topo.data
 				obj.toString().length
 				var node:Node = new Node();
 				node.labelName = obj.name;
+				node.info = obj.info;
 				node.id = obj.id;
 				if (obj.isBase=="true")
 					node.isBase = true;

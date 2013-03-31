@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
-               xmlns:topo1="my.ui.topo.*" creationComplete="fn()" >
+               xmlns:topo1="my.ui.topo.*" creationComplete="fn()" preinitialize="pinit()" > 
     <fx:Script><![CDATA[
 		import mx.collections.ArrayCollection;
 		import mx.collections.ArrayList;
@@ -14,17 +14,15 @@
 		[Bindable]
 		public var links:ArrayCollection = null;
 		
-		/*private function pinit():void
+		public function pinit():void
 		{
-			var str:String = '[{"name":"testNode1","id":"testid1","isBase":"true","relatedNodeIds":"testid2,testid3"}' +
-				',{"name":"testNode2","id":"testid2","isBase":"false","relatedNodeIds":"testid1"},' +
-				'{"name":"testNode3","id":"testid3","isBase":"false"}]';
+			var str:String = '[{"name":"testNode1","info":"testNode2","id":"testid1","isBase":"true","relatedNodeIds":"testid2,testid3"},{"name":"testNode2","info":"testNode2","id":"testid2","isBase":"false","relatedNodeIds":"testid1"},{"name":"testNode3","info":"testNode3","id":"testid3","isBase":"false"},{"name":"testNode4","info":"testNode4","id":"testid4","isBase":"false"},{"name":"testNode5","info":"testNode5","id":"testid5","isBase":"false","relatedNodeIds":"testid8,testid9"},{"name":"testNode6","info":"testNode6","id":"testid6","isBase":"false"},{"name":"testNode7","info":"testNode7","id":"testid7","isBase":"false"},{"name":"testNode8","info":"testNode8","id":"testid8","isBase":"false"},{"name":"testNode9","info":"testNode9","id":"testid9","isBase":"false"},{"name":"testNode10","info":"testNode10","id":"testid10","isBase":"false"}]';
 			var obj:Object = DataAnalyzer.analayzerData(str);
 			nodes = obj.nodeList as ArrayCollection;
 			links = obj.linkList as ArrayCollection;
 			
-		}*/
-        private function fn():void{
+		}
+        public function fn():void{
            topo1.nodeLayout.performLayout();
         }
 		
@@ -75,7 +73,7 @@
         private function moveGraph(event:MouseEvent):void {
             var x:Number = 20 - event.localX
             var y:Number = 20 - event.localY
-            trace(x + ":" + y)
+//            trace(x + ":" + y)
             if(x < 0) {
                 x -= 15 * Math.abs(x/15)
             } else {
@@ -93,9 +91,9 @@
     <topo1:TopoGraph id="topo1" nodeDataProvider="{getNodes()}" linkDataProvider="{getLinks()}" backgroundColor="#ffffff"  width="100%" height="100%"/>
 
     <s:Image id="minImage" right="200" depth="{int.MAX_VALUE}" click="topo1.zoomOut()" bottom="40" source="{TopoGraph.min2}" useHandCursor="true" buttonMode="true"
-            mouseOver="{minImage.source = TopoGraph.min1}" mouseOut="{minImage.source = TopoGraph.min2}"/>
+            mouseOver="{minImage.source = TopoGraph.min1}" mouseOut="{minImage.source = TopoGraph.min2}" />
     <s:Image id="plusImage" right="170" depth="{int.MAX_VALUE}" click="topo1.zoomIn()" bottom="40" source="{TopoGraph.plus1}" useHandCursor="true" buttonMode="true"
-             mouseOver="{plusImage.source = TopoGraph.plus2}" mouseOut="{plusImage.source = TopoGraph.plus1}"/>
+             mouseOver="{plusImage.source = TopoGraph.plus2}" mouseOut="{plusImage.source = TopoGraph.plus1}" />
     <s:Image id="c" right="120" depth="{int.MAX_VALUE}" bottom="32" source="{TopoGraph.c1}" useHandCursor="true" buttonMode="true"
              mouseOver="{c.source = TopoGraph.c2;c1.source = TopoGraph.c13}" mouseOut="{c.source = TopoGraph.c1;c1.source = TopoGraph.c11}"
              mouseDown="moveGraph(event)"/>

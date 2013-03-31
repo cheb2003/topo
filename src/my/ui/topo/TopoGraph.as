@@ -80,57 +80,33 @@ package my.ui.topo {
 			this.addElement(g);
         }
 
+		public function zoomOut():void
+		{
+			if (g.scaleX>0.8){
+				g.scaleX = g.scaleX-0.1;
+				g.scaleY = g.scaleY-0.1;
+				
+				contentGroup.x = contentGroup.x + (contentGroup.width*0.1)/2+1;
+				contentGroup.y = contentGroup.y + (contentGroup.height*0.1)/2+1;
+			}
+		}
+		
+		public function zoomIn():void
+		{
+			if (g.scaleX<1.4){
+				g.scaleX = g.scaleX+0.1;
+				g.scaleY = g.scaleY+0.1;
+				
+				contentGroup.x = contentGroup.x - (contentGroup.width*0.1)/2-2;
+				contentGroup.y = contentGroup.y - (contentGroup.height*0.1)/2-3;
+			}
+		}
+		
         private function mouseWheelHandler(event:MouseEvent):void {
 			if (event.delta>0){
-				if (g.scaleX<1.4){
-                    /*var a:Animate = new Animate();
-                    a.targets = [contentGroup,g]
-                    var ve:Vector.<MotionPath> = new Vector.<MotionPath>();
-                    var cgSX:SimpleMotionPath;
-                    var cgSY:SimpleMotionPath;
-                    var gSX:SimpleMotionPath;
-                    var gSY:SimpleMotionPath;
-                    gSX = new SimpleMotionPath("scaleX",g.scaleX,g.scaleX + .1)
-                    gSY = new SimpleMotionPath("scaleY",g.scaleY,g.scaleY + .1)
-
-
-
-                    cgSX = new SimpleMotionPath("x",contentGroup.x,contentGroup.x - (contentGroup.width*0.1)/2)
-                    cgSY = new SimpleMotionPath("y",contentGroup.y,contentGroup.y - (contentGroup.height*0.1)/2)
-                    ve.push(cgSX, cgSY,gSX,gSY);
-                    a.motionPaths = ve;
-                    a.play()  */
-                    g.scaleX = g.scaleX+0.1;
-                    g.scaleY = g.scaleY+0.1;
-
-                    contentGroup.x = contentGroup.x - (contentGroup.width*0.1)/2;
-                    contentGroup.y = contentGroup.y - (contentGroup.height*0.1)/2;
-				}
+				zoomIn();
 			}else if (event.delta<0){
-				if (g.scaleX>0.8){
-                    /*var a:Animate = new Animate();
-                    a.targets = [contentGroup,g]
-                    var ve:Vector.<MotionPath> = new Vector.<MotionPath>();
-                    var cgSX:SimpleMotionPath;
-                    var cgSY:SimpleMotionPath;
-                    var gSX:SimpleMotionPath;
-                    var gSY:SimpleMotionPath;
-                    gSX = new SimpleMotionPath("scaleX",g.scaleX,g.scaleX - .1)
-                    gSY = new SimpleMotionPath("scaleY",g.scaleY,g.scaleY - .1)
-
-
-
-                    cgSX = new SimpleMotionPath("x",contentGroup.x,contentGroup.x + (contentGroup.width*0.1)/2)
-                    cgSY = new SimpleMotionPath("y",contentGroup.y,contentGroup.y + (contentGroup.height*0.1)/2)
-                    ve.push(cgSX, cgSY,gSX,gSY);
-                    a.motionPaths = ve;
-                    a.play()*/
-					g.scaleX = g.scaleX-0.1;
-					g.scaleY = g.scaleY-0.1;
-					
-					contentGroup.x = contentGroup.x + (contentGroup.width*0.1)/2;
-					contentGroup.y = contentGroup.y + (contentGroup.height*0.1)/2;
-				}
+				zoomOut();				
 			}
         }
 		
@@ -329,12 +305,6 @@ package my.ui.topo {
             a.motionPaths = ve;
             a.play()
         }
-        public function zoomIn():void{
-            //放大
-        }
-        public function zoomOut():void{
-            //缩小
-        }
 		
 		public function removeAllNode():void
 		{
@@ -369,9 +339,7 @@ package my.ui.topo {
 		
 		public function addNodes():void{
 //			this.parentApplication.pinit();
-			var str:String = '[{"name":"testNode1","id":"testid1","isBase":"true","relatedNodeIds":"testid2,testid3"}' +
-				',{"name":"testNode2","id":"testid2","isBase":"false","relatedNodeIds":"testid1"},' +
-				'{"name":"testNode3","id":"testid3","isBase":"false"}]';
+			var str:String = '[{"name":"testNode1","info":"testNode2","id":"testid1","isBase":"true","relatedNodeIds":"testid2,testid3"},{"name":"testNode2","info":"testNode2","id":"testid2","isBase":"false","relatedNodeIds":"testid1"},{"name":"testNode3","info":"testNode3","id":"testid3","isBase":"false"},{"name":"testNode4","info":"testNode4","id":"testid4","isBase":"false"},{"name":"testNode5","info":"testNode5","id":"testid5","isBase":"false","relatedNodeIds":"testid8,testid9"},{"name":"testNode6","info":"testNode6","id":"testid6","isBase":"false"},{"name":"testNode7","info":"testNode7","id":"testid7","isBase":"false"},{"name":"testNode8","info":"testNode8","id":"testid8","isBase":"false"},{"name":"testNode9","info":"testNode9","id":"testid9","isBase":"false"},{"name":"testNode10","info":"testNode10","id":"testid10","isBase":"false"}]';
 			var obj:Object = DataAnalyzer.analayzerData(str);
 			nodeDataProvider = obj.nodeList; 
 			linkDataProvider = obj.linkList;

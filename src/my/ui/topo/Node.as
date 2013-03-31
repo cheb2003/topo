@@ -27,7 +27,7 @@ package my.ui.topo {
         public var topoGraph:TopoGraph;
 		public var isBase:Boolean = false;
 		public var labelName:String = "";
-		
+		public var info:String = "";
         public function Node() {
         	super();
             setStyle("skinClass", DefaultNodeSkin);
