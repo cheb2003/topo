@@ -32,7 +32,25 @@ package my.ui.topo {
 	
     [SkinState("normal")]
     public class TopoGraph extends SkinnableContainer {
-		
+
+        [Embed('/my/ui/topo/asserts/min1.jpg')]
+        public static const min1:Class;
+        [Embed('/my/ui/topo/asserts/min2.jpg')]
+        public static const min2:Class;
+        [Embed('/my/ui/topo/asserts/plus1.jpg')]
+        public static const plus1:Class;
+        [Embed('/my/ui/topo/asserts/plus2.jpg')]
+        public static const plus2:Class;
+        [Embed('/my/ui/topo/asserts/c1.jpg')]
+        public static const c1:Class;
+        [Embed('/my/ui/topo/asserts/c2.jpg')]
+        public static const c2:Class;
+        [Embed('/my/ui/topo/asserts/c11.jpg')]
+        public static const c11:Class;
+        [Embed('/my/ui/topo/asserts/c12.jpg')]
+        public static const c12:Class;
+        [Embed('/my/ui/topo/asserts/c13.jpg')]
+        public static const c13:Class;
         [Bindable]
         private var _nodeDataProvider:ArrayCollection;
         private var _nodeDataProviderChange:Boolean;
@@ -62,14 +80,48 @@ package my.ui.topo {
         private function mouseWheelHandler(event:MouseEvent):void {
 			if (event.delta>0){
 				if (g.scaleX<1.4){
-					g.scaleX = g.scaleX+0.1;
-					g.scaleY = g.scaleY+0.1;
-					
-					contentGroup.x = contentGroup.x - (contentGroup.width*0.1)/2;
-					contentGroup.y = contentGroup.y - (contentGroup.height*0.1)/2;
+                    /*var a:Animate = new Animate();
+                    a.targets = [contentGroup,g]
+                    var ve:Vector.<MotionPath> = new Vector.<MotionPath>();
+                    var cgSX:SimpleMotionPath;
+                    var cgSY:SimpleMotionPath;
+                    var gSX:SimpleMotionPath;
+                    var gSY:SimpleMotionPath;
+                    gSX = new SimpleMotionPath("scaleX",g.scaleX,g.scaleX + .1)
+                    gSY = new SimpleMotionPath("scaleY",g.scaleY,g.scaleY + .1)
+
+
+
+                    cgSX = new SimpleMotionPath("x",contentGroup.x,contentGroup.x - (contentGroup.width*0.1)/2)
+                    cgSY = new SimpleMotionPath("y",contentGroup.y,contentGroup.y - (contentGroup.height*0.1)/2)
+                    ve.push(cgSX, cgSY,gSX,gSY);
+                    a.motionPaths = ve;
+                    a.play()  */
+                    g.scaleX = g.scaleX+0.1;
+                    g.scaleY = g.scaleY+0.1;
+
+                    contentGroup.x = contentGroup.x - (contentGroup.width*0.1)/2;
+                    contentGroup.y = contentGroup.y - (contentGroup.height*0.1)/2;
 				}
 			}else if (event.delta<0){
 				if (g.scaleX>0.8){
+                    /*var a:Animate = new Animate();
+                    a.targets = [contentGroup,g]
+                    var ve:Vector.<MotionPath> = new Vector.<MotionPath>();
+                    var cgSX:SimpleMotionPath;
+                    var cgSY:SimpleMotionPath;
+                    var gSX:SimpleMotionPath;
+                    var gSY:SimpleMotionPath;
+                    gSX = new SimpleMotionPath("scaleX",g.scaleX,g.scaleX - .1)
+                    gSY = new SimpleMotionPath("scaleY",g.scaleY,g.scaleY - .1)
+
+
+
+                    cgSX = new SimpleMotionPath("x",contentGroup.x,contentGroup.x + (contentGroup.width*0.1)/2)
+                    cgSY = new SimpleMotionPath("y",contentGroup.y,contentGroup.y + (contentGroup.height*0.1)/2)
+                    ve.push(cgSX, cgSY,gSX,gSY);
+                    a.motionPaths = ve;
+                    a.play()*/
 					g.scaleX = g.scaleX-0.1;
 					g.scaleY = g.scaleY-0.1;
 					
@@ -186,6 +238,17 @@ package my.ui.topo {
             _lastMovePoint.y = event.stageY;
         }
 
+        public function moveBy(x:Number,y:Number):void{
+            var a:Animate = new Animate(contentGroup);
+            var ve:Vector.<MotionPath> = new Vector.<MotionPath>();
+            var cgX:SimpleMotionPath;
+            var cgY:SimpleMotionPath;
+            cgX = new SimpleMotionPath("x",contentGroup.x,contentGroup.x + x)
+            cgY = new SimpleMotionPath("y",contentGroup.y,contentGroup.y + y)
+            ve.push(cgX, cgY);
+            a.motionPaths = ve;
+            a.play()
+        }
 		public function get selectedNode():Node
 		{
 			return _selectedNode;
@@ -286,6 +349,12 @@ package my.ui.topo {
             ve.push(aSX, aSY);
             a.motionPaths = ve;
             a.play()
+        }
+        public function zoomIn():void{
+            //放大
+        }
+        public function zoomOut():void{
+            //缩小
         }
     }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
-               xmlns:topo1="my.ui.topo.*" creationComplete="fn()" preinitialize="pinit()" >
+               xmlns:topo1="my.ui.topo.*" creationComplete="fn()" >
     <fx:Script><![CDATA[
 		import mx.collections.ArrayCollection;
 		import mx.collections.ArrayList;
@@ -14,7 +14,7 @@
 		[Bindable]
 		public var links:ArrayCollection = null;
 		
-		private function pinit():void
+		/*private function pinit():void
 		{
 			var str:String = '[{"name":"testNode1","id":"testid1","isBase":"true","relatedNodeIds":"testid2,testid3"}' +
 				',{"name":"testNode2","id":"testid2","isBase":"false","relatedNodeIds":"testid1"},' +
@@ -23,7 +23,7 @@
 			nodes = obj.nodeList as ArrayCollection;
 			links = obj.linkList as ArrayCollection;
 			
-		}
+		}*/
         private function fn():void{
            topo1.nodeLayout.performLayout();
         }
@@ -71,12 +71,35 @@
 			links.addItem(link1);
 			return links;
 		}
-        private function click():void {
-            topo1.fit()
+
+        private function moveGraph(event:MouseEvent):void {
+            var x:Number = 20 - event.localX
+            var y:Number = 20 - event.localY
+            trace(x + ":" + y)
+            if(x < 0) {
+                x -= 15 * Math.abs(x/15)
+            } else {
+                x += 15 * Math.abs(x/15);
+            }
+            if(y < 0) {
+                y -= 15 * Math.abs(y/15)
+            } else {
+                y += 15 * Math.abs(y/15)
+            }
+            topo1.moveBy(x, y)
         }
         ]]></fx:Script>
 
     <topo1:TopoGraph id="topo1" nodeDataProvider="{getNodes()}" linkDataProvider="{getLinks()}" backgroundColor="#ffffff"  width="100%" height="100%"/>
-    <s:Button label="fit" click="click()"/>
+
+    <s:Image id="minImage" right="200" depth="{int.MAX_VALUE}" click="topo1.zoomOut()" bottom="40" source="{TopoGraph.min2}" useHandCursor="true" buttonMode="true"
+            mouseOver="{minImage.source = TopoGraph.min1}" mouseOut="{minImage.source = TopoGraph.min2}"/>
+    <s:Image id="plusImage" right="170" depth="{int.MAX_VALUE}" click="topo1.zoomIn()" bottom="40" source="{TopoGraph.plus1}" useHandCursor="true" buttonMode="true"
+             mouseOver="{plusImage.source = TopoGraph.plus2}" mouseOut="{plusImage.source = TopoGraph.plus1}"/>
+    <s:Image id="c" right="120" depth="{int.MAX_VALUE}" bottom="32" source="{TopoGraph.c1}" useHandCursor="true" buttonMode="true"
+             mouseOver="{c.source = TopoGraph.c2;c1.source = TopoGraph.c13}" mouseOut="{c.source = TopoGraph.c1;c1.source = TopoGraph.c11}"
+             mouseDown="moveGraph(event)"/>
+    <s:Image id="c1" right="131 " depth="{int.MAX_VALUE}" bottom="43" source="{TopoGraph.c11}" useHandCursor="true" buttonMode="true"
+             mouseOver="{c1.source = TopoGraph.c12}" mouseOut="{c1.source = TopoGraph.c13}" click="topo1.fit()"/>
     
 </s:Application>
