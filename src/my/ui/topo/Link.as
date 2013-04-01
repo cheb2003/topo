@@ -22,6 +22,8 @@ package my.ui.topo
 		private var _isMouseOver:Boolean;
 		private var _shapeType:String;
 		public var linkName:String = "";
+        public var linkInfo:String = "";
+        public var label:String = "";
 		
 		public function Link()
 		{

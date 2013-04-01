@@ -22,7 +22,9 @@ package my.ui.topo
 		/**半径*/
 		private var _radius:Number = 10;
 		
-		private var _label:String = "8";
+		private var _label:String = "1";
+        public var linkName:String = "";
+        public var linkInfo:String = "";
 		
 		private var _mouseOverFlag:Boolean = false;
 		public var linkLine:LinkLine;

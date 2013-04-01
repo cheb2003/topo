@@ -13,6 +13,8 @@ package my.ui.topo
 	{
 		public var linkLine:LinkLine;
 		private var _mouseOver:Boolean;
+        public var linkName:String = "";
+        public var linkInfo:String = "";
 		
 		public function LinkTip()
 		{
