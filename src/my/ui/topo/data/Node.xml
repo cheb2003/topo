@@ -1,0 +1,9 @@
+<nodes>
+	<node>
+         <labelName>节点名称</labelName>
+         <isBase>是否中心节点</isBase>
+         <info>提示框信息</info>
+         <id>节点id</id>
+         <imageUrl>图片链接</imageUrl>
+     </node>
+</nodes>

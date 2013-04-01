@@ -14,9 +14,12 @@ package my.ui.topo {
     import flash.geom.Matrix;
     import flash.geom.Point;
     import flash.geom.Rectangle;
+    import flash.net.URLVariables;
     
     import mx.collections.ArrayCollection;
     import mx.messaging.errors.NoChannelAvailableError;
+    import mx.rpc.events.ResultEvent;
+    import mx.rpc.http.HTTPService;
     
     import my.ui.topo.data.DataAnalyzer;
     import my.ui.topo.event.AdjustComplateEvent;
@@ -70,17 +73,34 @@ package my.ui.topo {
 		/**当前选中节点*/
 		private var _selectedNode:Node;
 		private var g:Group = new Group();
-				
+		private var SERVICE_URL:String = "";
+		
         public function TopoGraph() {
             super();
             setStyle("skinClass", DefaultTopoSkin);
 			callLater(performGraphLayout);
             addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler, false, 0, true);
-            addEventListener(MouseEvent.MOUSE_WHEEL,mouseWheelHandler,false,0,true)
+            addEventListener(MouseEvent.MOUSE_WHEEL,mouseWheelHandler,false,0,true);
 			addEventListener(AdjustComplateEvent.NODE_ADJUST_COMPLATE,addLinks,false,0,true);
+			service.url = SERVICE_URL;
 			this.addElement(g);
         }
 
+		private function loadData(id:String):void{
+			service.addEventListener(ResultEvent.RESULT,loadComplateHandle);
+			var params:URLVariables = new URLVariables();
+			params.nodeId = encodeURIComponent(id);
+			service.send(params);
+		}
+		
+		private function loadComplateHandle(evt:ResultEvent):void{
+			var data:Object = evt.result;
+
+			nodeDataProvider = DataAnalyzer.getNodeList(data.nodeList.toString());
+			linkDataProvider = DataAnalyzer.getLinkList(data.linkList.toString(), nodeDataProvider.toArray());
+			performGraphLayout();
+		}
+		
 		public function zoomOut():void
 		{
 			if (g.scaleX>0.8){
@@ -90,7 +110,6 @@ package my.ui.topo {
 				trans.translate(width/2, height/2);
 				g.transform.matrix = trans;
 			}
-			
 		}
 		
 		public function zoomIn():void
@@ -308,7 +327,7 @@ package my.ui.topo {
             a.play()
         }
 		
-		public function removeAllNode():void
+		public function removeAllNode(id:String):void
 		{
 			var p:Point = getCenterPoint();
 			for (var j:int=0; j<linkDataProvider.length; j++){
@@ -336,17 +355,21 @@ package my.ui.topo {
 				}
 			}
 			
-			addNodes();
+			addNodes(id);
 		}
 		
-		public function addNodes():void{
+		private var service:HTTPService = new HTTPService();
+		
+		public function addNodes(id:String):void{
+			loadData(id);
 //			this.parentApplication.pinit();
-			var str:String = '[{"name":"testNode1","info":"testNode2","id":"testid1","isBase":"true","relatedNodeIds":"testid2,testid3"},{"name":"testNode2","info":"testNode2","id":"testid2","isBase":"false","relatedNodeIds":"testid1"},{"name":"testNode3","info":"testNode3","id":"testid3","isBase":"false"},{"name":"testNode4","info":"testNode4","id":"testid4","isBase":"false"},{"name":"testNode5","info":"testNode5","id":"testid5","isBase":"false","relatedNodeIds":"testid8,testid9"},{"name":"testNode6","info":"testNode6","id":"testid6","isBase":"false"},{"name":"testNode7","info":"testNode7","id":"testid7","isBase":"false"},{"name":"testNode8","info":"testNode8","id":"testid8","isBase":"false"},{"name":"testNode9","info":"testNode9","id":"testid9","isBase":"false"},{"name":"testNode10","info":"testNode10","id":"testid10","isBase":"false"}]';
-			var obj:Object = DataAnalyzer.analayzerData(str);
-			nodeDataProvider = obj.nodeList; 
-			linkDataProvider = obj.linkList;
-			performGraphLayout();
-			this.parentApplication.fn();
+//			DataAnalyzer.loadData(id);
+//			var str:String = '[{"name":"testNode1","info":"testNode2","id":"testid1","isBase":"true","relatedNodeIds":"testid2,testid3"},{"name":"testNode2","info":"testNode2","id":"testid2","isBase":"false","relatedNodeIds":"testid1"},{"name":"testNode3","info":"testNode3","id":"testid3","isBase":"false"},{"name":"testNode4","info":"testNode4","id":"testid4","isBase":"false"},{"name":"testNode5","info":"testNode5","id":"testid5","isBase":"false","relatedNodeIds":"testid8,testid9"},{"name":"testNode6","info":"testNode6","id":"testid6","isBase":"false"},{"name":"testNode7","info":"testNode7","id":"testid7","isBase":"false"},{"name":"testNode8","info":"testNode8","id":"testid8","isBase":"false"},{"name":"testNode9","info":"testNode9","id":"testid9","isBase":"false"},{"name":"testNode10","info":"testNode10","id":"testid10","isBase":"false"}]';
+//			var obj:Object = DataAnalyzer.analayzerData(str);
+//			nodeDataProvider = obj.nodeList; 
+//			linkDataProvider = obj.linkList;
+//			performGraphLayout();
+//			this.parentApplication.fn();
 		}
     }
 

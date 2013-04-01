@@ -17,7 +17,10 @@
 			private var arr:Array = new Array();
             private const spr1:Sprite = new Sprite();
             private function init():void {
-				arr.push(glow);
+				if(hostComponent.isBase)
+					arr.push(baseGlow);
+				else
+					arr.push(glow);
 				img.filters = arr;
                 addEventListener(MouseEvent.MOUSE_MOVE,mouseMoveHandler)
                 //sve.addEventListener(MouseEvent.ROLL_OVER, rollOverHandler, false, 0, true);
@@ -133,12 +136,23 @@
 				// TODO Auto-generated method stub
 				if (hostComponent.isBase)
 					return;
-				hostComponent.topoGraph.removeAllNode();
+				hostComponent.topoGraph.removeAllNode(hostComponent.id);
 			}
 			
 		]]>
 	</fx:Script>
     <fx:Declarations>
+		<s:GradientGlowFilter id="baseGlow" 
+							  blurX="30" blurY="30"
+							  quality="{BitmapFilterQuality.HIGH}"
+							  type="{BitmapFilterType.OUTER}" 
+							  knockout="false">
+			<s:entries>
+				<s:GradientEntry alpha="0" color="0xFF0000" ratio="0"/>
+				<s:GradientEntry alpha="0.8" color="0xFF0000" ratio="128"/>
+				<s:GradientEntry alpha="0.8" color="0xFF0000" ratio="255"/>
+			</s:entries>
+		</s:GradientGlowFilter>
 		<s:GradientGlowFilter id="glow" 
 				  blurX="30" blurY="30"
 				  quality="{BitmapFilterQuality.HIGH}"

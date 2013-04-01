@@ -1,0 +1,10 @@
+<links>
+    <link>
+        <label>线中间圆圈里显示的数字</label>
+        <id>线的id</id>
+        <startNode>startNodeId</startNode>
+        <endNode>endNodeId</endNode>
+        <linkName>提示框显示名称</linkName>
+        <linkInfo>提示框信息</linkInfo>
+    </link>
+</links>
