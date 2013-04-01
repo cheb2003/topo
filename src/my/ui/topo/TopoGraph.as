@@ -11,6 +11,7 @@ package my.ui.topo {
     import flash.display.DisplayObject;
     import flash.display.DisplayObjectContainer;
     import flash.events.MouseEvent;
+    import flash.geom.Matrix;
     import flash.geom.Point;
     import flash.geom.Rectangle;
     
@@ -83,22 +84,23 @@ package my.ui.topo {
 		public function zoomOut():void
 		{
 			if (g.scaleX>0.8){
-				g.scaleX = g.scaleX-0.1;
-				g.scaleY = g.scaleY-0.1;
-				
-				contentGroup.x = contentGroup.x + (contentGroup.width*0.1)/2+1;
-				contentGroup.y = contentGroup.y + (contentGroup.height*0.1)/2+1;
+				var trans:Matrix = new Matrix();
+				trans.translate(-(width/2), -(height/2));
+				trans.scale(g.scaleX-0.1,g.scaleY-0.1); 
+				trans.translate(width/2, height/2);
+				g.transform.matrix = trans;
 			}
+			
 		}
 		
 		public function zoomIn():void
 		{
 			if (g.scaleX<1.4){
-				g.scaleX = g.scaleX+0.1;
-				g.scaleY = g.scaleY+0.1;
-				
-				contentGroup.x = contentGroup.x - (contentGroup.width*0.1)/2-2;
-				contentGroup.y = contentGroup.y - (contentGroup.height*0.1)/2-3;
+				var trans:Matrix = new Matrix();
+				trans.translate(-(width/2), -(height/2));
+				trans.scale(g.scaleX+0.1,g.scaleY+0.1); 
+				trans.translate(width/2, height/2);
+				g.transform.matrix = trans;
 			}
 		}
 		
