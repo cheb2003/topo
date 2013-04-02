@@ -159,6 +159,8 @@ package my.ui.topo {
 				var node:Node = Node(nodeDataProvider.getItemAt(i));
 				var p:Point = RandomFactory.getRandomPoint(new Rectangle(0,0,totalWidth,totalHeight));
 				g.addElement(node);
+				if (node.isBase)
+					node.depth = int.MAX_VALUE;
 				node.x = p.x;
 				node.y = p.y;
 			}
