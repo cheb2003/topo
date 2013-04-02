@@ -353,14 +353,14 @@ package my.ui.topo {
 				}
 				if (node.x <= p.x){
 					if (node.y <= p.y)
-						moveOut(node,this.x,this.y,i==nodeDataProvider.length-1)
+						moveOut(node,this.x-node.width,this.y-node.height,i==nodeDataProvider.length-1)
 					else
-						moveOut(node,this.x, this.y+this.height,i==nodeDataProvider.length-1);
+						moveOut(node,this.x-node.width, this.y+this.height+node.height,i==nodeDataProvider.length-1);
 				}else{
 					if (node.y <= p.y)
-						moveOut(node, this.x+this.width, this.y,i==nodeDataProvider.length-1);
+						moveOut(node, this.x+this.width+node.width, this.y-node.height,i==nodeDataProvider.length-1);
 					else
-						moveOut(node, this.x+this.width,this.y+this.height,i==nodeDataProvider.length-1);
+						moveOut(node, this.x+this.width+node.width,this.y+this.height+node.height,i==nodeDataProvider.length-1);
 				}
 			}
 		}
