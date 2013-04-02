@@ -323,8 +323,13 @@ package my.ui.topo {
 		}
 
         public function fit():void{
-			g.scaleX = 1;
-			g.scaleY = 1;
+//			g.scaleX = 1;
+//			g.scaleY = 1;
+			var trans:Matrix = new Matrix();
+			trans.translate(-(width/2), -(height/2));
+			trans.scale(1,1); 
+			trans.translate(width/2, height/2);
+			g.transform.matrix = trans;
             var a:Animate = new Animate(contentGroup);
             var ve:Vector.<MotionPath> = new Vector.<MotionPath>();
             var aSX:SimpleMotionPath;
