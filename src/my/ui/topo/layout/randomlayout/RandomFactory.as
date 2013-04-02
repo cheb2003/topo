@@ -18,8 +18,10 @@ package my.ui.topo.layout.randomlayout
 			return new Point(getRandomNumber(rect.topLeft.x, rect.bottomRight.x),getRandomNumber(rect.topLeft.y, rect.bottomRight.y));
 		}
 		
-		public static function getRandomPointList(num:int,distance:Number,rect:Rectangle,offset:uint=0):ArrayList{
+		public static function getRandomPointList(num:int,distance:Number,rect:Rectangle,offset:uint=0,basePoint:Point=null):ArrayList{
 			var arr:ArrayList = new ArrayList();
+			if (basePoint)
+				arr.addItem(basePoint);
 			while (arr.length<num){
 				var p:Point = getRandomPoint(rect);
 				checkRepeatArray(arr,p,distance,offset);

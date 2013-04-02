@@ -377,6 +377,16 @@ package my.ui.topo {
 			}else
 				loadData(id);
 		}
+		
+		public function getBasePoint():Point{
+			for (var i:int=0; i<nodeDataProvider.length; i++){
+				var node:Node = nodeDataProvider.getItemAt(i) as Node;
+				if (node.isBase){
+					return getCenterPoint();
+				}
+			}
+			return null;
+		}
     }
 
 }
