@@ -23,7 +23,6 @@
 					arr.push(glow);
 				img.filters = arr;
                 addEventListener(MouseEvent.MOUSE_MOVE,mouseMoveHandler)
-                //sve.addEventListener(MouseEvent.ROLL_OVER, rollOverHandler, false, 0, true);
                 addEventListener(MouseEvent.ROLL_OUT, rollOutHandler, false, 0, true);
                 spr1.graphics.beginFill(0xffffff, 0);
                 spr1.graphics.drawRect(-35, -30, 75, 30);
@@ -133,8 +132,7 @@
 
 			protected function img_doubleClickHandler(event:MouseEvent):void
 			{
-				// TODO Auto-generated method stub
-				if (hostComponent.isBase)
+				if (hostComponent.isBase || hostComponent.isClick==0)
 					return;
 				hostComponent.topoGraph.removeAllNode(hostComponent.id);
 			}
