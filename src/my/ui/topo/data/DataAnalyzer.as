@@ -51,10 +51,15 @@ package my.ui.topo.data
 				var link:Link = new Link();
 				link.startNode = getNodeById(nodeList,obj.startNode);
 				link.endNode = getNodeById(nodeList,obj.endNode);
+<<<<<<< HEAD
 				if (obj.linkName==null || obj.linkName.toString().length<1)
 					link.linkName = getLineName(link.startNode.labelName, link.endNode.labelName);
 				link.label = obj.label;
 				link.linkInfo = obj.linkInfo;
+=======
+				link.linkName = getLineName(link.startNode.labelName, link.endNode.labelName);
+                link.linkInfo = obj.linkInfo;
+>>>>>>> f7f048e562c7b219ccabdef57ac6ee43297f3b05
 				result.addItem(link);
 			}
 			return new ArrayCollection(result.toArray());
