@@ -1,0 +1,24 @@
+<nodes>
+    <node>
+        <labelName>节点名称</labelName>
+        <isBase>是否中心节点</isBase>
+        <info>提示框信息</info>
+        <id>节点id</id>
+        <imageUrl>图片链接</imageUrl>
+    </node>
+</nodes>
+
+<links>
+    <link>
+        <label>线中间圆圈里显示的数字</label>
+        <id>线的id</id>
+        <startNode>startNodeId</startNode>
+        <endNode>endNodeId</endNode>
+        <linkName>提示框显示名称</linkName>
+        <linkInfo>提示框信息</linkInfo>
+    </link>
+</links>
+
+node中新添两个属性：
+<rid>系统id</rid>
+<isClick>是否可点击后切换为中心节点，0：不可点，1：可点</isClick>
