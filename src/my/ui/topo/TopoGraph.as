@@ -80,6 +80,8 @@ import mx.collections.ArrayCollection;
 		private var _selectedNode:Node;
 		private var g:Group = new Group();
 		private var SERVICE_URL:String = "";
+        //是否开启拖拽模式
+        public var isMoving:Boolean = false;
 		
         public function TopoGraph() {
             super();

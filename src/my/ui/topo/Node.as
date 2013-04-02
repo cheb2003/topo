@@ -35,11 +35,22 @@ package my.ui.topo {
         	super();
             setStyle("skinClass", DefaultNodeSkin);
             addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler, false, 0, true);
+            addEventListener(MouseEvent.MOUSE_OVER, mouseOverHandler, false, 0, true);
+        }
+
+        private function mouseOverHandler(event:MouseEvent):void{
+            //悬停的时候将画布选择节点置为本身，以便Node Tip能置顶显示
+            if(!_isMouseDown){
+                event.stopPropagation();
+                if(!topoGraph.isMoving)
+                    topoGraph.selectedNode = this;
+            }
         }
 
         private function mouseUpHandler(event:MouseEvent):void {
             event.stopPropagation();
             _isMouseDown = false;
+            topoGraph.isMoving = false;
 			if (stage){
 	            stage.removeEventListener(MouseEvent.MOUSE_MOVE,mouseMoveHandler);
 	            stage.removeEventListener(MouseEvent.MOUSE_UP,mouseMoveHandler)
@@ -74,6 +85,7 @@ package my.ui.topo {
 
         private function mouseDownHandler(event:MouseEvent):void {
             event.stopPropagation();
+            topoGraph.isMoving = true;
             _isMouseDown = true;
             topoGraph.selectedNode = this;
             stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler, false, 0, true);
