@@ -77,6 +77,7 @@ package my.ui.topo.data
 				link.startNode = getNodeById(nodeList,obj.startNode);
 				link.endNode = getNodeById(nodeList,obj.endNode);
 				link.linkName = getLineName(link.startNode.labelName, link.endNode.labelName);
+                link.linkInfo = obj.linkInfo;
 				result.addItem(link);
 			}
 			return new ArrayCollection(result.toArray());
