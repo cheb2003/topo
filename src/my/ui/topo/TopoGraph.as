@@ -7,6 +7,8 @@
  */
 package my.ui.topo {
     import com.greensock.TweenLite;
+    import com.greensock.events.TweenEvent;
+    import com.greensock.plugins.OnChangeRatioPlugin;
     
     import flash.display.DisplayObject;
     import flash.display.DisplayObjectContainer;
@@ -24,6 +26,7 @@ import mx.collections.ArrayCollection;
     import mx.rpc.http.HTTPService;
     
     import my.ui.topo.data.DataAnalyzer;
+    import my.ui.topo.data.TestData;
     import my.ui.topo.event.AdjustComplateEvent;
     import my.ui.topo.layout.GraphLayout;
     import my.ui.topo.layout.basic.StraightLayout;
@@ -89,7 +92,7 @@ import mx.collections.ArrayCollection;
 			this.addElement(g);
         }
 
-		private function loadData(id:String):void{
+		public function loadData(id:String):void{
 			service.addEventListener(ResultEvent.RESULT,loadComplateHandle);
 			var params:URLVariables = new URLVariables();
 			params.nodeId = encodeURIComponent(id);
@@ -159,6 +162,8 @@ import mx.collections.ArrayCollection;
 				var node:Node = Node(nodeDataProvider.getItemAt(i));
 				var p:Point = RandomFactory.getRandomPoint(new Rectangle(0,0,totalWidth,totalHeight));
 				g.addElement(node);
+				if (node.isBase)
+					node.depth = int.MAX_VALUE;
 				node.x = p.x;
 				node.y = p.y;
 			}
@@ -190,12 +195,18 @@ import mx.collections.ArrayCollection;
 			TweenLite.to(node,1.5,{x:nodeX,y:nodeY});
 		}
 		
-		public function moveOut(node:Node, nodeX:Number, nodeY:Number):void
+		public function moveOut(node:Node, nodeX:Number, nodeY:Number, isLast:Boolean):void
 		{
-			TweenLite.to(node,1.5,{x:nodeX,y:nodeY});
-			g.removeElement(node);
+			TweenLite.to(node,1.5,{x:nodeX,y:nodeY,onComplete:testFuncabc,onCompleteParams:[node,isLast]});
+//			g.removeElement(node);
 		}
 		
+		private function testFuncabc(node:Node, isLast:Boolean):void
+		{
+			g.removeElement(node);
+			if (isLast)
+				addNodes("");
+		}
 		/**
 		 * 将node移动到顶层
 		 */ 
@@ -326,8 +337,13 @@ import mx.collections.ArrayCollection;
 		}
 
         public function fit():void{
-			g.scaleX = 1;
-			g.scaleY = 1;
+//			g.scaleX = 1;
+//			g.scaleY = 1;
+			var trans:Matrix = new Matrix();
+			trans.translate(-(width/2), -(height/2));
+			trans.scale(1,1); 
+			trans.translate(width/2, height/2);
+			g.transform.matrix = trans;
             var a:Animate = new Animate(contentGroup);
             var ve:Vector.<MotionPath> = new Vector.<MotionPath>();
             var aSX:SimpleMotionPath;
@@ -356,32 +372,39 @@ import mx.collections.ArrayCollection;
 				}
 				if (node.x <= p.x){
 					if (node.y <= p.y)
-						moveOut(node,this.x,this.y)
+						moveOut(node,this.x-node.width,this.y-node.height,i==nodeDataProvider.length-1)
 					else
-						moveOut(node,this.x, this.y+this.height);
+						moveOut(node,this.x-node.width, this.y+this.height+node.height,i==nodeDataProvider.length-1);
 				}else{
 					if (node.y <= p.y)
-						moveOut(node, this.x+this.width, this.y);
+						moveOut(node, this.x+this.width+node.width, this.y-node.height,i==nodeDataProvider.length-1);
 					else
-						moveOut(node, this.x+this.width,this.y+this.height);
+						moveOut(node, this.x+this.width+node.width,this.y+this.height+node.height,i==nodeDataProvider.length-1);
 				}
 			}
-			
-			addNodes(id);
 		}
 		
 		private var service:HTTPService = new HTTPService();
 		
 		public function addNodes(id:String):void{
-			loadData(id);
-//			this.parentApplication.pinit();
-//			DataAnalyzer.loadData(id);
-//			var str:String = '[{"name":"testNode1","info":"testNode2","id":"testid1","isBase":"true","relatedNodeIds":"testid2,testid3"},{"name":"testNode2","info":"testNode2","id":"testid2","isBase":"false","relatedNodeIds":"testid1"},{"name":"testNode3","info":"testNode3","id":"testid3","isBase":"false"},{"name":"testNode4","info":"testNode4","id":"testid4","isBase":"false"},{"name":"testNode5","info":"testNode5","id":"testid5","isBase":"false","relatedNodeIds":"testid8,testid9"},{"name":"testNode6","info":"testNode6","id":"testid6","isBase":"false"},{"name":"testNode7","info":"testNode7","id":"testid7","isBase":"false"},{"name":"testNode8","info":"testNode8","id":"testid8","isBase":"false"},{"name":"testNode9","info":"testNode9","id":"testid9","isBase":"false"},{"name":"testNode10","info":"testNode10","id":"testid10","isBase":"false"}]';
-//			var obj:Object = DataAnalyzer.analayzerData(str);
-//			nodeDataProvider = obj.nodeList; 
-//			linkDataProvider = obj.linkList;
-//			performGraphLayout();
-//			this.parentApplication.fn();
+			if (this.parentApplication.isTest)
+			{
+				nodeDataProvider = DataAnalyzer.getNodeList(TestData.testNodeJsonStr);
+				linkDataProvider = DataAnalyzer.getLinkList(TestData.testLinkJsonStr,nodeDataProvider.toArray());
+				performGraphLayout();
+				this.parentApplication.fn();
+			}else
+				loadData(id);
+		}
+		
+		public function getBasePoint():Point{
+			for (var i:int=0; i<nodeDataProvider.length; i++){
+				var node:Node = nodeDataProvider.getItemAt(i) as Node;
+				if (node.isBase){
+					return getCenterPoint();
+				}
+			}
+			return null;
 		}
     }
 

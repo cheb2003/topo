@@ -8,75 +8,31 @@
 		import my.ui.topo.Link;
 		import my.ui.topo.Node;
 		import my.ui.topo.data.DataAnalyzer;
+		import my.ui.topo.data.TestData;
 
 		[Bindable]
 		public var nodes:ArrayCollection = null;
 		[Bindable]
 		public var links:ArrayCollection = null;
-		
+		public var isTest:Boolean = true;
 		public function pinit():void
 		{
-			var nodeStr:String = '[{"name":"testNode1","info":"testNode2","id":"testid1","isBase":"true"},{"name":"testNode2","info":"testNode2","id":"testid2","isBase":"false"},{"name":"testNode3","info":"testNode3","id":"testid3","isBase":"false"},{"name":"testNode4","info":"testNode4","id":"testid4","isBase":"false"},{"name":"testNode5","info":"testNode5","id":"testid5","isBase":"false"},{"name":"testNode6","info":"testNode6","id":"testid6","isBase":"false"},{"name":"testNode7","info":"testNode7","id":"testid7","isBase":"false"},{"name":"testNode8","info":"testNode8","id":"testid8","isBase":"false"},{"name":"testNode9","info":"testNode9","id":"testid9","isBase":"false"},{"name":"testNode10","info":"testNode10","id":"testid10","isBase":"false"}]';
-			var linkStr:String = '[{"label":"label1","startNode":"testid1","id":"testid1","endNode":"testid2","linkName":"testLinkName","linkInfo":"testLinkInfo"},{"label":"label2","startNode":"testid1","id":"testid2","endNode":"testid3","linkName":"testLinkName","linkInfo":"testLinkInfo"}]';
-			nodes = DataAnalyzer.getNodeList(nodeStr);
-			links = DataAnalyzer.getLinkList(linkStr,nodes.toArray());
-//			var obj:Object = DataAnalyzer.analayzerData(str);
-//			nodes = obj.nodeList as ArrayCollection;
-//			links = obj.linkList as ArrayCollection;
-			
+			if (isTest)
+			{
+				nodes = DataAnalyzer.getNodeList(TestData.testNodeJsonStr);
+				links = DataAnalyzer.getLinkList(TestData.testLinkJsonStr,nodes.toArray());
+			}else{
+				topo1.addNodes("");
+			}
 		}
         public function fn():void{
            topo1.nodeLayout.performLayout();
         }
 		
-		public function getNodes():ArrayCollection{
-			if (nodes!=null)
-				return nodes;
-			nodes = new ArrayCollection();
-			var node:Node = new Node();
-//			node.x = 100;
-//			node.y = 100;
-			nodes.addItem(node);
-
-            var node1:Node = new Node();
-//            node1.x = 500;
-//            node1.y = 200;
-            nodes.addItem(node1);
-			
-			nodes.addItem(new Node());
-			nodes.addItem(new Node());
-			nodes.addItem(new Node());
-			nodes.addItem(new Node());
-			nodes.addItem(new Node());
-			nodes.addItem(new Node());
-			nodes.addItem(new Node());
-			nodes.addItem(new Node());
-			
-			return nodes;
-		}
-
-		public function getLinks():ArrayCollection{
-            if(links != null) {
-                return links;
-            }
-			links = new ArrayCollection();
-			var link:Link = new Link();
-			link.startNode = Node(nodes.getItemAt(0));
-			link.endNode = Node(nodes.getItemAt(1));
-			links.addItem(link);
-			
-			var link1:Link = new Link();
-			link1.startNode = Node(nodes.getItemAt(1));
-			link1.endNode = Node(nodes.getItemAt(2));
-			link1.isDirectRelation = true;
-			links.addItem(link1);
-			return links;
-		}
 
         private function moveGraph(event:MouseEvent):void {
             var x:Number = 20 - event.localX
             var y:Number = 20 - event.localY
-//            trace(x + ":" + y)
             if(x < 0) {
                 x -= 15 * Math.abs(x/15)
             } else {
@@ -91,7 +47,7 @@
         }
         ]]></fx:Script>
 
-    <topo1:TopoGraph id="topo1" nodeDataProvider="{getNodes()}" linkDataProvider="{getLinks()}" backgroundColor="#ffffff"  width="100%" height="100%"/>
+    <topo1:TopoGraph id="topo1" nodeDataProvider="{nodes}" linkDataProvider="{links}" backgroundColor="#ffffff"  width="100%" height="100%"/>
 
     <s:Image id="minImage" right="200" depth="{int.MAX_VALUE}" click="topo1.zoomOut()" bottom="40" source="{TopoGraph.min2}" useHandCursor="true" buttonMode="true"
             mouseOver="{minImage.source = TopoGraph.min1}" mouseOut="{minImage.source = TopoGraph.min2}" />

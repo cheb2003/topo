@@ -14,7 +14,7 @@ package my.ui.topo {
     [SkinState("mouseOver")]
     [SkinState("selectedAndShowLabel")]
     public class Node extends Renderer {
-        [Embed('/my/ui/topo/asserts/person.png')]
+        [Embed('/my/ui/topo/asserts/defaultPic.png')]
         private static const defaultImageSource:Class;
         private var _imageSource:*;
         private var _isMouseDown:Boolean;
@@ -28,20 +28,15 @@ package my.ui.topo {
 		public var isBase:Boolean = false;
 		public var labelName:String = "";
 		public var info:String = "";
+		public var rid:String = "";
+		//是否可点击后切换为中心节点，0：不可点，1：可点
+		public var isClick:int = 0;
         public function Node() {
         	super();
             setStyle("skinClass", DefaultNodeSkin);
-            //addEventListener(MouseEvent.ROLL_OVER, rollOverHandler, false, 0, true);
             addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler, false, 0, true);
         }
 
-//		private function doubleClickHandle(evt:MouseEvent):void
-//		{
-//			if (isBase)
-//				return;
-//			this.topoGraph.removeAllNode();
-//		}
-		
         private function mouseUpHandler(event:MouseEvent):void {
             event.stopPropagation();
             _isMouseDown = false;
@@ -61,14 +56,12 @@ package my.ui.topo {
                 return;
             }
             removeEventListener(MouseEvent.ROLL_OUT,rollOutHandler)
-            trace("rollOutHandler " + _isMouseOver)
             invalidateSkinState()
         }
 
         private function rollOverHandler(event:MouseEvent):void {
             event.stopPropagation();
             if(!_isMouseOver) {
-                trace("rollOverHandler " + _isMouseOver)
                 _isMouseOver = true;
                 if(isPlaying) {
                     return;

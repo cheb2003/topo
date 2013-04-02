@@ -7,10 +7,13 @@
     </fx:Metadata>
 	<fx:Script>
 		<![CDATA[
-        import mx.controls.Alert;
-        import mx.events.EffectEvent;
 			import flash.filters.BitmapFilterQuality;
 			import flash.filters.BitmapFilterType;
+			
+			import mx.controls.Alert;
+			import mx.events.EffectEvent;
+			
+			import my.ui.topo.Node;
       		private var a1Playing:Boolean;
             private var isMouseOver:Boolean
 			[Bindable]
@@ -23,7 +26,6 @@
 					arr.push(glow);
 				img.filters = arr;
                 addEventListener(MouseEvent.MOUSE_MOVE,mouseMoveHandler)
-                //sve.addEventListener(MouseEvent.ROLL_OVER, rollOverHandler, false, 0, true);
                 addEventListener(MouseEvent.ROLL_OUT, rollOutHandler, false, 0, true);
                 spr1.graphics.beginFill(0xffffff, 0);
                 spr1.graphics.drawRect(-35, -30, 75, 30);
@@ -45,18 +47,33 @@
                     }
                 }
             }
+			
+			private function setNodeDepth(node:Node, depth:Number):void{
+				if (node.isBase){
+					node.depth = int.MAX_VALUE;
+					return;	
+				}
+				
+				if (depth==int.MAX_VALUE)
+					depth = int.MAX_VALUE-1;
+				
+				node.depth = depth;
+			}
+			
             private function rollOutHandler(event:MouseEvent):void {
                 if(isMouseOver) {
                     isMouseOver = false;
                     if(a1Playing) {
                         if(p1.isPlaying) {
                             p1.reverse()
-                            hostComponent.depth = Math.abs(Math.random())
+							setNodeDepth(hostComponent,Math.abs(Math.random()));
+//                            hostComponent.depth = Math.abs(Math.random())
                             showBC(false)
                         }
                         if(p2.isPlaying) {
                             p2.reverse()
-                            hostComponent.depth = int.MAX_VALUE
+							setNodeDepth(hostComponent,int.MAX_VALUE);
+//                            hostComponent.depth = int.MAX_VALUE
                             showBC(true)
                         }
                         a1Playing = false;
@@ -64,7 +81,8 @@
                     }
                     if(width > 80 && width <= 120) {
                         p2.play()
-                        hostComponent.depth = Math.abs(Math.random());
+						setNodeDepth(hostComponent,Math.abs(Math.random()));
+//                        hostComponent.depth = Math.abs(Math.random());
                     }
                 }
             }
@@ -72,12 +90,14 @@
                 if(a1Playing) {
                     if(p1.isPlaying) {
                         p1.reverse()
-                        hostComponent.depth = Math.abs(Math.random())
+						setNodeDepth(hostComponent,Math.abs(Math.random()));
+//                        hostComponent.depth = Math.abs(Math.random())
                         showBC(false)
                     }
                     if(p2.isPlaying) {
                         p2.reverse()
-                        hostComponent.depth = int.MAX_VALUE
+						setNodeDepth(hostComponent,int.MAX_VALUE);
+//                        hostComponent.depth = int.MAX_VALUE
                         showBC(true)
                     }
                     a1Playing = false;
@@ -85,7 +105,8 @@
                 }
                 if(width <= 80) {
                     p1.play();
-                    hostComponent.depth = int.MAX_VALUE
+					setNodeDepth(hostComponent,Math.abs(Math.random()));
+//                    hostComponent.depth = int.MAX_VALUE
                 }
             }
 
@@ -133,8 +154,7 @@
 
 			protected function img_doubleClickHandler(event:MouseEvent):void
 			{
-				// TODO Auto-generated method stub
-				if (hostComponent.isBase)
+				if (hostComponent.isBase || hostComponent.isClick==0)
 					return;
 				hostComponent.topoGraph.removeAllNode(hostComponent.id);
 			}
