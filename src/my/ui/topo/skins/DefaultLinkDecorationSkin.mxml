@@ -24,6 +24,6 @@
 	<s:Label text="{hostComponent.label}" x="{-hostComponent.radius}" y="{-hostComponent.radius/2}" textAlign="center"
 			 width="{hostComponent.radius*2}" height="{hostComponent.radius*2}" color="0x0AAEE" color.mouseOver="0xffffff"/>
 	
-	<topo:LinkTip visible="false" includeInLayout="false" visible.mouseOver="true" includeInLayout.mouseOver="true" linkLine="{hostComponent.linkLine}"
-                  linkInfo="{hostComponent.linkInfo}" linkName="{hostComponent.linkName}"/>
+	<!--<topo:LinkTip visible="false" includeInLayout="false" visible.mouseOver="true" includeInLayout.mouseOver="true" linkLine="{hostComponent.linkLine}"
+                  linkInfo="{hostComponent.linkInfo}" linkName="{hostComponent.linkName}"/>-->
 </s:SparkSkin>

@@ -24,7 +24,11 @@ package my.ui.topo
 		public var linkName:String = "";
         public var linkInfo:String = "";
         public var label:String = "";
-		
+
+        [SkinPart(required="true")]
+        public var linkDecoration:LinkDecoration
+        [SkinPart(required="true")]
+        public var linkLine:LinkLine
 		public function Link()
 		{
 			super();

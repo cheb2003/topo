@@ -28,7 +28,7 @@ package my.ui.topo
 		
 		private var _mouseOverFlag:Boolean = false;
 		public var linkLine:LinkLine;
-		
+        public var linkTip:LinkTip
 		public function LinkDecoration()
 		{
 			super();
@@ -38,20 +38,27 @@ package my.ui.topo
 		}
 		
 		private function mouseOverHandler(evt:MouseEvent):void{
+            linkTip.visible = true
+            linkTip.includeInLayout = true
 			this.mouseOverFlag = true;
 			linkLine.outFlag = false;
 		}
 		
 		private function mouseOutHandler(evt:MouseEvent):void{
+
 			var timer:Timer = new Timer(1000, 1);
 			timer.addEventListener(TimerEvent.TIMER, timerHandler);
 			timer.start();
-			this.linkLine.resetState();
+			this.linkLine.resetState1(linkTip);
 		}
 		
 		private function timerHandler(evt:TimerEvent):void{
-			if(linkLine.outFlag)
-				this.mouseOverFlag = false;			
+			if(linkLine.outFlag) {
+                this.mouseOverFlag = false;
+                linkTip.visible = false
+                linkTip.includeInLayout = false
+            }
+
 		}
 		
 		protected override function getCurrentSkinState():String{

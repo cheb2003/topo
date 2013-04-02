@@ -1,6 +1,7 @@
 package my.ui.topo
 {
-	import flash.events.MouseEvent;
+import flash.events.Event;
+import flash.events.MouseEvent;
 	
 	import my.ui.topo.skins.DefaultLinkTipSkin;
 	
@@ -15,6 +16,7 @@ package my.ui.topo
 		private var _mouseOver:Boolean;
         public var linkName:String = "";
         public var linkInfo:String = "";
+
 		
 		public function LinkTip()
 		{
@@ -22,6 +24,9 @@ package my.ui.topo
 			setStyle("skinClass", DefaultLinkTipSkin);
 			addEventListener(MouseEvent.MOUSE_OVER, mouseOverHandler);
 			addEventListener(MouseEvent.MOUSE_OUT, mouseOutHandler);
+            visible = false
+            depth = int.MAX_VALUE
+            includeInLayout = false
 		}
 		
 		protected override function getCurrentSkinState():String{
@@ -53,5 +58,13 @@ package my.ui.topo
 			_mouseOver = value;
 		}
 
-	}
+        public function yChanged(event:Event):void {
+
+            y = event.target.y - 55
+        }
+
+        public function xChanged(event:Event):void {
+            x = event.target.x - 30
+        }
+    }
 }

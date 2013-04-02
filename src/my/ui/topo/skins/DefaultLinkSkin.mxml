@@ -15,13 +15,13 @@
                 import spark.primitives.Line;
             ]]>
 		</fx:Script>
-	<topo:LinkLine id="line" xFrom="{hostComponent.startNode.x}"
+	<topo:LinkLine id="linkLine" xFrom="{hostComponent.startNode.x}"
 				   xTo="{hostComponent.endNode.x}"
 				   yFrom="{hostComponent.startNode.y}"
 				   yTo="{hostComponent.endNode.y}"
 				   isDirectRelation="{hostComponent.isDirectRelation}" link="{hostComponent}"/>
 	
-	<topo:LinkDecoration visible.mouseOver="true" visible="false" includeInLayout.mouseOver="true" includeInLayout="false"
-						x="{(line.xFrom+line.xTo)/2}" y="{(line.yFrom+line.yTo)/2}" linkLine="{line}" label="{hostComponent.label}"
+	<topo:LinkDecoration id="linkDecoration" visible.mouseOver="true" visible="false" includeInLayout.mouseOver="true" includeInLayout="false"
+						x="{(linkLine.xFrom+linkLine.xTo)/2}" y="{(linkLine.yFrom+linkLine.yTo)/2}" linkLine="{linkLine}" label="{hostComponent.label}"
                         linkInfo="{hostComponent.linkInfo}" linkName="{hostComponent.linkName}"/>
 </s:SparkSkin>

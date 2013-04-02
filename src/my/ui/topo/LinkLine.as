@@ -22,7 +22,9 @@ package my.ui.topo
 		private var _drlEndColor:uint=0x97BED4;
 		/**线条粗细*/
 		private var _overThick:uint = 2;
-		
+
+        private var _linkTip:LinkTip
+
 		/**是否是直接关系*/
 		private var _isDirectRelation:Boolean;
 		/**线条悬停标记，用以控制是否真正改变悬停效果*/
@@ -84,6 +86,10 @@ package my.ui.topo
 		
 		private function outTimerHandler(evt:TimerEvent):void{
 			if(this.outFlag){
+                if(_linkTip != null) {
+                    _linkTip.visible = false
+                    _linkTip.includeInLayout = false
+                }
 				link.hideDecoration();
 				this.outFlag = false;
 				invalidateDisplayList();
@@ -199,5 +205,13 @@ package my.ui.topo
 		}
 
 
-	}
+        public function resetState1(linkTip:LinkTip):void {
+            var timer:Timer = new Timer(1000,1);
+            this.overThick = 2;
+            this.outFlag = true;
+            _linkTip = linkTip
+            timer.addEventListener(TimerEvent.TIMER, outTimerHandler);
+            timer.start();
+        }
+    }
 }

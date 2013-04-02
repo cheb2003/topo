@@ -10,13 +10,15 @@ package my.ui.topo {
     
     import flash.display.DisplayObject;
     import flash.display.DisplayObjectContainer;
-    import flash.events.MouseEvent;
+import flash.events.Event;
+import flash.events.MouseEvent;
     import flash.geom.Matrix;
     import flash.geom.Point;
     import flash.geom.Rectangle;
     import flash.net.URLVariables;
-    
-    import mx.collections.ArrayCollection;
+import flash.utils.Dictionary;
+
+import mx.collections.ArrayCollection;
     import mx.messaging.errors.NoChannelAvailableError;
     import mx.rpc.events.ResultEvent;
     import mx.rpc.http.HTTPService;
@@ -40,6 +42,7 @@ package my.ui.topo {
     [SkinState("normal")]
     public class TopoGraph extends SkinnableContainer {
 
+        private var _dic:Dictionary = new Dictionary();
         [Embed('/my/ui/topo/asserts/min1.jpg')]
         public static const min1:Class;
         [Embed('/my/ui/topo/asserts/min2.jpg')]
@@ -164,10 +167,19 @@ package my.ui.topo {
 		
 		private function addLinks(evt:AdjustComplateEvent):void
 		{
-			
+
+            var linkTip:LinkTip
 			for(var j:int=0;j<linkDataProvider.length;j++){
 				var link:Link = Link(linkDataProvider.getItemAt(j));
 				g.addElement(link);
+                linkTip = new LinkTip()
+                linkTip.linkInfo = link.linkInfo
+                linkTip.linkLine = link.linkLine
+                linkTip.linkName = link.linkName
+                link.linkDecoration.addEventListener("xChanged",linkTip.xChanged,false,0,false)
+                link.linkDecoration.addEventListener("yChanged",linkTip.yChanged,false,0,false)
+                link.linkDecoration.linkTip = linkTip
+                g.addElement(linkTip)
 			}
 		}
 		
