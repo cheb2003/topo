@@ -22,8 +22,8 @@ import flash.events.MouseEvent;
 		{
 			super();
 			setStyle("skinClass", DefaultLinkTipSkin);
-			addEventListener(MouseEvent.MOUSE_OVER, mouseOverHandler);
-			addEventListener(MouseEvent.MOUSE_OUT, mouseOutHandler);
+			addEventListener(MouseEvent.ROLL_OVER, mouseOverHandler);
+			addEventListener(MouseEvent.ROLL_OUT, mouseOutHandler);
             visible = false
             depth = int.MAX_VALUE
             includeInLayout = false
@@ -37,11 +37,15 @@ import flash.events.MouseEvent;
 		}
 		
 		public function mouseOverHandler(evt:MouseEvent):void{
+
 			this.mouseOver = true;
 			this.linkLine.outFlag = false;
 		}
 		
 		public function mouseOutHandler(evt:MouseEvent):void{
+            linkLine.link.hideDecoration()
+            visible = false
+            includeInLayout = false
 			this.mouseOver = false;
 			this.linkLine.outFlag = true;
 		}

@@ -34,8 +34,8 @@ package my.ui.topo
 		public function LinkLine()
 		{
 			super();
-			this.addEventListener(MouseEvent.MOUSE_OVER, mouseOverHandle);
-			this.addEventListener(MouseEvent.MOUSE_OUT, mouseOutHandle);
+			this.addEventListener(MouseEvent.ROLL_OVER, mouseOverHandle);
+			this.addEventListener(MouseEvent.ROLL_OUT, mouseOutHandle);
 			this.addEventListener(FlexEvent.CREATION_COMPLETE,complateHandle);
 			this.addEventListener(MouseEvent.CLICK,mouseClickHandle);
 		}
@@ -66,6 +66,7 @@ package my.ui.topo
 		
 		private function mouseOverHandle(evt:MouseEvent):void
 		{
+            trace("ll mouseover")
 			this.overThick = 4;
 			this.outFlag = false;
 			link.showDecoration();
@@ -73,6 +74,7 @@ package my.ui.topo
 		}
 		
 		private function mouseOutHandle(evt:MouseEvent):void{
+            trace("linkLine mouseOutHandle")
 			resetState();
 		}
 		
@@ -85,7 +87,9 @@ package my.ui.topo
 		}
 		
 		private function outTimerHandler(evt:TimerEvent):void{
+            trace("outTimerHandler")
 			if(this.outFlag){
+                trace("linkline outFlag is true")
                 if(_linkTip != null) {
                     _linkTip.visible = false
                     _linkTip.includeInLayout = false

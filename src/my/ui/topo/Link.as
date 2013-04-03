@@ -47,6 +47,8 @@ package my.ui.topo
 		/**显示悬停标记*/
 		public function showDecoration():void{
 			_isMouseOver = true;
+
+            linkDecoration.mouseOverFlag = false;
 			invalidateSkinState();
 		}
 		
