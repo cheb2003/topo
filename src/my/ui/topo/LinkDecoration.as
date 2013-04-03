@@ -33,11 +33,11 @@ package my.ui.topo
 		{
 			super();
 			setStyle("skinClass", DefaultLinkDecorationSkin);
-			addEventListener(MouseEvent.ROLL_OVER, mouseOverHandler, false, 0, true);
-			addEventListener(MouseEvent.ROLL_OUT, mouseOutHandler, false, 0, true);
+			//addEventListener(MouseEvent.ROLL_OVER, mouseOverHandler, false, 0, true);
+			//addEventListener(MouseEvent.ROLL_OUT, mouseOutHandler, false, 0, true);
 		}
 		
-		private function mouseOverHandler(evt:MouseEvent):void{
+		public function mouseOverHandler(evt:MouseEvent):void{
             trace("ld mouseover")
             linkTip.visible = true
             linkTip.includeInLayout = true
@@ -45,7 +45,7 @@ package my.ui.topo
 			linkLine.outFlag = false;
 		}
 		
-		private function mouseOutHandler(evt:MouseEvent):void {
+		public function mouseOutHandler(evt:MouseEvent):void {
             trace("linkDecoration mouseOutHandler")
 			var timer:Timer = new Timer(1000, 1);
 			timer.addEventListener(TimerEvent.TIMER, timerHandler);
