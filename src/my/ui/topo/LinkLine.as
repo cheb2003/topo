@@ -88,9 +88,9 @@ package my.ui.topo
                 var controlX:Number = (xFrom+xTo)/2;
                 var baseX:Number = baseNode.x;
                 if(controlX<baseX)
-                    controlX -= offset;
+                    controlX -= offset/2;
                 if(controlX>baseX)
-                    controlX += offset;
+                    controlX += offset/2;
                 return controlX;
             }
         }
