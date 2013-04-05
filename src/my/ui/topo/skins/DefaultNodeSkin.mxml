@@ -201,6 +201,10 @@
                 <s:SimpleMotionPath property="x" valueFrom="{x}" valueTo="{x + 10}"/>
                 <s:SimpleMotionPath property="y" valueFrom="{y}" valueTo="{y + 10}"/>
             </s:Animate>
+            <s:Animate target="{img}">
+                <s:SimpleMotionPath property="width" valueFrom="{img.width}" valueTo="{img.width-20}"/>
+                <s:SimpleMotionPath property="height" valueFrom="{img.height}" valueTo="{img.height-20}"/>
+            </s:Animate>
         </s:Parallel>
 		
 		<s:Move id="nodeTipEffect" target="{bc}" yFrom="{bc.y + 15}" yTo="{bc.y}" duration="300" effectEnd="fixBC()"/>
