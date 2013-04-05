@@ -16,6 +16,7 @@ import flash.events.MouseEvent;
 		private var _mouseOver:Boolean;
         public var linkName:String = "";
         public var linkInfo:String = "";
+        public var label:String = "";
 
 		
 		public function LinkTip()
