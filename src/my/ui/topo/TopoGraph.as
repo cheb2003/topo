@@ -183,6 +183,7 @@ import mx.collections.ArrayCollection;
                 linkTip.linkInfo = link.linkInfo
                 linkTip.linkLine = link.linkLine
                 linkTip.linkName = link.linkName
+                linkTip.label = link.label
                 link.linkDecoration.addEventListener("xChanged",linkTip.xChanged,false,0,false)
                 link.linkDecoration.addEventListener("yChanged",linkTip.yChanged,false,0,false)
                 link.linkDecoration.linkTip = linkTip
