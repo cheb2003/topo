@@ -6,17 +6,20 @@
 	<fx:Metadata>
 		[HostComponent("my.ui.topo.LinkTip")]
 	</fx:Metadata>
-	
+    <fx:Script><![CDATA[
+        import mx.controls.Alert;
+        ]]></fx:Script>
 	<s:states>
 		<s:State name="normal"/>
 		<s:State name="mouseOver"/>
 	</s:states>
 
     <!--y="-55" x="-30"-->
-	<s:BorderContainer mouseDown="event.stopPropagation()" cornerRadius="5" borderColor="0xA5A5A5" useHandCursor="true" depth="{int.MAX_VALUE}" buttonMode="true" mouseChildren="false"
+	<s:BorderContainer click="Alert.show('click')" mouseDown="event.stopPropagation()" cornerRadius="5" borderColor="0xA5A5A5" useHandCursor="true" depth="{int.MAX_VALUE}" buttonMode="true" mouseChildren="false"
 					   width="180" height="41" borderWeight="2"  backgroundColor.mouseOver="0x544E6C">
 		<s:Label x="5" y="13" text=">>" color="0x4fBEF1" fontWeight="bold" color.mouseOver="0xffffff"/>
 		<s:Label x="22" y="5" text="{hostComponent.linkName}" color="0x38A852" fontSize="14" color.mouseOver="0xffffff"/>
 		<s:Label x="22" y="23" text="{hostComponent.label + ' co-authored publications'}" color="0x0ccff" fontSize="10" color.mouseOver="0xffffff"/>
 	</s:BorderContainer>
+
 </s:SparkSkin>
