@@ -24,6 +24,7 @@ package my.ui.topo
 		public var linkName:String = "";
         public var linkInfo:String = "";
         public var label:String = "";
+        public var baseNode:Node;
 
         [SkinPart(required="true")]
         public var linkDecoration:LinkDecoration

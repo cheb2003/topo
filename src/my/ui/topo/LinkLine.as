@@ -18,8 +18,8 @@ package my.ui.topo
 		//间接关系线条颜色
 		private var _lineColor:uint=0x15719F;
 		/**直接关系渐变线条起止端点颜色*/
-		private var _drlStartColor:uint=0xf3955;
-		private var _drlEndColor:uint=0x97BED4;
+		private var _drlStartColor:uint=0xfe831f;
+		private var _drlEndColor:uint=0x1794c2;
 		/**线条粗细*/
 		private var _overThick:uint = 2;
 
@@ -27,9 +27,12 @@ package my.ui.topo
 
 		/**是否是直接关系*/
 		private var _isDirectRelation:Boolean;
+        /**贝塞尔曲线偏移量*/
+        private var offset:int = 20;
 		/**线条悬停标记，用以控制是否真正改变悬停效果*/
 		private var _outFlag:Boolean;
 		public var link:Link;
+        public var baseNode:Node;
 		
 		public function LinkLine()
 		{
@@ -52,15 +55,28 @@ package my.ui.topo
 			this.graphics.clear();
 			this.graphics.lineStyle(this.overThick,lineColor);
 			this.graphics.moveTo(xFrom,yFrom);
-			this.graphics.lineTo(xTo,yTo);
+            //绘制二次贝塞尔曲线
+            var controlX:Number = (xFrom+xTo)/2;
+            var controlY:Number = (yFrom+yTo)/2;
+            var baseX:Number = baseNode.x;
+            var baseY:Number = baseNode.y;
+            if(controlX<baseX)
+                controlX -= offset;
+            if(controlY<baseY)
+                controlY -= offset;
+            if(controlX>baseX)
+                controlX += offset;
+            if(controlY>baseY)
+                controlY += offset;
+            this.graphics.curveTo(controlX, controlY,xTo, yTo);
 		}
 		
 		//绘制直接关系
 		public function drawDirectRelation():void {
 			this.graphics.clear();
-			this.graphics.lineStyle(this.overThick);
-			this.graphics.lineGradientStyle(GradientType.LINEAR,[drlStartColor, drlEndColor], [1, 1], [78, 255]);
-			this.graphics.moveTo(xFrom,yFrom);
+			this.graphics.lineStyle(this.overThick,drlStartColor);
+//			this.graphics.lineGradientStyle(GradientType.LINEAR,[drlStartColor, drlEndColor], [1, 1], [127, 255]);
+            this.graphics.moveTo(xFrom,yFrom);
 			this.graphics.lineTo(xTo,yTo);
 		}
 		

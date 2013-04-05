@@ -18,6 +18,9 @@ package my.ui.topo.data
 
 	public class DataAnalyzer
 	{
+        //标示基础节点对象，用于计算连线是否是直接/间接关系
+        private static var baseNode:Node;
+
 		public function DataAnalyzer()
 		{
 		}
@@ -31,9 +34,10 @@ package my.ui.topo.data
 				node.labelName = obj.labelName;
 				node.info = obj.info;
 				node.id = obj.id;
-				if (obj.isBase=="true" || obj.isBase=="1")
+				if (obj.isBase=="true" || obj.isBase=="1"){
 					node.isBase = true;
-				else
+                    baseNode = node;
+                }else
 					node.isBase = false;
 				if (obj.imageUrl!=null && obj.imageUrl.toString().length>0)
 					node.imageSource = obj.imageUrl;
@@ -55,6 +59,11 @@ package my.ui.topo.data
 					link.linkName = getLineName(link.startNode.labelName, link.endNode.labelName);
 				link.label = obj.label;
 				link.linkInfo = obj.linkInfo;
+                if(link.startNode == baseNode || link.endNode == baseNode){
+                    link.isDirectRelation = true;
+                }else{
+                    link.baseNode = baseNode;
+                }
 				result.addItem(link);
 			}
 			return new ArrayCollection(result.toArray());
