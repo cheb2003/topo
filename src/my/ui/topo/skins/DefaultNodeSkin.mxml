@@ -212,7 +212,7 @@
 
     <s:SpriteVisualElement id="sve" y="60"></s:SpriteVisualElement>
     <s:Image doubleClickEnabled="true" doubleClick="img_doubleClickHandler(event)"
-            source="{hostComponent.imageSource}" id="img" x="{-img.width/2}" y="{-img.height/2}" width="{this.width}" height="{this.height}"/>
+            source="{hostComponent.imageSource}" id="img" x="{-img.width/2}" y="{-img.height/2}" width="{hostComponent.calcWidth()}" height="{hostComponent.calcHeight()}"/>
     <s:Label id="label"  x="{img.x}" y="{img.y+img.height+5}" width="{img.width}" textAlign="center" text="{hostComponent.labelName}" />
     <s:BorderContainer mouseOver="{bc.setStyle('backgroundColor',0x544E6C)}" mouseOut="{bc.setStyle('backgroundColor',0xffffff)}" click="bcClick()" id="bc" visible="false" includeInLayout="false" width="235" height="40" x="{img.x+img.width/2-this.width/2-30}" y="{img.y+img.height}"
                        cornerRadius="5" borderWeight="2" dropShadowVisible="false" showEffect="{nodeTipEffect}" color="0x999999">

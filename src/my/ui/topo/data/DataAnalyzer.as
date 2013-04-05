@@ -55,6 +55,8 @@ package my.ui.topo.data
 				var link:Link = new Link();
 				link.startNode = getNodeById(nodeList,obj.startNode);
 				link.endNode = getNodeById(nodeList,obj.endNode);
+                link.startNode.getOutgoingLinks().push(link);
+                link.endNode.getIncomingLinks().push(link);
 				if (obj.linkName==null || obj.linkName.toString().length<1)
 					link.linkName = getLineName(link.startNode.labelName, link.endNode.labelName);
 				link.label = obj.label;

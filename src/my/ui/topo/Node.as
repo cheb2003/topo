@@ -31,6 +31,10 @@ package my.ui.topo {
 		public var rid:String = "";
 		//是否可点击后切换为中心节点，0：不可点，1：可点
 		public var isClick:int = 0;
+
+        private const MAX_WIDTH:Number = 70;
+        private const MAX_HEIGHT:Number = 80;
+
         public function Node() {
         	super();
             setStyle("skinClass", DefaultNodeSkin);
@@ -134,6 +138,56 @@ package my.ui.topo {
 		{
 			return _outgoingLinks;
 		}
+
+        /**
+         * 获取总线集合
+         * @return
+         */
+        public function getLinks():Vector.<Link>{
+            return _incomingLinks.concat(_outgoingLinks);
+        }
+
+        [Bindable]
+        public function calcWidth():Number{
+            if(isBase)
+                return MAX_WIDTH;
+            var linkNum:int = getLinks().length;
+            switch(linkNum){
+                case 1:
+                    return 40;
+                case 2:
+                    return 45;
+                case 3:
+                    return 50;
+                case 4:
+                    return 55;
+                case 5:
+                    return 60;
+                default :
+                    return 65;
+            }
+        }
+
+        [Bindable]
+        public function calcHeight():Number{
+            if(isBase)
+                return MAX_HEIGHT;
+            var linkNum:int = getLinks().length;
+            switch(linkNum){
+                case 1:
+                    return 50;
+                case 2:
+                    return 55;
+                case 3:
+                    return 60;
+                case 4:
+                    return 65;
+                case 5:
+                    return 70;
+                default :
+                    return 75;
+            }
+        }
 
         override protected function getCurrentSkinState():String {
             if(_isMouseOver){
