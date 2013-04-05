@@ -79,7 +79,37 @@ package my.ui.topo
             this.graphics.moveTo(xFrom,yFrom);
 			this.graphics.lineTo(xTo,yTo);
 		}
-		
+
+        [Bindable]
+        public function getDecorationX():Number{
+            if(isDirectRelation)
+                return (xFrom+xTo)/2;
+            else{
+                var controlX:Number = (xFrom+xTo)/2;
+                var baseX:Number = baseNode.x;
+                if(controlX<baseX)
+                    controlX -= offset;
+                if(controlX>baseX)
+                    controlX += offset;
+                return controlX;
+            }
+        }
+
+        [Bindable]
+        public function getDecorationY():Number{
+            if(isDirectRelation)
+                return (yFrom+yTo)/2;
+            else{
+                var controlY:Number = (yFrom+yTo)/2;
+                var baseY:Number = baseNode.y;
+                if(controlY<baseY)
+                    controlY -= offset/2;
+                if(controlY>baseY)
+                    controlY += offset/2;
+                return controlY;
+            }
+        }
+
 		private function mouseOverHandle(evt:MouseEvent):void
 		{
             trace("ll mouseover")

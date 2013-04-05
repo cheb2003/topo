@@ -22,6 +22,6 @@
 				   isDirectRelation="{hostComponent.isDirectRelation}" link="{hostComponent}" baseNode="{hostComponent.baseNode}"/>
 	
 	<topo:LinkDecoration id="linkDecoration" visible.mouseOver="true" visible="false" includeInLayout.mouseOver="true" includeInLayout="false"
-						x="{(linkLine.xFrom+linkLine.xTo)/2}" y="{(linkLine.yFrom+linkLine.yTo)/2}" linkLine="{linkLine}" label="{hostComponent.label}"
+						x="{linkLine.getDecorationX()}" y="{linkLine.getDecorationY()}" linkLine="{linkLine}" label="{hostComponent.label}"
                         linkInfo="{hostComponent.linkInfo}" linkName="{hostComponent.linkName}"/>
 </s:SparkSkin>
