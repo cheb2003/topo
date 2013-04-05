@@ -190,6 +190,10 @@
                 <s:SimpleMotionPath property="x" valueFrom="{x}" valueTo="{x - 10}"/>
                 <s:SimpleMotionPath property="y" valueFrom="{y}" valueTo="{y - 10}"/>
             </s:Animate>
+            <s:Animate target="{img}">
+                <s:SimpleMotionPath property="width" valueFrom="{img.width}" valueTo="{img.width+20}"/>
+                <s:SimpleMotionPath property="height" valueFrom="{img.height}" valueTo="{img.height+20}"/>
+            </s:Animate>
         </s:Parallel>
         <s:Parallel id="p2" effectEnd="fix()">
             <s:Resize target="{this}"  widthFrom="{width}" heightFrom="{height}" heightTo="{height - 40}" widthTo="{width - 40}"/>
