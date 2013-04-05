@@ -137,8 +137,8 @@
 
             private function fix():void {
                 if(width < 80 || width > 120) {
-                    width = 80
-                    height = 60
+                    width = hostComponent.calcWidth();//80
+                    height = hostComponent.calcHeight();//60
                 }
             }
 
