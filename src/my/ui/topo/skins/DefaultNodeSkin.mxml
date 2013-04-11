@@ -11,6 +11,7 @@
 			import flash.filters.BitmapFilterType;
 			
 			import mx.controls.Alert;
+			import mx.core.UIComponent;
 			import mx.events.EffectEvent;
 			
 			import my.ui.topo.Node;
@@ -19,11 +20,9 @@
 			[Bindable]
 			private var arr:Array = new Array();
             private const spr1:Sprite = new Sprite();
+			
             private function init():void {
-				if(hostComponent.isBase)
-					arr.push(baseGlow);
-				else
-					arr.push(glow);
+				arr.push(glow);
 				img.filters = arr;
                 addEventListener(MouseEvent.MOUSE_MOVE,mouseMoveHandler)
                 addEventListener(MouseEvent.ROLL_OUT, rollOutHandler, false, 0, true);
@@ -31,6 +30,20 @@
                 spr1.graphics.drawRect(-35, -30, 75, 30);
                 spr1.graphics.endFill();
                 sve.addChild(spr1);
+				
+				var m:UIComponent=new UIComponent()
+				m.graphics.beginFill(0xff0000);
+				m.graphics.drawCircle(img.x+img.width/2 ,img.y+img.height/2,img.width/2);
+				m.graphics.endFill();
+				this.addElement(m);
+				img.mask=m;
+				
+//				var uic:UIComponent=new UIComponent();
+//				uic.graphics.lineStyle(1,0x000000,1);
+//				uic.graphics.beginFill(0x000000,1);
+////				uic.graphics.drawRect(0,0,120,150);
+//				uic.graphics.drawCircle(img.x+img.width/2 ,img.y+img.height/2,img.width/2);
+//				this.addElement(uic);
             }
 
             private function mouseMoveHandler(event:MouseEvent):void {
@@ -163,7 +176,7 @@
 		]]>
 	</fx:Script>
     <fx:Declarations>
-		<s:GradientGlowFilter id="baseGlow" 
+		<!--<s:GradientGlowFilter id="baseGlow" 
 							  blurX="30" blurY="30"
 							  quality="{BitmapFilterQuality.HIGH}"
 							  type="{BitmapFilterType.OUTER}" 
@@ -173,16 +186,16 @@
 				<s:GradientEntry alpha="0.8" color="0xFF0000" ratio="128"/>
 				<s:GradientEntry alpha="0.8" color="0xFF0000" ratio="255"/>
 			</s:entries>
-		</s:GradientGlowFilter>
+		</s:GradientGlowFilter>-->
 		<s:GradientGlowFilter id="glow" 
 				  blurX="30" blurY="30"
 				  quality="{BitmapFilterQuality.HIGH}"
 				  type="{BitmapFilterType.OUTER}" 
 				  knockout="false">
 			<s:entries>
-				<s:GradientEntry alpha="0" color="0x3333FF" ratio="0"/>
-				<s:GradientEntry alpha="0.8" color="0x3333FF" ratio="128"/>
-				<s:GradientEntry alpha="0.8" color="0x3333FF" ratio="255"/>
+				<s:GradientEntry alpha="0" color="{hostComponent.shadowColor}" ratio="0"/>
+				<s:GradientEntry alpha="0.8" color="{hostComponent.shadowColor}" ratio="128"/>
+				<s:GradientEntry alpha="0.8" color="{hostComponent.shadowColor}" ratio="255"/>
 			</s:entries>
 		</s:GradientGlowFilter>
         <s:Parallel id="p1" effectEnd="fix()">
@@ -221,7 +234,11 @@
 
     <s:SpriteVisualElement id="sve" y="60"></s:SpriteVisualElement>
     <s:Image doubleClickEnabled="true" doubleClick="img_doubleClickHandler(event)"
-            source="{hostComponent.imageSource}" id="img" x="{-img.width/2}" y="{-img.height/2}" width="{hostComponent.calcWidth()}" height="{hostComponent.calcHeight()}"/>
+            source="{hostComponent.imageSource}" id="img" x="{-img.width/2}" y="{-img.height/2}" width="{hostComponent.calcWidth()}" height="{hostComponent.calcHeight()}" >
+		<!--<s:mask>
+			<s:BorderContainer id="mask" x="{img.x+img.width/2}" borderStyle="solid"  y="{img.y+img.height/2}" height="100%" width="100%" cornerRadius="30" />
+		</s:mask>-->
+	</s:Image>
     <s:Label id="label"  x="{img.x}" y="{img.y+img.height+5}" width="{img.width}" textAlign="center" text="{hostComponent.labelName}" />
     <s:BorderContainer mouseOver="{bc.setStyle('backgroundColor',0x544E6C)}" mouseOut="{bc.setStyle('backgroundColor',0xffffff)}" click="bcClick()" id="bc" visible="false" includeInLayout="false" width="235" height="40" x="{img.x+img.width/2-this.width/2-30}" y="{img.y+img.height}"
                        cornerRadius="5" borderWeight="2" dropShadowVisible="false" showEffect="{nodeTipEffect}" color="0x999999">

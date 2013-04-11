@@ -5,6 +5,7 @@
          <info>提示框信息</info>
          <id>节点id</id>
          <imageUrl>图片链接</imageUrl>
+         <shadowColor>图片边缘阴影颜色，默认中心点为0xFF0000，其他为0x3333FF</shadowColor>
          <rid>系统id</rid>
 		 <isClick>是否可点击后切换为中心节点，0：不可点，1：可点</isClick>
      </node>

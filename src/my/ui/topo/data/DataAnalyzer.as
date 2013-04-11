@@ -41,6 +41,14 @@ package my.ui.topo.data
 					node.isBase = false;
 				if (obj.imageUrl!=null && obj.imageUrl.toString().length>0)
 					node.imageSource = obj.imageUrl;
+				if (obj.shadowColor!=null && obj.shadowColor.toString()!="")
+					node.shadowColor = obj.shadowColor;
+				else{
+					if (node.isBase)
+						node.shadowColor = 0xFF0000;
+					else
+						node.shadowColor = 0x3333FF;
+				}
 				node.isClick = obj.isClick;
 				result.addItem(node);
 			}

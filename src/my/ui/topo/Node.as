@@ -31,7 +31,7 @@ package my.ui.topo {
 		public var rid:String = "";
 		//是否可点击后切换为中心节点，0：不可点，1：可点
 		public var isClick:int = 0;
-
+		public var shadowColor:uint;
         private const MAX_WIDTH:Number = 70;
         private const MAX_HEIGHT:Number = 80;
 
