@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<s:SparkSkin creationComplete="init()" xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" width="80" height="60">
+<s:SparkSkin creationComplete="init()" xmlns:fx="http://ns.adobe.com/mxml/2009"
+             xmlns:s="library://ns.adobe.com/flex/spark" width="80" height="60" xmlns:skins="my.ui.topo.skins.*">
     <fx:Metadata>
         <![CDATA[
         [HostComponent("my.ui.topo.Node")]
@@ -31,12 +32,17 @@
                 spr1.graphics.endFill();
                 sve.addChild(spr1);
 				
-				var m:UIComponent=new UIComponent()
-				m.graphics.beginFill(0xff0000);
+				/*var m:ImageMask=new ImageMask()
+                m.x = img.x+img.width/2
+                m.y = img.y+img.height/2
+                m.width = img.width
+                m.height = img.height*/
+				/*m.graphics.beginFill(0xff0000);
 				m.graphics.drawCircle(img.x+img.width/2 ,img.y+img.height/2,img.width/2);
-				m.graphics.endFill();
-				this.addElement(m);
-				img.mask=m;
+				m.graphics.endFill();*/
+				/*this.addElement(m);
+				*/
+                img.mask=mask;
 				
 //				var uic:UIComponent=new UIComponent();
 //				uic.graphics.lineStyle(1,0x000000,1);
@@ -232,6 +238,7 @@
         <s:State name="mouseOver"/>
     </s:states>
 
+    <skins:ImageMask id="mask" x="{img.x+img.width/2}" y="{img.y+img.height/2}" width="{img.width}" height="{img.height}"/>
     <s:SpriteVisualElement id="sve" y="60"></s:SpriteVisualElement>
     <s:Image doubleClickEnabled="true" doubleClick="img_doubleClickHandler(event)"
             source="{hostComponent.imageSource}" id="img" x="{-img.width/2}" y="{-img.height/2}" width="{hostComponent.calcWidth()}" height="{hostComponent.calcHeight()}" >
@@ -239,6 +246,7 @@
 			<s:BorderContainer id="mask" x="{img.x+img.width/2}" borderStyle="solid"  y="{img.y+img.height/2}" height="100%" width="100%" cornerRadius="30" />
 		</s:mask>-->
 	</s:Image>
+
     <s:Label id="label"  x="{img.x}" y="{img.y+img.height+5}" width="{img.width}" textAlign="center" text="{hostComponent.labelName}" />
     <s:BorderContainer mouseOver="{bc.setStyle('backgroundColor',0x544E6C)}" mouseOut="{bc.setStyle('backgroundColor',0xffffff)}" click="bcClick()" id="bc" visible="false" includeInLayout="false" width="235" height="40" x="{img.x+img.width/2-this.width/2-30}" y="{img.y+img.height}"
                        cornerRadius="5" borderWeight="2" dropShadowVisible="false" showEffect="{nodeTipEffect}" color="0x999999">
