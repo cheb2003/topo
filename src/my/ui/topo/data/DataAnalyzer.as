@@ -8,15 +8,18 @@ package my.ui.topo.data
 	import flash.net.URLRequestMethod;
 	import flash.net.URLVariables;
 	import flash.sampler.getLexicalScopes;
-	
-	import mx.collections.ArrayCollection;
+
+import mx.collections.ArrayCollection;
+
+import mx.collections.ArrayCollection;
 	import mx.collections.ArrayList;
 	
 	import my.ui.topo.Link;
 	import my.ui.topo.LinkLine;
 	import my.ui.topo.Node;
+import my.ui.topo.Path;
 
-	public class DataAnalyzer
+public class DataAnalyzer
 	{
         //标示基础节点对象，用于计算连线是否是直接/间接关系
         private static var baseNode:Node;
@@ -80,6 +83,14 @@ package my.ui.topo.data
 			}
 			return new ArrayCollection(result.toArray());
 		}
+
+        public static function analysePath():ArrayCollection.<Path>{
+            var pathCollection:ArrayCollection.<Path> = new ArrayCollection.<Path>();
+            var path:Path = new Path();
+
+            pathCollection.addItem(path);
+            return pathCollection;
+        }
 		
 		private static function getNodeById(nodeList:Array, id:String):Node{
 			for (var i:int=0; i<nodeList.length; i++){
