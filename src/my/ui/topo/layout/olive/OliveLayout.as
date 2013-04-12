@@ -6,7 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 package my.ui.topo.layout.olive {
-import flash.geom.Point;
+
 import flash.geom.Point;
 
 import mx.collections.ArrayCollection;
@@ -22,7 +22,7 @@ import my.ui.topo.layout.GraphLayout;
         private var basePoint:Point;
         private var referPoint:Point;
         private var offset:int = 100;
-        public var paths:ArrayCollection.<Path> = new ArrayCollection.<Path>();
+        public var paths:ArrayCollection = new ArrayCollection;
 
         public function OliveLayout() {
             super();

@@ -1,23 +1,15 @@
 package my.ui.topo.data
 {
 	import com.adobe.serialization.json.JSON;
-	
-	import flash.events.Event;
-	import flash.net.URLLoader;
-	import flash.net.URLRequest;
-	import flash.net.URLRequestMethod;
-	import flash.net.URLVariables;
-	import flash.sampler.getLexicalScopes;
 
-import mx.collections.ArrayCollection;
-
-import mx.collections.ArrayCollection;
+    import mx.collections.ArrayCollection;
 	import mx.collections.ArrayList;
-	
-	import my.ui.topo.Link;
-	import my.ui.topo.LinkLine;
+    import mx.collections.Sort;
+    import mx.collections.SortField;
+
+    import my.ui.topo.Link;
 	import my.ui.topo.Node;
-import my.ui.topo.Path;
+    import my.ui.topo.Path;
 
 public class DataAnalyzer
 	{
@@ -84,12 +76,53 @@ public class DataAnalyzer
 			return new ArrayCollection(result.toArray());
 		}
 
-        public static function analysePath():ArrayCollection.<Path>{
-            var pathCollection:ArrayCollection.<Path> = new ArrayCollection.<Path>();
-            var path:Path = new Path();
+        public static function analysePath(nodes:ArrayCollection,links:ArrayCollection):ArrayCollection{
+            var pathCollection:ArrayCollection = new ArrayCollection();
+            var path:Path
+            var baseNode:Node
+            for each (var node:Node in nodes){
+                if(node.isBase) {
+                    baseNode = node
+                    break
+                }
+            }
+            for each(var link:Link in links) {
+                if(link.startNode == baseNode) {
+                    path = new Path()
+                    path.addNode(link.endNode)
+                    linkPath(path,links)
+                    pathCollection.addItem(path)
+                }
+            }
+            if(pathCollection.length < 6) {
+                return pathCollection;
+            }
+            var sort:Sort=new Sort();
+            //按照ID升序排序
+            sort.fields=[new SortField("length")];
+            pathCollection.sort = sort
+            pathCollection.refresh();
+            var arr:ArrayCollection = new ArrayCollection()
+            var i:int = 0
+            while(i < 5) {
+                arr.addItem(pathCollection.getItemAt(i));
+                i++
+            }
+            return arr;
+        }
 
-            pathCollection.addItem(path);
-            return pathCollection;
+        private static function linkPath(path:Path, links:ArrayCollection):void {
+            var node:Node = path.getLastNode();
+            for each(var link:Link in links) {
+                if(link.startNode == node) {
+                    if(link.endNode.isRefer == true) {
+                        return
+                    } else {
+                        path.addNode(link.endNode)
+                        linkPath(path,links)
+                    }
+                }
+            }
         }
 		
 		private static function getNodeById(nodeList:Array, id:String):Node{

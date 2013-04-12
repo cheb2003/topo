@@ -17,5 +17,13 @@ public class Path {
         public function addNode(node:Node):void{
             nodes.addItem(node);
         }
+
+        public function getLastNode():Node{
+            return Node(nodes.getItemAt(nodes.length - 1))
+        }
+
+        public function get length():int{
+            return nodes.length
+        }
     }
 }
