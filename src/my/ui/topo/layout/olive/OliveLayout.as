@@ -9,7 +9,10 @@ package my.ui.topo.layout.olive {
 import flash.geom.Point;
 import flash.geom.Point;
 
+import mx.collections.ArrayCollection;
+
 import my.ui.topo.Node;
+import my.ui.topo.Path;
 
 import my.ui.topo.event.AdjustComplateEvent;
 
@@ -19,6 +22,7 @@ import my.ui.topo.layout.GraphLayout;
         private var basePoint:Point;
         private var referPoint:Point;
         private var offset:int = 100;
+        public var paths:ArrayCollection.<Path> = new ArrayCollection.<Path>();
 
         public function OliveLayout() {
             super();
@@ -45,15 +49,16 @@ import my.ui.topo.layout.GraphLayout;
                    topoGraph.moveNode(node, basePoint.x,  basePoint.y);
                 else if(node.isRefer)
                    topoGraph.moveNode(node, referPoint.x,  referPoint.y);
-                else{
-
-                }
             }
+            movePath();
             topoGraph.dispatchEvent(new AdjustComplateEvent(AdjustComplateEvent.NODE_ADJUST_COMPLATE));
         }
 
         private function movePath():void{
+            var len:int = paths.length;
+            for(var i:int=0;i<paths.length;i++){
 
+            }
         }
 
 

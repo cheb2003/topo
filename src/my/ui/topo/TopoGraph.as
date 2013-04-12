@@ -411,10 +411,13 @@ import spark.components.Group;
 			}else if (id == TestData.OLIVE_DATA){
                 nodeDataProvider = DataAnalyzer.getNodeList(TestData.olive_nodes);
                 linkDataProvider = DataAnalyzer.getLinkList(TestData.olive_lines,nodeDataProvider.toArray());
+                if(nodeLayout==null)
+                    nodeLayout = new OliveLayout();
+                OliveLayout(nodeLayout).paths = DataAnalyzer.analysePath();
             }else
 				loadData(id);
 		}
-		
+
 		public function getBasePoint():Point{
 			for (var i:int=0; i<nodeDataProvider.length; i++){
 				var node:Node = nodeDataProvider.getItemAt(i) as Node;
@@ -441,8 +444,8 @@ import spark.components.Group;
 
         public function showCoAuthorPath():void{
             clearCanvas();
-            requestData(TestData.OLIVE_DATA);
             nodeLayout = new OliveLayout();
+            requestData(TestData.OLIVE_DATA);
             performGraphLayout();
             nodeLayout.performLayout();
         }
