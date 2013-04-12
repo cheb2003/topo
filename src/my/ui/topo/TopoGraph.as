@@ -21,7 +21,8 @@ import flash.events.MouseEvent;
 import flash.utils.Dictionary;
 
 import mx.collections.ArrayCollection;
-    import mx.messaging.errors.NoChannelAvailableError;
+import mx.events.FlexEvent;
+import mx.messaging.errors.NoChannelAvailableError;
     import mx.rpc.events.ResultEvent;
     import mx.rpc.http.HTTPService;
     
@@ -164,6 +165,9 @@ import spark.components.Group;
 			nodeLayout.topoGraph = this;
 			nodeLayout.initPosition();
 
+//            nodeLayout.addEventListener(FlexEvent.CREATION_COMPLETE, function(evt:FlexEvent):void{
+//                GraphLayout(evt.target).performLayout();
+//            });
 //			for(var i:int=0;i<nodeDataProvider.length;i++){
 //				var node:Node = Node(nodeDataProvider.getItemAt(i));
 //				var p:Point = RandomFactory.getRandomPoint(new Rectangle(0,0,totalWidth,totalHeight));
@@ -422,20 +426,20 @@ import spark.components.Group;
             linkDataProvider = null;
         }
 
-        public function showCoAuthorGraph(){
+        public function showCoAuthorGraph():void{
             clearCanvas();
             nodeLayout = new RandomLayout();
             performGraphLayout();
         }
 
-        public function showCoAuthorPath(){
-            clearCanvas();
-            // parse data
-            nodeLayout = new OliveLayout();
-            performGraphLayout();
-        }
+        public function showCoAuthorPath():void{
+        clearCanvas();
+        // parse data
+        nodeLayout = new OliveLayout();
+        performGraphLayout();
+    }
 
-        public function showCitaionGraph(){
+        public function showCitaionGraph():void{
             clearCanvas();
         }
     }

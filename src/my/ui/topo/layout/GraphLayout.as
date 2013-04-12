@@ -25,9 +25,9 @@ package my.ui.topo.layout
 		{
 			init();
 		}
-		
+
 		/**
-		 * 组件加载完成后，调用布局方法 
+		 * 组件加载完成后，调用布局方法
 		 */
 		private function onComplate(evt:FlexEvent):void
 		{
@@ -36,32 +36,25 @@ package my.ui.topo.layout
 		/**
 		 * 初始化方法，子类继承该类通过重写该方法
 		 * 进行基础数据初始化
-		 */ 
+		 */
 		protected function init():void{}
 
-        /**
-         * 初始化节点位置
-         */
         public function initPosition():void{}
-
 		/**
 		 * 执行布局算法，不同布局算法实现切入点
 		 * 子类需重写
-		 */ 
+		 */
 		protected function layout():void{}
 
-        /**
-         * 执行布局算法动画
-         */
 		public function performLayout():void {
 			layout();
 		}
-		
+
 		public function get layoutRegion():Rectangle
 		{
 			return _layoutRegion;
 		}
-		
+
 		public function set layoutRegion(value:Rectangle):void
 		{
 			_layoutRegion = value;

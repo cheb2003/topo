@@ -38,5 +38,15 @@ import my.ui.topo.layout.GraphLayout;
             }
             topoGraph.dispatchEvent(new AdjustComplateEvent(AdjustComplateEvent.NODE_ADJUST_COMPLATE));
         }
+
+        private function moveBasicNode():void{
+
+        }
+
+        private function movePath():void{
+
+        }
+
+
     }
 }
