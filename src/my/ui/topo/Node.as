@@ -41,7 +41,7 @@ package my.ui.topo {
         public function Node() {
         	super();
             setStyle("skinClass", DefaultNodeSkin);
-            addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler, false, 0, true);
+
             addEventListener(MouseEvent.MOUSE_OVER, mouseOverHandler, false, 0, true);
         }
 
@@ -54,7 +54,7 @@ package my.ui.topo {
             }
         }
 
-        private function mouseUpHandler(event:MouseEvent):void {
+        public function mouseUpHandler(event:MouseEvent):void {
             event.stopPropagation();
             _isMouseDown = false;
             topoGraph.isMoving = false;
@@ -90,7 +90,7 @@ package my.ui.topo {
 
         }
 
-        private function mouseDownHandler(event:MouseEvent):void {
+        public function mouseDownHandler(event:MouseEvent):void {
             event.stopPropagation();
             topoGraph.isMoving = true;
             _isMouseDown = true;
