@@ -7,7 +7,6 @@
  */
 package my.ui.topo.layout.olive {
 import flash.geom.Point;
-import flash.geom.Point;
 
 import mx.collections.ArrayCollection;
 
@@ -29,7 +28,7 @@ import my.ui.topo.layout.GraphLayout;
         private var path_margin:int = 80;
         /**最多路径条数*/
         public static const MAX_PATH:int = 5;
-        public var paths:ArrayCollection.<Path> = new ArrayCollection.<Path>();
+        public var paths:ArrayCollection = new ArrayCollection();
 
         public function OliveLayout() {
             super();
