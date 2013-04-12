@@ -18,12 +18,17 @@ public class Path {
             nodes.addItem(node);
         }
 
-        public function nodeNum():int{
-            return nodes.length;
-        }
-
         public function getNodes():ArrayCollection{
             return nodes;
         }
-    }
+
+        public function getLastNode():Node{
+            return Node(nodes.getItemAt(nodes.length - 1))
+        }
+
+        public function get length():int{
+            return nodes.length
+        }
+
+}
 }

@@ -71,7 +71,7 @@ import my.ui.topo.layout.GraphLayout;
                 var path:Path = Path(paths.getItemAt(i));
                 var offsetY_flag:int = len == 1 ? 0 : 1;
                 var nodeY:Number = path_margin * offsetY_flag + (layoutRegion.height - path_margin * 2) / (len + 1)  * (i + 1);
-                var nodeNum:int = path.nodeNum();
+                var nodeNum:int = path.length;
                 for(var j:int = 0;j<nodeNum;j++){
                     var node:Node = Node(path.getNodes().getItemAt(j));
                     var offsetX_flag:int = nodeNum == 1 ? 0 : 1;
