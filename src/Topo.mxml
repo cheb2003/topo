@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
-               xmlns:topo1="my.ui.topo.*" creationComplete="fn()" preinitialize="pinit()" > 
+               xmlns:topo1="my.ui.topo.*" xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="fn()"
+               preinitialize="pinit()">
     <fx:Script><![CDATA[
 		import mx.collections.ArrayCollection;
 		import mx.collections.ArrayList;
@@ -47,7 +48,20 @@
         }
         ]]></fx:Script>
 
-    <topo1:TopoGraph id="topo1" nodeDataProvider="{nodes}" linkDataProvider="{links}" backgroundColor="#ffffff"  width="100%" height="100%"/>
+
+    <mx:ViewStack>
+        <s:NavigatorContent width="100%" height="100%">
+            <topo1:TopoGraph id="topo1" nodeDataProvider="{nodes}" linkDataProvider="{links}" backgroundColor="#ffffff"  width="100%" height="100%"/>
+        </s:NavigatorContent>
+    </mx:ViewStack>
+
+    <s:ButtonBar id="btnBar" top="20" left="50" height="30" focusColor="0xFE8D10">
+        <s:ArrayCollection>
+            <fx:String>Co-author Graph</fx:String>
+            <fx:String>Co-author Path</fx:String>
+            <fx:String>Citaion Graph</fx:String>
+        </s:ArrayCollection>
+    </s:ButtonBar>
 
     <s:Image id="minImage" right="200" depth="{int.MAX_VALUE}" click="topo1.zoomOut()" bottom="40" source="{TopoGraph.min2}" useHandCursor="true" buttonMode="true"
             mouseOver="{minImage.source = TopoGraph.min1}" mouseOut="{minImage.source = TopoGraph.min2}" />
@@ -58,5 +72,5 @@
              mouseDown="moveGraph(event)"/>
     <s:Image id="c1" right="131 " depth="{int.MAX_VALUE}" bottom="43" source="{TopoGraph.c11}" useHandCursor="true" buttonMode="true"
              mouseOver="{c1.source = TopoGraph.c12}" mouseOut="{c1.source = TopoGraph.c13}" click="topo1.fit()"/>
-    
+
 </s:Application>
