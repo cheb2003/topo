@@ -49,7 +49,7 @@ import spark.components.Group;
     [SkinState("normal")]
     public class TopoGraph extends SkinnableContainer {
 
-        private var _dic:Dictionary = new Dictionary();
+
         [Embed('/my/ui/topo/asserts/min1.jpg')]
         public static const min1:Class;
         [Embed('/my/ui/topo/asserts/min2.jpg')]
