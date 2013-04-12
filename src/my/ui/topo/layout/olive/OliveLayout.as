@@ -18,7 +18,7 @@ import my.ui.topo.layout.GraphLayout;
     public class OliveLayout extends GraphLayout {
         private var basePoint:Point;
         private var referPoint:Point;
-        private var offset:int = 20;
+        private var offset:int = 100;
 
         public function OliveLayout() {
             super();

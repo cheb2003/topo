@@ -404,13 +404,14 @@ import spark.components.Group;
          * @param id
          */
 		public function requestData(id:String):void{
-			if (this.parentApplication.isTest)
+			if (id == TestData.RANDOM_DATA)//this.parentApplication.isTest)
 			{
 				nodeDataProvider = DataAnalyzer.getNodeList(TestData.testNodeJsonStr);
 				linkDataProvider = DataAnalyzer.getLinkList(TestData.testLinkJsonStr,nodeDataProvider.toArray());
-				performGraphLayout();
-				this.parentApplication.fn();
-			}else
+			}else if (id == TestData.OLIVE_DATA){
+                nodeDataProvider = DataAnalyzer.getNodeList(TestData.olive_nodes);
+                linkDataProvider = DataAnalyzer.getLinkList(TestData.olive_lines,nodeDataProvider.toArray());
+            }else
 				loadData(id);
 		}
 		
@@ -432,16 +433,19 @@ import spark.components.Group;
 
         public function showCoAuthorGraph():void{
             clearCanvas();
+            requestData(TestData.RANDOM_DATA);
             nodeLayout = new RandomLayout();
             performGraphLayout();
+            nodeLayout.performLayout();
         }
 
         public function showCoAuthorPath():void{
-        clearCanvas();
-        // parse data
-        nodeLayout = new OliveLayout();
-        performGraphLayout();
-    }
+            clearCanvas();
+            requestData(TestData.OLIVE_DATA);
+            nodeLayout = new OliveLayout();
+            performGraphLayout();
+            nodeLayout.performLayout();
+        }
 
         public function showCitaionGraph():void{
             clearCanvas();
