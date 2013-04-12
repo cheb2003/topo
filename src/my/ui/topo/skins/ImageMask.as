@@ -15,6 +15,7 @@ public class ImageMask extends UIComponent{
     override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
         trace("updateDisplayList")
         trace("x:" + x + " y:" + y + " width:" + width)
+        graphics.clear()
         graphics.beginFill(0xff0000);
         graphics.drawCircle(x ,y,width/2);
         graphics.endFill();
