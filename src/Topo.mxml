@@ -25,7 +25,7 @@
 				nodes = DataAnalyzer.getNodeList(TestData.testNodeJsonStr);
 				links = DataAnalyzer.getLinkList(TestData.testLinkJsonStr,nodes.toArray());
 			}else{
-				topo1.addNodes("");
+				topo1.requestData("");
 			}
 		}
         public function fn():void{

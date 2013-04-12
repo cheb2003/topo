@@ -7,6 +7,7 @@
  */
 package my.ui.topo.layout.olive {
 import flash.geom.Point;
+import flash.geom.Point;
 
 import my.ui.topo.Node;
 
@@ -15,6 +16,10 @@ import my.ui.topo.event.AdjustComplateEvent;
 import my.ui.topo.layout.GraphLayout;
 
     public class OliveLayout extends GraphLayout {
+        private var basePoint:Point;
+        private var referPoint:Point;
+        private var offset:int = 20;
+
         public function OliveLayout() {
             super();
         }
@@ -32,15 +37,19 @@ import my.ui.topo.layout.GraphLayout;
         }
 
         protected override function layout():void{
+            basePoint = new Point(offset, layoutRegion.height / 2);
+            referPoint = new Point(layoutRegion.width - offset, layoutRegion.height / 2);
             for(var i:int=0;i<topoGraph.nodeDataProvider.length;i++){
                 var node:Node = Node(topoGraph.nodeDataProvider.getItemAt(i));
+                if(node.isBase)
+                   topoGraph.moveNode(node, basePoint.x,  basePoint.y);
+                else if(node.isRefer)
+                   topoGraph.moveNode(node, referPoint.x,  referPoint.y);
+                else{
 
+                }
             }
             topoGraph.dispatchEvent(new AdjustComplateEvent(AdjustComplateEvent.NODE_ADJUST_COMPLATE));
-        }
-
-        private function moveBasicNode():void{
-
         }
 
         private function movePath():void{

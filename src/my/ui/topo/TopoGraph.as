@@ -219,7 +219,7 @@ import spark.components.Group;
 		{
 			g.removeElement(node);
 			if (isLast)
-				addNodes("");
+                requestData("");
 		}
 		/**
 		 * 将node移动到顶层
@@ -398,8 +398,12 @@ import spark.components.Group;
 		}
 		
 		private var service:HTTPService = new HTTPService();
-		
-		public function addNodes(id:String):void{
+
+        /**
+         * 请求数据
+         * @param id
+         */
+		public function requestData(id:String):void{
 			if (this.parentApplication.isTest)
 			{
 				nodeDataProvider = DataAnalyzer.getNodeList(TestData.testNodeJsonStr);
