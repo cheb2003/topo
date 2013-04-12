@@ -37,8 +37,10 @@ package my.ui.topo.data
 				if (obj.isBase=="true" || obj.isBase=="1"){
 					node.isBase = true;
                     baseNode = node;
-                }else
-					node.isBase = false;
+                }
+                if (obj.isRefer=="true" || obj.isRefer=="1"){
+                    node.isRefer = true;
+                }
 				if (obj.imageUrl!=null && obj.imageUrl.toString().length>0)
 					node.imageSource = obj.imageUrl;
 				if (obj.shadowColor!=null && obj.shadowColor.toString()!="")

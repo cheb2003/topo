@@ -25,7 +25,10 @@ package my.ui.topo {
 		/**输出连线集合*/
 		private var _outgoingLinks:Vector.<Link> = new Vector.<Link>();
         public var topoGraph:TopoGraph;
+        /**是否基础节点*/
 		public var isBase:Boolean = false;
+        /**是否参照节点*/
+        public var isRefer:Boolean = false;
 		public var labelName:String = "";
 		public var info:String = "";
 		public var rid:String = "";
