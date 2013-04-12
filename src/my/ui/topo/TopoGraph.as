@@ -413,7 +413,8 @@ import spark.components.Group;
                 linkDataProvider = DataAnalyzer.getLinkList(TestData.olive_lines,nodeDataProvider.toArray());
                 if(nodeLayout==null)
                     nodeLayout = new OliveLayout();
-                OliveLayout(nodeLayout).paths = DataAnalyzer.analysePath();
+                var paths:ArrayCollection = new ArrayCollection();
+                OliveLayout(nodeLayout).paths = paths;//DataAnalyzer.analysePath();
             }else
 				loadData(id);
 		}

@@ -17,5 +17,13 @@ public class Path {
         public function addNode(node:Node):void{
             nodes.addItem(node);
         }
+
+        public function nodeNum():int{
+            return nodes.length;
+        }
+
+        public function getNodes():ArrayCollection{
+            return nodes;
+        }
     }
 }
