@@ -10,13 +10,11 @@
 		<![CDATA[
 			import flash.filters.BitmapFilterQuality;
 			import flash.filters.BitmapFilterType;
-			
 			import mx.controls.Alert;
-			import mx.core.UIComponent;
 			import mx.events.EffectEvent;
-			
 			import my.ui.topo.Node;
-      		private var a1Playing:Boolean;
+
+            private var a1Playing:Boolean;
             private var isMouseOver:Boolean
 			[Bindable]
 			private var arr:Array = new Array();
@@ -25,6 +23,7 @@
             private function init():void {
 				arr.push(glow);
 				img.filters = arr;
+                addEventListener(MouseEvent.MOUSE_DOWN, hostComponent.mouseDownHandler, false, 0, true);
                 addEventListener(MouseEvent.MOUSE_MOVE,mouseMoveHandler)
                 addEventListener(MouseEvent.ROLL_OUT, rollOutHandler, false, 0, true);
                 spr1.graphics.beginFill(0xffffff, 0);
@@ -51,7 +50,12 @@
 //				uic.graphics.drawCircle(img.x+img.width/2 ,img.y+img.height/2,img.width/2);
 //				this.addElement(uic);
             }
-
+            private function mouseDownHandler(event:MouseEvent):void{
+                if(img.hitTestPoint(event.stageX, event.stageY) || sve.hitTestPoint(event.stageX, event.stageY)
+                        || (bc.visible == true && bc.hitTestPoint(event.stageX, event.stageY))) {
+                    hostComponent.mouseDownHandler(event)
+                }
+            }
             private function mouseMoveHandler(event:MouseEvent):void {
                 if(hostComponent.topoGraph.isMoving) {
                     return
@@ -211,26 +215,22 @@
 				<s:GradientEntry alpha="0.8" color="{hostComponent.shadowColor}" ratio="255"/>
 			</s:entries>
 		</s:GradientGlowFilter>
-        <s:Parallel id="p1" effectEnd="fix()">
+        <s:Parallel id="p1" effectStart="{a1Playing = true}" effectEnd="effectEndHandler(event);fix()">
             <s:Resize target="{this}" id="r1"  widthFrom="{width}" heightFrom="{height}" heightTo="{height + 40}" widthTo="{width + 40}"/>
-            <s:Animate id="a1" target="{this}" effectStart="{a1Playing = true}" effectEnd="effectEndHandler(event)">
-                <s:SimpleMotionPath property="x" valueFrom="{x}" valueTo="{x - 10}"/>
-                <s:SimpleMotionPath property="y" valueFrom="{y}" valueTo="{y - 10}"/>
-            </s:Animate>
             <s:Animate target="{img}">
-                <s:SimpleMotionPath property="width" valueFrom="{img.width}" valueTo="{img.width+20}"/>
-                <s:SimpleMotionPath property="height" valueFrom="{img.height}" valueTo="{img.height+20}"/>
+                <s:SimpleMotionPath property="x" valueFrom="{img.x}" valueTo="{img.x - 10}"/>
+                <s:SimpleMotionPath property="y" valueFrom="{img.y}" valueTo="{img.y - 10}"/>
+                <s:SimpleMotionPath property="width" valueFrom="{img.width}" valueTo="{img.width+40}"/>
+                <s:SimpleMotionPath property="height" valueFrom="{img.height}" valueTo="{img.height+40}"/>
             </s:Animate>
         </s:Parallel>
-        <s:Parallel id="p2" effectEnd="fix()">
+        <s:Parallel id="p2" effectStart="effectStartHandler(event)" effectEnd="a1Playing = false;fix()">
             <s:Resize target="{this}"  widthFrom="{width}" heightFrom="{height}" heightTo="{height - 40}" widthTo="{width - 40}"/>
-            <s:Animate target="{this}" effectStart="effectStartHandler(event)" effectEnd="{a1Playing = false}">
-                <s:SimpleMotionPath property="x" valueFrom="{x}" valueTo="{x + 10}"/>
-                <s:SimpleMotionPath property="y" valueFrom="{y}" valueTo="{y + 10}"/>
-            </s:Animate>
             <s:Animate target="{img}">
-                <s:SimpleMotionPath property="width" valueFrom="{img.width}" valueTo="{img.width-20}"/>
-                <s:SimpleMotionPath property="height" valueFrom="{img.height}" valueTo="{img.height-20}"/>
+                <s:SimpleMotionPath property="x" valueFrom="{img.x}" valueTo="{img.x + 10}"/>
+                <s:SimpleMotionPath property="y" valueFrom="{img.y}" valueTo="{img.y + 10}"/>
+                <s:SimpleMotionPath property="width" valueFrom="{img.width}" valueTo="{img.width-40}"/>
+                <s:SimpleMotionPath property="height" valueFrom="{img.height}" valueTo="{img.height-40}"/>
             </s:Animate>
         </s:Parallel>
 		
