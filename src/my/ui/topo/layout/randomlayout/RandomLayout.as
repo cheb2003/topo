@@ -58,7 +58,19 @@ package my.ui.topo.layout.randomlayout
 			startY = tempHeight/2-minValue/2+REGION_OFFSET;
 			return new Rectangle(startX, startY, endX,endY);
 		}
-		
+
+        public override function initPosition():void{
+            for(var i:int=0;i<topoGraph.nodeDataProvider.length;i++){
+                var node:Node = Node(topoGraph.nodeDataProvider.getItemAt(i));
+                var p:Point = RandomFactory.getRandomPoint(layoutRegion);
+                topoGraph.addNode(node);
+                if (node.isBase)
+                    node.depth = int.MAX_VALUE;
+                node.x = p.x;
+                node.y = p.y;
+            }
+        }
+
 		protected override function layout():void{
 			var distance:Number = (topoGraph.nodeDataProvider.getItemAt(0) as Node).getCheckRepeatDistance();
 			var arr:ArrayList = RandomFactory.getRandomPointList(topoGraph.nodeDataProvider.length, distance, resetCircleLayoutRegion(),0,topoGraph.getBasePoint());

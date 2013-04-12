@@ -11,7 +11,9 @@
 		import my.ui.topo.data.DataAnalyzer;
 		import my.ui.topo.data.TestData;
 
-		[Bindable]
+        import spark.events.IndexChangeEvent;
+
+        [Bindable]
 		public var nodes:ArrayCollection = null;
 		[Bindable]
 		public var links:ArrayCollection = null;
@@ -29,7 +31,6 @@
         public function fn():void{
            topo1.nodeLayout.performLayout();
         }
-		
 
         private function moveGraph(event:MouseEvent):void {
             var x:Number = 20 - event.localX
@@ -46,16 +47,22 @@
             }
             topo1.moveBy(x, y)
         }
+
+        public function indexChangeHandler(evt:IndexChangeEvent):void{
+            if(btnBar.selectedIndex == 0){
+                topo1.showCoAuthorGraph();
+            }else if(btnBar.selectedIndex == 1){
+                topo1.showCoAuthorPath();
+            }else if(btnBar.selectedIndex == 2){
+                topo1.showCitaionGraph();
+            }
+        }
+
         ]]></fx:Script>
 
+    <topo1:TopoGraph id="topo1" nodeDataProvider="{nodes}" linkDataProvider="{links}" backgroundColor="#ffffff"  width="100%" height="100%"/>
 
-    <mx:ViewStack>
-        <s:NavigatorContent width="100%" height="100%">
-            <topo1:TopoGraph id="topo1" nodeDataProvider="{nodes}" linkDataProvider="{links}" backgroundColor="#ffffff"  width="100%" height="100%"/>
-        </s:NavigatorContent>
-    </mx:ViewStack>
-
-    <s:ButtonBar id="btnBar" top="20" left="50" height="30" focusColor="0xFE8D10">
+    <s:ButtonBar id="btnBar" top="20" left="50" height="30" change="indexChangeHandler(event)" selectedIndex="0">
         <s:ArrayCollection>
             <fx:String>Co-author Graph</fx:String>
             <fx:String>Co-author Path</fx:String>

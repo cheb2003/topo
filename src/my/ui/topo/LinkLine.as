@@ -80,7 +80,6 @@ package my.ui.topo
 			this.graphics.lineTo(xTo,yTo);
 		}
 
-        [Bindable]
         public function getDecorationX():Number{
             if(isDirectRelation)
                 return (xFrom+xTo)/2;
@@ -95,7 +94,6 @@ package my.ui.topo
             }
         }
 
-        [Bindable]
         public function getDecorationY():Number{
             if(isDirectRelation)
                 return (yFrom+yTo)/2;

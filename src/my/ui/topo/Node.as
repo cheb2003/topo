@@ -147,7 +147,6 @@ package my.ui.topo {
             return _incomingLinks.concat(_outgoingLinks);
         }
 
-        [Bindable]
         public function calcWidth():Number{
             if(isBase)
                 return MAX_WIDTH;
@@ -168,7 +167,6 @@ package my.ui.topo {
             }
         }
 
-        [Bindable]
         public function calcHeight():Number{
             if(isBase)
                 return MAX_HEIGHT;

@@ -30,7 +30,8 @@ import mx.collections.ArrayCollection;
     import my.ui.topo.event.AdjustComplateEvent;
     import my.ui.topo.layout.GraphLayout;
     import my.ui.topo.layout.basic.StraightLayout;
-    import my.ui.topo.layout.randomlayout.RandomFactory;
+import my.ui.topo.layout.olive.OliveLayout;
+import my.ui.topo.layout.randomlayout.RandomFactory;
     import my.ui.topo.layout.randomlayout.RandomLayout;
     import my.ui.topo.skins.DefaultTopoSkin;
 
@@ -161,19 +162,23 @@ import spark.components.Group;
 			
 			nodeLayout.layoutRegion = new Rectangle(0, 0, totalWidth, totalHeight);
 			nodeLayout.topoGraph = this;
-			
-			for(var i:int=0;i<nodeDataProvider.length;i++){
-				var node:Node = Node(nodeDataProvider.getItemAt(i));
-				var p:Point = RandomFactory.getRandomPoint(new Rectangle(0,0,totalWidth,totalHeight));
-				g.addElement(node);
-				if (node.isBase)
-					node.depth = int.MAX_VALUE;
-				node.x = p.x;
-				node.y = p.y;
-			}
-			
+			nodeLayout.initPosition();
+
+//			for(var i:int=0;i<nodeDataProvider.length;i++){
+//				var node:Node = Node(nodeDataProvider.getItemAt(i));
+//				var p:Point = RandomFactory.getRandomPoint(new Rectangle(0,0,totalWidth,totalHeight));
+//				g.addElement(node);
+//				if (node.isBase)
+//					node.depth = int.MAX_VALUE;
+//				node.x = p.x;
+//				node.y = p.y;
+//			}
 		}
-		
+
+        public function addNode(node:Node):void{
+            g.addElement(node);
+        }
+
 		private function addLinks(evt:AdjustComplateEvent):void
 		{
 
@@ -367,8 +372,7 @@ import spark.components.Group;
 				var link:Link = linkDataProvider.getItemAt(j) as Link;
 				g.removeElement(link);
 			}
-			
-			
+
 			for (var i:int=0; i<nodeDataProvider.length; i++){
 				var node:Node = nodeDataProvider.getItemAt(i) as Node;
 				if (node.isBase){
@@ -411,6 +415,29 @@ import spark.components.Group;
 			}
 			return null;
 		}
+
+        public function clearCanvas():void{
+            g.removeAllElements();
+            nodeDataProvider = null;
+            linkDataProvider = null;
+        }
+
+        public function showCoAuthorGraph(){
+            clearCanvas();
+            nodeLayout = new RandomLayout();
+            performGraphLayout();
+        }
+
+        public function showCoAuthorPath(){
+            clearCanvas();
+            // parse data
+            nodeLayout = new OliveLayout();
+            performGraphLayout();
+        }
+
+        public function showCitaionGraph(){
+            clearCanvas();
+        }
     }
 
 }
