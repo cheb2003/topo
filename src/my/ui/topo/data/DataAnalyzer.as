@@ -6,8 +6,9 @@ package my.ui.topo.data
 	import mx.collections.ArrayList;
     import mx.collections.Sort;
     import mx.collections.SortField;
+import mx.controls.Alert;
 
-    import my.ui.topo.Link;
+import my.ui.topo.Link;
 	import my.ui.topo.Node;
     import my.ui.topo.Path;
 
@@ -15,6 +16,8 @@ public class DataAnalyzer
 	{
         //标示基础节点对象，用于计算连线是否是直接/间接关系
         private static var baseNode:Node;
+        /**标记referNode，用于Co-author Path图*/
+        private static var referNode:Node;
 
 		public function DataAnalyzer()
 		{
@@ -35,6 +38,7 @@ public class DataAnalyzer
                 }
                 if (obj.isRefer=="true" || obj.isRefer=="1"){
                     node.isRefer = true;
+                    referNode = node;
                 }
 				if (obj.imageUrl!=null && obj.imageUrl.toString().length>0)
 					node.imageSource = obj.imageUrl;
@@ -70,6 +74,11 @@ public class DataAnalyzer
                     link.isDirectRelation = true;
                 }else{
                     link.baseNode = baseNode;
+                }
+                if(link.startNode == referNode || link.endNode == referNode){
+                    link.isDirectRelation = true;
+                }else{
+                    link.referNode = referNode;
                 }
 				result.addItem(link);
 			}
