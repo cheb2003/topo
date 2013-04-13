@@ -87,6 +87,10 @@ import spark.components.Group;
 		private var SERVICE_URL:String = "";
         //是否开启拖拽模式
         public var isMoving:Boolean = false;
+
+        public static const RANDOM_LAYOUT:String = "random";
+        public static const OLIVE_LAYOUT:String = "olive";
+        public var current_layout:String = RANDOM_LAYOUT;
 		
         public function TopoGraph() {
             super();
@@ -190,6 +194,7 @@ import spark.components.Group;
             var linkTip:LinkTip
 			for(var j:int=0;j<linkDataProvider.length;j++){
 				var link:Link = Link(linkDataProvider.getItemAt(j));
+                link.topoGraph = this;
 				g.addElement(link);
                 linkTip = new LinkTip()
                 linkTip.linkInfo = link.linkInfo
@@ -437,6 +442,7 @@ import spark.components.Group;
 
         public function showCoAuthorGraph():void{
             clearCanvas();
+            current_layout = TopoGraph.RANDOM_LAYOUT;
             requestData(TestData.RANDOM_DATA);
             nodeLayout = new RandomLayout();
             performGraphLayout();
@@ -445,6 +451,7 @@ import spark.components.Group;
 
         public function showCoAuthorPath():void{
             clearCanvas();
+            current_layout = TopoGraph.OLIVE_LAYOUT;
             nodeLayout = new OliveLayout();
             requestData(TestData.OLIVE_DATA);
             performGraphLayout();

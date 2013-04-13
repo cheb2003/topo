@@ -19,7 +19,7 @@
 				   xTo="{hostComponent.endNode.x}"
 				   yFrom="{hostComponent.startNode.y}"
 				   yTo="{hostComponent.endNode.y}"
-				   isDirectRelation="{hostComponent.isDirectRelation}" link="{hostComponent}" baseNode="{hostComponent.baseNode}"/>
+				   isDirectRelation="{hostComponent.isDirectRelation}" link="{hostComponent}" baseNode="{hostComponent.baseNode}" topoGraph="{hostComponent.topoGraph}"/>
 	
 	<topo:LinkDecoration id="linkDecoration" visible.mouseOver="true" visible="false" includeInLayout.mouseOver="true" includeInLayout="false"
 						x="{linkLine.getDecorationX()}" y="{linkLine.getDecorationY()}" linkLine="{linkLine}" label="{hostComponent.label}"

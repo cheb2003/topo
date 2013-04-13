@@ -26,6 +26,7 @@ package my.ui.topo
         public var label:String = "";
         public var baseNode:Node;
         public var referNode:Node;
+        public var topoGraph:TopoGraph;
 
         [SkinPart(required="true")]
         public var linkDecoration:LinkDecoration

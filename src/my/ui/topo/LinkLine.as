@@ -33,6 +33,7 @@ package my.ui.topo
 		private var _outFlag:Boolean;
 		public var link:Link;
         public var baseNode:Node;
+        public var topoGraph:TopoGraph;
 		
 		public function LinkLine()
 		{
@@ -74,16 +75,42 @@ package my.ui.topo
 		//绘制直接关系
 		public function drawDirectRelation():void {
 			this.graphics.clear();
-			this.graphics.lineStyle(this.overThick,drlStartColor);
-//			this.graphics.lineGradientStyle(GradientType.LINEAR,[drlStartColor, drlEndColor], [1, 1], [127, 255]);
+            this.graphics.lineStyle(this.overThick,drlStartColor);
             this.graphics.moveTo(xFrom,yFrom);
-			this.graphics.lineTo(xTo,yTo);
+			if(topoGraph.current_layout == TopoGraph.OLIVE_LAYOUT){
+                //绘制二次贝塞尔曲线
+                var controlX:Number = (xFrom+xTo)/2;
+                var controlY:Number = (yFrom+yTo)/2;
+                var baseX:Number = topoGraph.getCenterPoint().x;
+                var baseY:Number = topoGraph.getCenterPoint().y;
+                if(controlX<baseX)
+                    controlX -= offset;
+                if(controlY<baseY)
+                    controlY -= offset;
+                if(controlX>baseX)
+                    controlX += offset;
+                if(controlY>baseY)
+                    controlY += offset;
+                this.graphics.curveTo(controlX, controlY,xTo, yTo);
+            }else{
+    //			this.graphics.lineGradientStyle(GradientType.LINEAR,[drlStartColor, drlEndColor], [1, 1], [127, 255]);
+                this.graphics.lineTo(xTo,yTo);
+            }
 		}
         [Bindable]
         public function getDecorationX():Number{
-            if(isDirectRelation)
-                return (xFrom+xTo)/2;
-            else{
+            if(isDirectRelation){
+                if(topoGraph.current_layout == TopoGraph.OLIVE_LAYOUT){
+                    var controlX:Number = (xFrom+xTo)/2;
+                    var baseX:Number = topoGraph.getCenterPoint().x;
+                    if(controlX<baseX)
+                        controlX -= offset/2;
+                    if(controlX>baseX)
+                        controlX += offset/2;
+                    return controlX;
+                }else
+                    return (xFrom+xTo)/2;
+            }else{
                 var controlX:Number = (xFrom+xTo)/2;
                 var baseX:Number = baseNode.x;
                 if(controlX<baseX)
@@ -95,9 +122,18 @@ package my.ui.topo
         }
         [Bindable]
         public function getDecorationY():Number{
-            if(isDirectRelation)
-                return (yFrom+yTo)/2;
-            else{
+            if(isDirectRelation){
+                if(topoGraph.current_layout == TopoGraph.OLIVE_LAYOUT){
+                    var controlY:Number = (yFrom+yTo)/2;
+                    var baseY:Number = topoGraph.getCenterPoint().y;
+                    if(controlY<baseY)
+                        controlY -= offset/2;
+                    if(controlY>baseY)
+                        controlY += offset/2;
+                    return controlY;
+                }else
+                    return (yFrom+yTo)/2;
+            }else{
                 var controlY:Number = (yFrom+yTo)/2;
                 var baseY:Number = baseNode.y;
                 if(controlY<baseY)
