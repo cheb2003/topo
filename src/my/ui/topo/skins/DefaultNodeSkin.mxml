@@ -19,7 +19,8 @@
 			[Bindable]
 			private var arr:Array = new Array();
             private const spr1:Sprite = new Sprite();
-			
+			private var imgWidth:Number
+            private var imgHeight:Number
             private function init():void {
 				arr.push(glow);
 				img.filters = arr;
@@ -42,7 +43,8 @@
 				/*this.addElement(m);
 				*/
                 img.mask=mask;
-				
+				imgWidth = img.width
+                imgHeight = img.height
 //				var uic:UIComponent=new UIComponent();
 //				uic.graphics.lineStyle(1,0x000000,1);
 //				uic.graphics.beginFill(0x000000,1);
@@ -113,7 +115,6 @@
                     if(width > 80 && width <= 120) {
 						setNodeDepth(hostComponent,Math.abs(Math.random()));
                         p2.play()
-//                        hostComponent.depth = Math.abs(Math.random());
                     }
                 }
             }
@@ -128,7 +129,6 @@
                     if(p2.isPlaying) {
 						setNodeDepth(hostComponent,int.MAX_VALUE);
                         p2.reverse()
-//                        hostComponent.depth = int.MAX_VALUE
                         showBC(true)
                     }
                     a1Playing = false;
@@ -137,7 +137,6 @@
                 if(width <= 80) {
 					setNodeDepth(hostComponent,Math.abs(int.MAX_VALUE));
                     p1.play();
-//                    hostComponent.depth = int.MAX_VALUE
                 }
             }
 
@@ -170,7 +169,11 @@
                 if(width < 80 || width > 120) {
                     width = hostComponent.calcWidth();//80
                     height = hostComponent.calcHeight();//60
+                    img.width = imgWidth
+                    img.height = imgHeight
                 }
+
+
             }
 
             private function fixBC():void {
@@ -254,7 +257,7 @@
 		</s:mask>-->
 	</s:Image>
 
-    <s:Label id="label"  x="{img.x}" y="{img.y+img.height+5}" width="{img.width}" textAlign="center" text="{hostComponent.labelName}" />
+    <s:Label id="label"  x="{img.x - 15}" y="{img.y+img.height+5}" width="{img.width + 30}" textAlign="center" text="{hostComponent.labelName}" />
     <s:BorderContainer mouseOver="{bc.setStyle('backgroundColor',0x544E6C)}" mouseOut="{bc.setStyle('backgroundColor',0xffffff)}" click="bcClick()" id="bc" visible="false" includeInLayout="false" width="235" height="40" x="{img.x+img.width/2-this.width/2-30}" y="{img.y+img.height}"
                        cornerRadius="5" borderWeight="2" dropShadowVisible="false" showEffect="{nodeTipEffect}" color="0x999999">
         <s:Label x="5" y="13" text=">>" color="0x4fBEF1" fontWeight="bold"/>

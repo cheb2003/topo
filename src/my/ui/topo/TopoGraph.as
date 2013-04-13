@@ -201,6 +201,8 @@ import spark.components.Group;
                 linkTip.linkLine = link.linkLine
                 linkTip.linkName = link.linkName
                 linkTip.label = link.label
+                linkTip.x = link.linkDecoration.x - 30
+                linkTip.y = link.linkDecoration.y - 55
                 link.linkDecoration.addEventListener("xChanged",linkTip.xChanged,false,0,false)
                 link.linkDecoration.addEventListener("yChanged",linkTip.yChanged,false,0,false)
                 link.linkDecoration.linkTip = linkTip
