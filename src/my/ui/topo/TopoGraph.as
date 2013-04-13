@@ -22,6 +22,7 @@ import flash.utils.Dictionary;
 
 import mx.collections.ArrayCollection;
 import mx.controls.Alert;
+import mx.core.FlexGlobals;
 import mx.events.FlexEvent;
 import mx.messaging.errors.NoChannelAvailableError;
     import mx.rpc.events.ResultEvent;
@@ -226,8 +227,14 @@ import spark.components.Group;
 		private function testFuncabc(node:Node, isLast:Boolean):void
 		{
 			g.removeElement(node);
-			if (isLast)
-                requestData("");
+			if (isLast) {
+                if(FlexGlobals.topLevelApplication.btnBar.selectedIndex == 0 || FlexGlobals.topLevelApplication.btnBar.selectedIndex == 1){
+                    showCoAuthorGraph()
+                    FlexGlobals.topLevelApplication.btnBar.selectedIndex = 0
+                }
+                //requestData("");
+            }
+
 		}
 		/**
 		 * 将node移动到顶层
@@ -332,7 +339,7 @@ import spark.components.Group;
             _lastMovePoint = newPoint;
         }
 
-       public function set lastMovePoint(value:Point):void {
+        public function set lastMovePoint(value:Point):void {
             _lastMovePoint = value;
         }
 
