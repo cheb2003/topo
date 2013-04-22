@@ -228,9 +228,9 @@ import spark.components.Group;
 		{
 			g.removeElement(node);
 			if (isLast) {
-                if(FlexGlobals.topLevelApplication.btnBar.selectedIndex == 0 || FlexGlobals.topLevelApplication.btnBar.selectedIndex == 1){
+                if(FlexGlobals.topLevelApplication.btnBar.selectedItem.index == 1){
                     showCoAuthorGraph()
-                    FlexGlobals.topLevelApplication.btnBar.selectedIndex = 0
+                    //FlexGlobals.topLevelApplication.btnBar.selectedIndex = 0
                 }
                 //requestData("");
             }
