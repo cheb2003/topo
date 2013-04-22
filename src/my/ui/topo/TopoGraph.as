@@ -96,7 +96,7 @@ import spark.components.Group;
         public function TopoGraph() {
             super();
             setStyle("skinClass", DefaultTopoSkin);
-			callLater(performGraphLayout);
+			//callLater(performGraphLayout);
             addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler, false, 0, true);
             addEventListener(MouseEvent.MOUSE_WHEEL,mouseWheelHandler,false,0,true);
 			addEventListener(AdjustComplateEvent.NODE_ADJUST_COMPLATE,addLinks,false,0,true);
