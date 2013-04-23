@@ -6,25 +6,26 @@
  * To change this template use File | Settings | File Templates.
  */
 package my.ui.topo {
+    import com.adobe.serialization.json.JSON;
     import com.greensock.TweenLite;
     import com.greensock.events.TweenEvent;
     import com.greensock.plugins.OnChangeRatioPlugin;
     
     import flash.display.DisplayObject;
     import flash.display.DisplayObjectContainer;
-import flash.events.Event;
-import flash.events.MouseEvent;
+    import flash.events.Event;
+    import flash.events.MouseEvent;
     import flash.geom.Matrix;
     import flash.geom.Point;
     import flash.geom.Rectangle;
     import flash.net.URLVariables;
-import flash.utils.Dictionary;
-
-import mx.collections.ArrayCollection;
-import mx.controls.Alert;
-import mx.core.FlexGlobals;
-import mx.events.FlexEvent;
-import mx.messaging.errors.NoChannelAvailableError;
+    import flash.utils.Dictionary;
+    
+    import mx.collections.ArrayCollection;
+    import mx.controls.Alert;
+    import mx.core.FlexGlobals;
+    import mx.events.FlexEvent;
+    import mx.messaging.errors.NoChannelAvailableError;
     import mx.rpc.events.ResultEvent;
     import mx.rpc.http.HTTPService;
     
@@ -33,14 +34,13 @@ import mx.messaging.errors.NoChannelAvailableError;
     import my.ui.topo.event.AdjustComplateEvent;
     import my.ui.topo.layout.GraphLayout;
     import my.ui.topo.layout.basic.StraightLayout;
-import my.ui.topo.layout.olive.OliveLayout;
-import my.ui.topo.layout.randomlayout.RandomFactory;
+    import my.ui.topo.layout.olive.OliveLayout;
+    import my.ui.topo.layout.randomlayout.RandomFactory;
     import my.ui.topo.layout.randomlayout.RandomLayout;
     import my.ui.topo.skins.DefaultTopoSkin;
-
-import spark.components.ButtonBar;
-
-import spark.components.Group;
+    
+    import spark.components.ButtonBar;
+    import spark.components.Group;
     import spark.components.SkinnableContainer;
     import spark.components.supportClasses.SkinnableComponent;
     import spark.effects.Animate;
@@ -85,7 +85,7 @@ import spark.components.Group;
 		/**当前选中节点*/
 		private var _selectedNode:Node;
 		private var g:Group = new Group();
-		private var SERVICE_URL:String = "";
+		private var SERVICE_URL:String = "http://localhost:8080/TestWebData/servlet/GetTestData";
         //是否开启拖拽模式
         public var isMoving:Boolean = false;
 
@@ -100,7 +100,7 @@ import spark.components.Group;
             addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler, false, 0, true);
             addEventListener(MouseEvent.MOUSE_WHEEL,mouseWheelHandler,false,0,true);
 			addEventListener(AdjustComplateEvent.NODE_ADJUST_COMPLATE,addLinks,false,0,true);
-			service.url = SERVICE_URL;
+//			service.url = SERVICE_URL;
 			this.addElement(g);
         }
 
@@ -113,10 +113,23 @@ import spark.components.Group;
 		
 		private function loadComplateHandle(evt:ResultEvent):void{
 			var data:Object = evt.result;
-
-			nodeDataProvider = DataAnalyzer.getNodeList(data.nodeList.toString());
-			linkDataProvider = DataAnalyzer.getLinkList(data.linkList.toString(), nodeDataProvider.toArray());
+			var str:String = data.toString();
+			var begin:int = str.indexOf("nodes':")+"nodes':".length;
+			var end:int = str.indexOf(",'links':[");
+			var str1:String = str.substring(begin,end);
+			var reg :RegExp = /'/g;
+			str1 = str1.replace(reg,"\"");
+//			trace(str1);
+			nodeDataProvider = DataAnalyzer.getNodeList(str1);
+			begin = end+",'links':[".length-1;
+			end = str.length-1;
+			str1 = str.substring(begin,end).replace(reg,"\"");
+			trace(str1);
+			linkDataProvider = DataAnalyzer.getLinkList(str1,nodeDataProvider.toArray());
 			performGraphLayout();
+			if (!nodeLayout)
+				nodeLayout = new RandomLayout();
+			nodeLayout.performLayout();
 		}
 
 		public function zoomOut():void
@@ -418,19 +431,21 @@ import spark.components.Group;
          * 请求数据
          * @param id
          */
-		public function requestData(id:String):void{
-			if (id == TestData.RANDOM_DATA)//this.parentApplication.isTest)
-			{
-				nodeDataProvider = DataAnalyzer.getNodeList(TestData.testNodeJsonStr);
-				linkDataProvider = DataAnalyzer.getLinkList(TestData.testLinkJsonStr,nodeDataProvider.toArray());
-			}else if (id == TestData.OLIVE_DATA){
-                nodeDataProvider = DataAnalyzer.getNodeList(TestData.olive_nodes);
-                linkDataProvider = DataAnalyzer.getLinkList(TestData.olive_lines,nodeDataProvider.toArray());
-                if(nodeLayout==null)
-                    nodeLayout = new OliveLayout();
-                OliveLayout(nodeLayout).paths = DataAnalyzer.analysePath(nodeDataProvider, linkDataProvider);
-            }else
-				loadData(id);
+		public function requestData(url:String,id:String):void{
+//			if (id == TestData.RANDOM_DATA)//this.parentApplication.isTest)
+//			{
+//				nodeDataProvider = DataAnalyzer.getNodeList(TestData.testNodeJsonStr);
+//				linkDataProvider = DataAnalyzer.getLinkList(TestData.testLinkJsonStr,nodeDataProvider.toArray());
+//			}else if (id == TestData.OLIVE_DATA){
+//                nodeDataProvider = DataAnalyzer.getNodeList(TestData.olive_nodes);
+//                linkDataProvider = DataAnalyzer.getLinkList(TestData.olive_lines,nodeDataProvider.toArray());
+//                if(nodeLayout==null)
+//                    nodeLayout = new OliveLayout();
+//                OliveLayout(nodeLayout).paths = DataAnalyzer.analysePath(nodeDataProvider, linkDataProvider);
+//            }else
+//				loadData(id);
+			service.url = url;
+			loadData(id);
 		}
 
 		public function getBasePoint():Point{
@@ -452,19 +467,18 @@ import spark.components.Group;
         public function showCoAuthorGraph():void{
             clearCanvas();
             current_layout = TopoGraph.RANDOM_LAYOUT;
-            requestData(TestData.RANDOM_DATA);
-            nodeLayout = new RandomLayout();
-            performGraphLayout();
-            nodeLayout.performLayout();
+            requestData(SERVICE_URL,"");
+//            nodeLayout = new RandomLayout();
+//            performGraphLayout();
+//            nodeLayout.performLayout();
         }
 
-        public function showCoAuthorPath():void{
-            clearCanvas();
+        public function showCoAuthorPath():void{            clearCanvas();
             current_layout = TopoGraph.OLIVE_LAYOUT;
             nodeLayout = new OliveLayout();
-            requestData(TestData.OLIVE_DATA);
-            performGraphLayout();
-            nodeLayout.performLayout();
+			requestData(SERVICE_URL,"");
+//            performGraphLayout();
+//            nodeLayout.performLayout();
         }
 
         public function showCitaionGraph():void{

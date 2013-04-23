@@ -17,16 +17,16 @@
 		public var nodes:ArrayCollection = null;
 		[Bindable]
 		public var links:ArrayCollection = null;
-		public var isTest:Boolean = true;
+		public var isTest:Boolean = false;
 		public function pinit():void
 		{
-			if (isTest)
-			{
-				nodes = DataAnalyzer.getNodeList(TestData.testNodeJsonStr);
-				links = DataAnalyzer.getLinkList(TestData.testLinkJsonStr,nodes.toArray());
-			}else{
-				topo1.requestData("");
-			}
+//			if (isTest)
+//			{
+//				nodes = DataAnalyzer.getNodeList(TestData.testNodeJsonStr);
+//				links = DataAnalyzer.getLinkList(TestData.testLinkJsonStr,nodes.toArray());
+//			}else{
+//				topo1.requestData("");
+//			}
 		}
         public function fn():void{
             //topo1.nodeLayout.performLayout();
