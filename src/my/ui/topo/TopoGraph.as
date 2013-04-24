@@ -233,8 +233,11 @@ import mx.collections.ArrayCollection;
 		public function moveOut(node:Node, nodeX:Number, nodeY:Number, isLast:Boolean):void
 		{
 
+//			moveOut1(node,nodeX,nodeY,isLast);
             TweenLite.delayedCall(delay,moveOut1, [node, nodeX,nodeY,isLast]);
-            delay += 0.3
+			trace(delay);
+			if (delay<2)
+            delay += 0.05;
 
 //			g.removeElement(node);
 		}

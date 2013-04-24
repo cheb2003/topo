@@ -42,31 +42,38 @@
             var arr:Array = []
             var str:String = ExternalInterface.call('fn');
             if(str == "1"){
+				btnBar.selectedItem = obj1;
                 topo1.showCoAuthorGraph()
             }
             if(str == "2"){
+				btnBar.selectedItem = obj2;
                 topo1.showCoAuthorPath()
             }
             if(str == "3"){
+				btnBar.selectedItem = obj3;
                 topo1.showCitaionGraph()
             }
             if(str == "101"){
+				btnBar.selectedItem = obj1;
                 topo1.showCoAuthorGraph()
                 arr.push(obj1, obj3);
 
                 showBtn(true)
             }
             if(str == "110"){
+				btnBar.selectedItem = obj1;
                 topo1.showCoAuthorGraph()
                 arr.push(obj1, obj2);
                 showBtn(true)
             }
             if(str == "111"){
+				btnBar.selectedItem = obj1;
                 topo1.showCoAuthorGraph()
                 arr.push(obj1, obj2, obj3);
                 showBtn(true)
             }
             if(str == "011"){
+				btnBar.selectedItem = obj2; 
                 topo1.showCoAuthorPath()
                 arr.push(obj2, obj3)
                 showBtn(true)
