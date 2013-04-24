@@ -47,6 +47,7 @@ import my.ui.topo.layout.GraphLayout;
         }
 
         protected override function layout():void{
+            super.layout()
             basePoint = new Point(peak_margin, layoutRegion.height / 2);
             referPoint = new Point(layoutRegion.width - peak_margin, layoutRegion.height / 2);
             for(var i:int=0;i<topoGraph.nodeDataProvider.length;i++){
@@ -61,6 +62,7 @@ import my.ui.topo.layout.GraphLayout;
         }
 
         private function movePath():void{
+            topoGraph.resetDelayAnimationFactor();
             var len:int = paths.length > MAX_PATH ? MAX_PATH : paths.length;
             for(var i:int=0;i<len;i++){
                 var path:Path = Path(paths.getItemAt(i));

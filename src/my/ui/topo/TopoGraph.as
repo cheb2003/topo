@@ -98,11 +98,7 @@ import mx.collections.ArrayCollection;
         public static const RANDOM_LAYOUT:String = "random";
         public static const OLIVE_LAYOUT:String = "olive";
         public var current_layout:String = RANDOM_LAYOUT;
-        public var animation_queue:Array = new Array();
-        public var current_queue:int = 0;
-        public const MAX_QUEUE_NUM:int = 10;
-        public var timer:Timer;
-		
+
         public function TopoGraph() {
             super();
             setStyle("skinClass", DefaultTopoSkin);
@@ -112,22 +108,6 @@ import mx.collections.ArrayCollection;
 			addEventListener(AdjustComplateEvent.NODE_ADJUST_COMPLATE,addLinks,false,0,true);
 //			service.url = SERVICE_URL;
 			this.addElement(g);
-
-            timer = new Timer(10);
-            timer.addEventListener(TimerEvent.TIMER, function(evt:TimerEvent){
-                if(current_queue < MAX_QUEUE_NUM){
-                    var len:int  = animation_queue.length > MAX_QUEUE_NUM ?  MAX_QUEUE_NUM - current_queue : animation_queue.length - current_queue;
-                    for(var i:int=0;i<len;i++){
-                        current_queue++;
-                        var element:Object = animation_queue.pop();
-                        trace(element);
-                        TweenLite.to(element.node, 1, {x:element.nodeX,y:element.nodeY, onComplete:function(){
-                            current_queue--;
-                        }});
-                    }
-                }
-            });
-            timer.start();
         }
 
 		public function loadData(id:String):void{
@@ -240,23 +220,38 @@ import mx.collections.ArrayCollection;
 		
 		/**
 		 * 移动节点位置
-		 */ 
+		 */
+        private var delay = 1;
+        public function resetDelayAnimationFactor():void{
+            delay = 1;
+        }
 		public function moveNode(node:Node, nodeX:Number, nodeY:Number):void {
-            animation_queue.push({"node":node,"nodeX":nodeX, "nodeY":nodeY});
-//			TweenLite.to(node,1.5,{x:nodeX,y:nodeY});
+			TweenLite.delayedCall(delay,moveNode1, [node, nodeX,nodeY]);
+            delay += 0.3
 		}
+        private function moveNode1(node:Node, nodeX:Number, nodeY:Number):void {
+            TweenLite.to(node,1.5,{x:nodeX,y:nodeY});
+        }
 		
 		public function moveOut(node:Node, nodeX:Number, nodeY:Number, isLast:Boolean):void
 		{
-			TweenLite.to(node,1.5,{x:nodeX,y:nodeY,onComplete:testFuncabc,onCompleteParams:[node,isLast]});
+
+            TweenLite.delayedCall(delay,moveOut1, [node, nodeX,nodeY,isLast]);
+            delay += 0.3
+
 //			g.removeElement(node);
 		}
+        private function moveOut1(node:Node, nodeX:Number, nodeY:Number, isLast:Boolean):void{
+            TweenLite.to(node,1.5,{x:nodeX,y:nodeY,onComplete:testFuncabc,onCompleteParams:[node,isLast]});
+        }
 		
 		private function testFuncabc(node:Node, isLast:Boolean):void
 		{
 			g.removeElement(node);
 			if (isLast) {
-                if(FlexGlobals.topLevelApplication.btnBar.selectedItem.index == 1){
+
+                if(FlexGlobals.topLevelApplication.getBtnIndex() == 1){
+                    //TODO:调用出错不能找到btnBar.selectedItem...
                     showCoAuthorGraph()
                     //FlexGlobals.topLevelApplication.btnBar.selectedIndex = 0
                 }
@@ -414,6 +409,7 @@ import mx.collections.ArrayCollection;
 		
 		public function removeAllNode(id:String):void
 		{
+            resetDelayAnimationFactor()
 			var p:Point = getCenterPoint();
 			for (var j:int=0; j<linkDataProvider.length; j++){
 				var link:Link = linkDataProvider.getItemAt(j) as Link;

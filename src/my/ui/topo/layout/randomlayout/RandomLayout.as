@@ -81,6 +81,7 @@ package my.ui.topo.layout.randomlayout
         }
 
 		protected override function layout():void{
+            super.layout()
 			var distance:Number = (topoGraph.nodeDataProvider.getItemAt(0) as Node).getCheckRepeatDistance();
 			var arr:ArrayList = RandomFactory.getRandomPointList(topoGraph.nodeDataProvider.length, distance, resetCircleLayoutRegion(),0,topoGraph.getBasePoint());
 			for(var i:int=0;i<topoGraph.nodeDataProvider.length;i++){

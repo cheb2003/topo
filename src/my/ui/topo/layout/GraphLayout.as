@@ -44,7 +44,9 @@ package my.ui.topo.layout
 		 * 执行布局算法，不同布局算法实现切入点
 		 * 子类需重写
 		 */
-		protected function layout():void{}
+		protected function layout():void{
+            topoGraph.resetDelayAnimationFactor()
+        }
 
 		public function performLayout():void {
 			layout();
