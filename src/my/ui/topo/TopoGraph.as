@@ -15,13 +15,15 @@ package my.ui.topo {
     import flash.display.DisplayObjectContainer;
     import flash.events.Event;
     import flash.events.MouseEvent;
-    import flash.geom.Matrix;
+import flash.events.TimerEvent;
+import flash.geom.Matrix;
     import flash.geom.Point;
     import flash.geom.Rectangle;
     import flash.net.URLVariables;
     import flash.utils.Dictionary;
-    
-    import mx.collections.ArrayCollection;
+import flash.utils.Timer;
+
+import mx.collections.ArrayCollection;
     import mx.controls.Alert;
     import mx.core.FlexGlobals;
     import mx.events.FlexEvent;
@@ -92,6 +94,8 @@ package my.ui.topo {
         public static const RANDOM_LAYOUT:String = "random";
         public static const OLIVE_LAYOUT:String = "olive";
         public var current_layout:String = RANDOM_LAYOUT;
+        public var animation_queue:Array = new Array();
+        public var timer:Timer;
 		
         public function TopoGraph() {
             super();
@@ -102,6 +106,17 @@ package my.ui.topo {
 			addEventListener(AdjustComplateEvent.NODE_ADJUST_COMPLATE,addLinks,false,0,true);
 //			service.url = SERVICE_URL;
 			this.addElement(g);
+
+            timer = new Timer(500);
+            timer.addEventListener(TimerEvent.TIMER, function(evt:TimerEvent){
+                var len:int  = animation_queue.length > 5 ?  5 : animation_queue.length;
+                for(var i:int=0;i<len;i++){
+                    var element:Object = animation_queue.pop();
+                    trace(element);
+                    TweenLite.to(element.node,1.5,{x:element.nodeX,y:element.nodeY});
+                }
+            });
+            timer.start();
         }
 
 		public function loadData(id:String):void{
@@ -126,6 +141,8 @@ package my.ui.topo {
 			str1 = str.substring(begin,end).replace(reg,"\"");
 			trace(str1);
 			linkDataProvider = DataAnalyzer.getLinkList(str1,nodeDataProvider.toArray());
+            if(nodeLayout is OliveLayout)
+                OliveLayout(nodeLayout).paths = DataAnalyzer.analysePath(nodeDataProvider, linkDataProvider);
 			performGraphLayout();
 			if (!nodeLayout)
 				nodeLayout = new RandomLayout();
@@ -183,19 +200,6 @@ package my.ui.topo {
 			nodeLayout.layoutRegion = new Rectangle(0, 0, totalWidth, totalHeight);
 			nodeLayout.topoGraph = this;
 			nodeLayout.initPosition();
-
-//            nodeLayout.addEventListener(FlexEvent.CREATION_COMPLETE, function(evt:FlexEvent):void{
-//                GraphLayout(evt.target).performLayout();
-//            });
-//			for(var i:int=0;i<nodeDataProvider.length;i++){
-//				var node:Node = Node(nodeDataProvider.getItemAt(i));
-//				var p:Point = RandomFactory.getRandomPoint(new Rectangle(0,0,totalWidth,totalHeight));
-//				g.addElement(node);
-//				if (node.isBase)
-//					node.depth = int.MAX_VALUE;
-//				node.x = p.x;
-//				node.y = p.y;
-//			}
 		}
 
         public function addNode(node:Node):void{
@@ -228,7 +232,8 @@ package my.ui.topo {
 		 * 移动节点位置
 		 */ 
 		public function moveNode(node:Node, nodeX:Number, nodeY:Number):void {
-			TweenLite.to(node,1.5,{x:nodeX,y:nodeY});
+            animation_queue.push({"node":node,"nodeX":nodeX, "nodeY":nodeY});
+//			TweenLite.to(node,1.5,{x:nodeX,y:nodeY});
 		}
 		
 		public function moveOut(node:Node, nodeX:Number, nodeY:Number, isLast:Boolean):void
@@ -467,13 +472,14 @@ package my.ui.topo {
         public function showCoAuthorGraph():void{
             clearCanvas();
             current_layout = TopoGraph.RANDOM_LAYOUT;
+            nodeLayout = new RandomLayout();
             requestData(SERVICE_URL,"");
-//            nodeLayout = new RandomLayout();
 //            performGraphLayout();
 //            nodeLayout.performLayout();
         }
 
-        public function showCoAuthorPath():void{            clearCanvas();
+        public function showCoAuthorPath():void{
+            clearCanvas();
             current_layout = TopoGraph.OLIVE_LAYOUT;
             nodeLayout = new OliveLayout();
 			requestData(SERVICE_URL,"");
