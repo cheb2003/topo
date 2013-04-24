@@ -123,9 +123,6 @@ import mx.collections.ArrayCollection;
 			var begin:int = str.indexOf('nodes":')+'nodes":'.length;
 			var end:int = str.indexOf('"links":[');
 			var str1:String = str.substring(begin,end);
-//			var reg :RegExp = /'/g;
-//			str1 = str1.replace(reg,"\"");
-//			trace(str1);
 			nodeDataProvider = DataAnalyzer.getNodeList(str1);
 			begin = end+'"links":['.length-1;
 			end = str.length-1;
@@ -227,7 +224,7 @@ import mx.collections.ArrayCollection;
         }
 		public function moveNode(node:Node, nodeX:Number, nodeY:Number):void {
 			TweenLite.delayedCall(delay,moveNode1, [node, nodeX,nodeY]);
-            delay += 0.3
+            delay += 0.1;
 		}
         private function moveNode1(node:Node, nodeX:Number, nodeY:Number):void {
             TweenLite.to(node,1.5,{x:nodeX,y:nodeY});
