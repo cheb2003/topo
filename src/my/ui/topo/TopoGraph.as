@@ -252,7 +252,7 @@ import mx.collections.ArrayCollection;
 
                 if(FlexGlobals.topLevelApplication.getBtnIndex() == 1){
                     //TODO:调用出错不能找到btnBar.selectedItem...
-                    showCoAuthorGraph()
+                    showCoAuthorGraph(node.rid)
                     //FlexGlobals.topLevelApplication.btnBar.selectedIndex = 0
                 }
                 //requestData("");
@@ -411,9 +411,11 @@ import mx.collections.ArrayCollection;
 		{
             resetDelayAnimationFactor()
 			var p:Point = getCenterPoint();
-			for (var j:int=0; j<linkDataProvider.length; j++){
-				var link:Link = linkDataProvider.getItemAt(j) as Link;
-				g.removeElement(link);
+			if (linkDataProvider.length>30){
+				for (var j:int=0; j<linkDataProvider.length; j++){
+					var link:Link = linkDataProvider.getItemAt(j) as Link;
+					g.removeElement(link);
+				}
 			}
 
 			for (var i:int=0; i<nodeDataProvider.length; i++){
@@ -475,11 +477,11 @@ import mx.collections.ArrayCollection;
             linkDataProvider = null;
         }
 
-        public function showCoAuthorGraph():void{
+        public function showCoAuthorGraph(id:String=""):void{
             clearCanvas();
             current_layout = TopoGraph.RANDOM_LAYOUT;
             nodeLayout = new RandomLayout();
-            requestData(SERVICE_URL,"");
+            requestData(SERVICE_URL,id);
 //            performGraphLayout();
 //            nodeLayout.performLayout();
         }
