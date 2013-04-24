@@ -95,6 +95,8 @@ import mx.collections.ArrayCollection;
         public static const OLIVE_LAYOUT:String = "olive";
         public var current_layout:String = RANDOM_LAYOUT;
         public var animation_queue:Array = new Array();
+        public var current_queue:int = 0;
+        public const MAX_QUEUE_NUM:int = 5;
         public var timer:Timer;
 		
         public function TopoGraph() {
@@ -109,11 +111,16 @@ import mx.collections.ArrayCollection;
 
             timer = new Timer(500);
             timer.addEventListener(TimerEvent.TIMER, function(evt:TimerEvent){
-                var len:int  = animation_queue.length > 5 ?  5 : animation_queue.length;
-                for(var i:int=0;i<len;i++){
-                    var element:Object = animation_queue.pop();
-                    trace(element);
-                    TweenLite.to(element.node,1.5,{x:element.nodeX,y:element.nodeY});
+                if(current_queue < MAX_QUEUE_NUM){
+                    var len:int  = animation_queue.length > MAX_QUEUE_NUM ?  MAX_QUEUE_NUM - current_queue : animation_queue.length - current_queue;
+                    for(var i:int=0;i<len;i++){
+                        current_queue++;
+                        var element:Object = animation_queue.pop();
+                        trace(element);
+                        TweenLite.to(element.node, 1, {x:element.nodeX,y:element.nodeY, onComplete:function(){
+                            current_queue--;
+                        }});
+                    }
                 }
             });
             timer.start();
