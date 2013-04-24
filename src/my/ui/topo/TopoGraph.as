@@ -85,7 +85,11 @@ package my.ui.topo {
 		/**当前选中节点*/
 		private var _selectedNode:Node;
 		private var g:Group = new Group();
-		private var SERVICE_URL:String = "http://localhost:8080/TestWebData/servlet/GetTestData";
+//		private var SERVICE_URL:String = "http://127.0.0.1:8080/TestWebData/THUMTSAN001.json";
+//		private var SERVICE_URL1:String = "http://localhost:8080/TestWebData/THUMTSAL003.json";
+		//本地测试用
+		private var SERVICE_URL:String = "THUMTSAN001.json";
+		private var SERVICE_URL1:String = "THUMTSAL003.json";
         //是否开启拖拽模式
         public var isMoving:Boolean = false;
 
@@ -114,17 +118,16 @@ package my.ui.topo {
 		private function loadComplateHandle(evt:ResultEvent):void{
 			var data:Object = evt.result;
 			var str:String = data.toString();
-			var begin:int = str.indexOf("nodes':")+"nodes':".length;
-			var end:int = str.indexOf(",'links':[");
+			var begin:int = str.indexOf('nodes":')+'nodes":'.length;
+			var end:int = str.indexOf('"links":[');
 			var str1:String = str.substring(begin,end);
-			var reg :RegExp = /'/g;
-			str1 = str1.replace(reg,"\"");
+//			var reg :RegExp = /'/g;
+//			str1 = str1.replace(reg,"\"");
 //			trace(str1);
 			nodeDataProvider = DataAnalyzer.getNodeList(str1);
-			begin = end+",'links':[".length-1;
+			begin = end+'"links":['.length-1;
 			end = str.length-1;
-			str1 = str.substring(begin,end).replace(reg,"\"");
-			trace(str1);
+			str1 = str.substring(begin,end);
 			linkDataProvider = DataAnalyzer.getLinkList(str1,nodeDataProvider.toArray());
 			performGraphLayout();
 			if (!nodeLayout)
@@ -476,7 +479,7 @@ package my.ui.topo {
         public function showCoAuthorPath():void{            clearCanvas();
             current_layout = TopoGraph.OLIVE_LAYOUT;
             nodeLayout = new OliveLayout();
-			requestData(SERVICE_URL,"");
+			requestData(SERVICE_URL1,"");
 //            performGraphLayout();
 //            nodeLayout.performLayout();
         }

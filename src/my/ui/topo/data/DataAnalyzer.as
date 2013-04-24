@@ -39,7 +39,9 @@ public class DataAnalyzer
                 if (obj.isRefer=="true" || obj.isRefer=="1"){
                     node.isRefer = true;
                     referNode = node;
-                }
+                }else{
+					node.isRefer = false;
+				}
 				if (obj.imageUrl!=null && obj.imageUrl.toString().length>0)
 					node.imageSource = obj.imageUrl;
 				if (obj.shadowColor!=null && obj.shadowColor.toString()!="")
