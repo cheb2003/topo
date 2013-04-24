@@ -41,6 +41,7 @@
             obj3.index = 3
             var arr:Array = []
             var str:String = ExternalInterface.call('fn');
+
             if(str == "1"){
 				btnBar.selectedItem = obj1;
                 topo1.showCoAuthorGraph()

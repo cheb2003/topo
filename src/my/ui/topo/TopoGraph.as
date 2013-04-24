@@ -97,6 +97,7 @@ import mx.collections.ArrayCollection;
 
         public static const RANDOM_LAYOUT:String = "random";
         public static const OLIVE_LAYOUT:String = "olive";
+        public static const RADIAL_LAYOUT:String = "radial";
         public var current_layout:String = RANDOM_LAYOUT;
 
         public function TopoGraph() {
@@ -486,7 +487,7 @@ import mx.collections.ArrayCollection;
 //            nodeLayout.performLayout();
         }
 
-        public function showCoAuthorPath():void{
+        public function showCoAuthorPath(id:String=""):void{
             clearCanvas();
             current_layout = TopoGraph.OLIVE_LAYOUT;
             nodeLayout = new OliveLayout();
@@ -495,7 +496,7 @@ import mx.collections.ArrayCollection;
 //            nodeLayout.performLayout();
         }
 
-        public function showCitaionGraph():void{
+        public function showCitaionGraph(id:String=""):void{
             clearCanvas();
         }
     }

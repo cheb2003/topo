@@ -184,7 +184,12 @@
             }
 
             private function bcClick():void {
-                Alert.show("click")
+                if(hostComponent.topoGraph.current_layout == TopoGraph.RANDOM_LAYOUT)
+                    hostComponent.topoGraph.showCoAuthorGraph(hostComponent.rid);
+                else if(hostComponent.topoGraph.current_layout == TopoGraph.OLIVE_LAYOUT)
+                    hostComponent.topoGraph.showCoAuthorPath(hostComponent.rid);
+                else if(hostComponent.topoGraph.current_layout == TopoGraph.RADIAL_LAYOUT)
+                    hostComponent.topoGraph.showCitaionGraph(hostComponent.rid);
             }
 
 			protected function img_doubleClickHandler(event:MouseEvent):void
