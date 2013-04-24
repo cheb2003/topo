@@ -96,7 +96,7 @@ import mx.collections.ArrayCollection;
         public var current_layout:String = RANDOM_LAYOUT;
         public var animation_queue:Array = new Array();
         public var current_queue:int = 0;
-        public const MAX_QUEUE_NUM:int = 5;
+        public const MAX_QUEUE_NUM:int = 10;
         public var timer:Timer;
 		
         public function TopoGraph() {
@@ -109,7 +109,7 @@ import mx.collections.ArrayCollection;
 //			service.url = SERVICE_URL;
 			this.addElement(g);
 
-            timer = new Timer(500);
+            timer = new Timer(10);
             timer.addEventListener(TimerEvent.TIMER, function(evt:TimerEvent){
                 if(current_queue < MAX_QUEUE_NUM){
                     var len:int  = animation_queue.length > MAX_QUEUE_NUM ?  MAX_QUEUE_NUM - current_queue : animation_queue.length - current_queue;
