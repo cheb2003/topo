@@ -40,7 +40,7 @@
             obj3.label = 'Citation Graph'
             obj3.index = 3
             var arr:Array = []
-            var str:String = ExternalInterface.call('fn')
+            var str:String = ExternalInterface.call('fn');
             if(str == "1"){
                 topo1.showCoAuthorGraph()
             }

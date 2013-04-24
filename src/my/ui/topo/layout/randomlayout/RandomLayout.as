@@ -60,24 +60,24 @@ package my.ui.topo.layout.randomlayout
 		}
 
         public override function initPosition():void{
-            for(var i:int=0;i<topoGraph.nodeDataProvider.length;i++){
-                var node:Node = Node(topoGraph.nodeDataProvider.getItemAt(i));
-                var p:Point = RandomFactory.getRandomPoint(layoutRegion);
-                topoGraph.addNode(node);
-                if (node.isBase)
-                    node.depth = int.MAX_VALUE;
-                node.x = p.x;
-                node.y = p.y;
-            }
-//            var centerPoint:Point = topoGraph.getCenterPoint();
 //            for(var i:int=0;i<topoGraph.nodeDataProvider.length;i++){
 //                var node:Node = Node(topoGraph.nodeDataProvider.getItemAt(i));
+//                var p:Point = RandomFactory.getRandomPoint(layoutRegion);
 //                topoGraph.addNode(node);
 //                if (node.isBase)
 //                    node.depth = int.MAX_VALUE;
-//                node.x = centerPoint.x;
-//                node.y = centerPoint.y;
+//                node.x = p.x;
+//                node.y = p.y;
 //            }
+            var centerPoint:Point = topoGraph.getCenterPoint();
+            for(var i:int=0;i<topoGraph.nodeDataProvider.length;i++){
+                var node:Node = Node(topoGraph.nodeDataProvider.getItemAt(i));
+                topoGraph.addNode(node);
+                if (node.isBase)
+                    node.depth = int.MAX_VALUE;
+                node.x = centerPoint.x;
+                node.y = centerPoint.y;
+            }
         }
 
 		protected override function layout():void{
