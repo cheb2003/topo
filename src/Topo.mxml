@@ -4,14 +4,17 @@
                preinitialize="pinit()">
     <fx:Script><![CDATA[
 		import mx.collections.ArrayCollection;
-		import mx.collections.ArrayList;
-		
-		import my.ui.topo.Link;
-		import my.ui.topo.Node;
-		import my.ui.topo.data.DataAnalyzer;
-		import my.ui.topo.data.TestData;
+        import mx.core.FlexGlobals;
+
+        import my.ui.topo.Link;
 
         import spark.events.IndexChangeEvent;
+
+        /**html中的参数*/
+        [Bindable]
+        public var path:String;
+        [Bindable]
+        public var baseRid:String;
 
         [Bindable]
 		public var nodes:ArrayCollection = null;
@@ -29,6 +32,8 @@
 //			}
 		}
         public function fn():void{
+            path = FlexGlobals.topLevelApplication.parameters.path;
+            baseRid = FlexGlobals.topLevelApplication.parameters.rid;
             //topo1.nodeLayout.performLayout();
             var obj1:Object = new Object()
             obj1.label = 'Co-author Graph'
@@ -117,7 +122,8 @@
         }
         ]]></fx:Script>
 
-    <topo1:TopoGraph id="topo1" nodeDataProvider="{nodes}" linkDataProvider="{links}" backgroundColor="#ffffff"  width="100%" height="100%"/>
+    <topo1:TopoGraph id="topo1" nodeDataProvider="{nodes}" linkDataProvider="{links}" backgroundColor="#ffffff"  width="100%" height="100%"
+            SERVICE_PATH="{this.path}" rid="{this.baseRid}"/>
 
     <s:ButtonBar labelField="label" id="btnBar" top="20" left="50" height="30" change="indexChangeHandler(event)" selectedIndex="0" visible="false" includeInLayout="false">
 

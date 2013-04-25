@@ -40,7 +40,7 @@
             var swfVersionStr = "${version_major}.${version_minor}.${version_revision}";
             // To use express install, set to playerProductInstall.swf, otherwise the empty string. 
             var xiSwfUrlStr = "${expressInstallSwf}";
-            var flashvars = {};
+            var flashvars = {path:"http://127.0.0.1/server", rid:5};
             var params = {};
             params.quality = "high";
             params.bgcolor = "${bgcolor}";
@@ -87,6 +87,7 @@
             <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="${width}" height="${height}" id="${application}">
                 <param name="movie" value="${swf}.swf" />
                 <param name="quality" value="high" />
+                <param name="flashvars" value="path=http://127.0.0.1/server&rid=5"/>
                 <param name="bgcolor" value="${bgcolor}" />
                 <param name="allowScriptAccess" value="sameDomain" />
                 <param name="allowFullScreen" value="true" />

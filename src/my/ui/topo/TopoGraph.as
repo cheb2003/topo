@@ -6,49 +6,30 @@
  * To change this template use File | Settings | File Templates.
  */
 package my.ui.topo {
-    import com.adobe.serialization.json.JSON;
     import com.greensock.TweenLite;
-    import com.greensock.events.TweenEvent;
-    import com.greensock.plugins.OnChangeRatioPlugin;
-    
-    import flash.display.DisplayObject;
-    import flash.display.DisplayObjectContainer;
-    import flash.events.Event;
+
     import flash.events.MouseEvent;
-import flash.events.TimerEvent;
-import flash.geom.Matrix;
+    import flash.geom.Matrix;
     import flash.geom.Point;
     import flash.geom.Rectangle;
     import flash.net.URLVariables;
-    import flash.utils.Dictionary;
-import flash.utils.Timer;
 
-import mx.collections.ArrayCollection;
-    import mx.controls.Alert;
-    import mx.core.FlexGlobals;
-    import mx.events.FlexEvent;
-    import mx.messaging.errors.NoChannelAvailableError;
+    import mx.collections.ArrayCollection;
     import mx.rpc.events.ResultEvent;
     import mx.rpc.http.HTTPService;
     
     import my.ui.topo.data.DataAnalyzer;
-    import my.ui.topo.data.TestData;
     import my.ui.topo.event.AdjustComplateEvent;
     import my.ui.topo.layout.GraphLayout;
-    import my.ui.topo.layout.basic.StraightLayout;
     import my.ui.topo.layout.olive.OliveLayout;
-    import my.ui.topo.layout.randomlayout.RandomFactory;
     import my.ui.topo.layout.randomlayout.RandomLayout;
     import my.ui.topo.skins.DefaultTopoSkin;
-    
-    import spark.components.ButtonBar;
+
     import spark.components.Group;
     import spark.components.SkinnableContainer;
-    import spark.components.supportClasses.SkinnableComponent;
     import spark.effects.Animate;
     import spark.effects.animation.MotionPath;
     import spark.effects.animation.SimpleMotionPath;
-    import spark.primitives.Line;
 	
     [SkinState("normal")]
     public class TopoGraph extends SkinnableContainer {
@@ -87,6 +68,9 @@ import mx.collections.ArrayCollection;
 		/**当前选中节点*/
 		private var _selectedNode:Node;
 		private var g:Group = new Group();
+        //服务端地址
+        public var SERVICE_PATH;
+        public var rid:String;
 //		private var SERVICE_URL:String = "http://127.0.0.1:8080/TestWebData/THUMTSAN001.json";
 //		private var SERVICE_URL1:String = "http://localhost:8080/TestWebData/THUMTSAL003.json";
 		//本地测试用
