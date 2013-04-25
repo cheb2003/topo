@@ -253,7 +253,13 @@ import mx.collections.ArrayCollection;
 
                 if(FlexGlobals.topLevelApplication.getBtnIndex() == 1){
                     //TODO:调用出错不能找到btnBar.selectedItem...
-                    showCoAuthorGraph(node.rid)
+//                    showCoAuthorGraph(node.rid)
+                    if(current_layout == TopoGraph.RANDOM_LAYOUT)
+                        showCoAuthorGraph(node.rid);
+                    else if(current_layout == TopoGraph.OLIVE_LAYOUT)
+                        showCoAuthorPath(node.rid);
+                    else if(current_layout == TopoGraph.RADIAL_LAYOUT)
+                        showCitaionGraph(node.rid);
                     //FlexGlobals.topLevelApplication.btnBar.selectedIndex = 0
                 }
                 //requestData("");
