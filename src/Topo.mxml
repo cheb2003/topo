@@ -4,11 +4,12 @@
                preinitialize="pinit()">
     <fx:Script><![CDATA[
 		import mx.collections.ArrayCollection;
-        import mx.core.FlexGlobals;
-
-        import my.ui.topo.Link;
-
-        import spark.events.IndexChangeEvent;
+		import mx.controls.Alert;
+		import mx.core.FlexGlobals;
+		
+		import my.ui.topo.Link;
+		
+		import spark.events.IndexChangeEvent;
 
         /**html中的参数*/
         [Bindable]
@@ -49,7 +50,7 @@
 
             if(str == "1"){
 				btnBar.selectedItem = obj1;
-                topo1.showCoAuthorGraph()
+                topo1.showCoAuthorGraph(baseRid)
             }
             if(str == "2"){
 				btnBar.selectedItem = obj2;
@@ -61,20 +62,20 @@
             }
             if(str == "101"){
 				btnBar.selectedItem = obj1;
-                topo1.showCoAuthorGraph()
+                topo1.showCoAuthorGraph(baseRid)
                 arr.push(obj1, obj3);
 
                 showBtn(true)
             }
             if(str == "110"){
 				btnBar.selectedItem = obj1;
-                topo1.showCoAuthorGraph()
+                topo1.showCoAuthorGraph(baseRid)
                 arr.push(obj1, obj2);
                 showBtn(true)
             }
             if(str == "111"){
 				btnBar.selectedItem = obj1;
-                topo1.showCoAuthorGraph()
+                topo1.showCoAuthorGraph(baseRid)
                 arr.push(obj1, obj2, obj3);
                 showBtn(true)
             }
@@ -106,7 +107,7 @@
         public function indexChangeHandler(evt:IndexChangeEvent):void{
 
             if(btnBar.selectedItem.index == 1){
-                topo1.showCoAuthorGraph();
+                topo1.showCoAuthorGraph(baseRid);
             }else if(btnBar.selectedItem.index == 2){
                 topo1.showCoAuthorPath();
             }else if(btnBar.selectedItem.index == 3){

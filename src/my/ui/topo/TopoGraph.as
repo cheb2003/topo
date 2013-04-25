@@ -7,14 +7,15 @@
  */
 package my.ui.topo {
     import com.greensock.TweenLite;
-
+    
     import flash.events.MouseEvent;
     import flash.geom.Matrix;
     import flash.geom.Point;
     import flash.geom.Rectangle;
     import flash.net.URLVariables;
-
+    
     import mx.collections.ArrayCollection;
+    import mx.controls.Alert;
     import mx.rpc.events.ResultEvent;
     import mx.rpc.http.HTTPService;
     
@@ -24,7 +25,7 @@ package my.ui.topo {
     import my.ui.topo.layout.olive.OliveLayout;
     import my.ui.topo.layout.randomlayout.RandomLayout;
     import my.ui.topo.skins.DefaultTopoSkin;
-
+    
     import spark.components.Group;
     import spark.components.SkinnableContainer;
     import spark.effects.Animate;
@@ -69,8 +70,8 @@ package my.ui.topo {
 		private var _selectedNode:Node;
 		private var g:Group = new Group();
         //服务端地址
-        public var SERVICE_PATH;
-        public var rid:String;
+        public var SERVICE_PATH:String="THUMTSAN001.json";
+        public var rid:String="";
 //		private var SERVICE_URL:String = "http://127.0.0.1:8080/TestWebData/THUMTSAN001.json";
 //		private var SERVICE_URL1:String = "http://localhost:8080/TestWebData/THUMTSAL003.json";
 		//本地测试用
@@ -98,18 +99,34 @@ package my.ui.topo {
 		public function loadData(id:String):void{
 			service.addEventListener(ResultEvent.RESULT,loadComplateHandle);
 			var params:URLVariables = new URLVariables();
-			params.nodeId = encodeURIComponent(id);
+			params.rid = encodeURIComponent(id);
 			service.send(params);
 		}
 		
 		private function loadComplateHandle(evt:ResultEvent):void{
 			var data:Object = evt.result;
 			var str:String = data.toString();
-			var begin:int = str.indexOf('nodes":')+'nodes":'.length;
-			var end:int = str.indexOf('"links":[');
+			var reg:RegExp = new RegExp("'","gm");
+			str = str.replace(reg,'"');
+			var begin:int = str.indexOf('nodes":[');
+			if (begin<0)
+				begin = str.indexOf("nodes':[");
+			if (begin<0){
+				Alert.show("数据加载错误");
+				return;
+			}
+			begin += 'nodes":'.length;
+			var end:int = str.indexOf(',"links":[');
+			if (end<0)
+				end = str.indexOf(",'links':[");
+			if (end<0){
+				Alert.show("数据加载错误");
+				return;
+			}
 			var str1:String = str.substring(begin,end);
+			
 			nodeDataProvider = DataAnalyzer.getNodeList(str1);
-			begin = end+'"links":['.length-1;
+			begin = end+'"links":['.length;
 			end = str.length-1;
 			str1 = str.substring(begin,end);
 			linkDataProvider = DataAnalyzer.getLinkList(str1,nodeDataProvider.toArray());
@@ -464,7 +481,8 @@ package my.ui.topo {
             clearCanvas();
             current_layout = TopoGraph.RANDOM_LAYOUT;
             nodeLayout = new RandomLayout();
-            requestData(SERVICE_URL,id);
+            requestData(SERVICE_PATH,id);
+//			requestData(SERVICE_URL,id);
 //            performGraphLayout();
 //            nodeLayout.performLayout();
         }
