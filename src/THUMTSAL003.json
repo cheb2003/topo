@@ -33,6 +33,14 @@
 "links":[{"id":1,"startNode":"1","endNode":3,"label":178,"linkName":"","linkInfo":""},
 {"id":2,"startNode":"3","endNode":4,"label":89,"linkName":"","linkInfo":""},
 {"id":3,"startNode":"4","endNode":5,"label":45,"linkName":"","linkInfo":""},
-{"id":3,"startNode":"5","endNode":2,"label":45,"linkName":"","linkInfo":""}
+{"id":3,"startNode":"5","endNode":2,"label":45,"linkName":"","linkInfo":""},
+{"id":3,"startNode":"1","endNode":6,"label":45,"linkName":"","linkInfo":""},
+{"id":3,"startNode":"6","endNode":7,"label":45,"linkName":"","linkInfo":""},
+{"id":3,"startNode":"7","endNode":8,"label":45,"linkName":"","linkInfo":""},
+{"id":3,"startNode":"8","endNode":2,"label":45,"linkName":"","linkInfo":""},
+{"id":3,"startNode":"1","endNode":9,"label":45,"linkName":"","linkInfo":""},
+{"id":3,"startNode":"9","endNode":10,"label":45,"linkName":"","linkInfo":""},
+{"id":3,"startNode":"10","endNode":11,"label":45,"linkName":"","linkInfo":""},
+{"id":3,"startNode":"11","endNode":2,"label":45,"linkName":"","linkInfo":""}
 ]
 }
