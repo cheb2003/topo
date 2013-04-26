@@ -6,49 +6,31 @@
  * To change this template use File | Settings | File Templates.
  */
 package my.ui.topo {
-    import com.adobe.serialization.json.JSON;
     import com.greensock.TweenLite;
-    import com.greensock.events.TweenEvent;
-    import com.greensock.plugins.OnChangeRatioPlugin;
     
-    import flash.display.DisplayObject;
-    import flash.display.DisplayObjectContainer;
-    import flash.events.Event;
     import flash.events.MouseEvent;
-import flash.events.TimerEvent;
-import flash.geom.Matrix;
+    import flash.geom.Matrix;
     import flash.geom.Point;
     import flash.geom.Rectangle;
     import flash.net.URLVariables;
-    import flash.utils.Dictionary;
-import flash.utils.Timer;
-
-import mx.collections.ArrayCollection;
+    
+    import mx.collections.ArrayCollection;
     import mx.controls.Alert;
-    import mx.core.FlexGlobals;
-    import mx.events.FlexEvent;
-    import mx.messaging.errors.NoChannelAvailableError;
     import mx.rpc.events.ResultEvent;
     import mx.rpc.http.HTTPService;
     
     import my.ui.topo.data.DataAnalyzer;
-    import my.ui.topo.data.TestData;
     import my.ui.topo.event.AdjustComplateEvent;
     import my.ui.topo.layout.GraphLayout;
-    import my.ui.topo.layout.basic.StraightLayout;
     import my.ui.topo.layout.olive.OliveLayout;
-    import my.ui.topo.layout.randomlayout.RandomFactory;
     import my.ui.topo.layout.randomlayout.RandomLayout;
     import my.ui.topo.skins.DefaultTopoSkin;
     
-    import spark.components.ButtonBar;
     import spark.components.Group;
     import spark.components.SkinnableContainer;
-    import spark.components.supportClasses.SkinnableComponent;
     import spark.effects.Animate;
     import spark.effects.animation.MotionPath;
     import spark.effects.animation.SimpleMotionPath;
-    import spark.primitives.Line;
 	
     [SkinState("normal")]
     public class TopoGraph extends SkinnableContainer {
@@ -87,6 +69,9 @@ import mx.collections.ArrayCollection;
 		/**当前选中节点*/
 		private var _selectedNode:Node;
 		private var g:Group = new Group();
+        //服务端地址
+        public var SERVICE_PATH:String="THUMTSAN001.json";
+        public var rid:String="";
 //		private var SERVICE_URL:String = "http://127.0.0.1:8080/TestWebData/THUMTSAN001.json";
 //		private var SERVICE_URL1:String = "http://localhost:8080/TestWebData/THUMTSAL003.json";
 		//本地测试用
@@ -97,6 +82,7 @@ import mx.collections.ArrayCollection;
 
         public static const RANDOM_LAYOUT:String = "random";
         public static const OLIVE_LAYOUT:String = "olive";
+        public static const RADIAL_LAYOUT:String = "radial";
         public var current_layout:String = RANDOM_LAYOUT;
 
         public function TopoGraph() {
@@ -113,21 +99,34 @@ import mx.collections.ArrayCollection;
 		public function loadData(id:String):void{
 			service.addEventListener(ResultEvent.RESULT,loadComplateHandle);
 			var params:URLVariables = new URLVariables();
-			params.nodeId = encodeURIComponent(id);
+			params.rid = encodeURIComponent(id);
 			service.send(params);
 		}
 		
 		private function loadComplateHandle(evt:ResultEvent):void{
 			var data:Object = evt.result;
 			var str:String = data.toString();
-			var begin:int = str.indexOf('nodes":')+'nodes":'.length;
-			var end:int = str.indexOf('"links":[');
+			var reg:RegExp = new RegExp("'","gm");
+			str = str.replace(reg,'"');
+			var begin:int = str.indexOf('nodes":[');
+			if (begin<0)
+				begin = str.indexOf("nodes':[");
+			if (begin<0){
+				Alert.show("数据加载错误");
+				return;
+			}
+			begin += 'nodes":'.length;
+			var end:int = str.indexOf(',"links":[');
+			if (end<0)
+				end = str.indexOf(",'links':[");
+			if (end<0){
+				Alert.show("数据加载错误");
+				return;
+			}
 			var str1:String = str.substring(begin,end);
-//			var reg :RegExp = /'/g;
-//			str1 = str1.replace(reg,"\"");
-//			trace(str1);
+			
 			nodeDataProvider = DataAnalyzer.getNodeList(str1);
-			begin = end+'"links":['.length-1;
+			begin = end+'"links":['.length;
 			end = str.length-1;
 			str1 = str.substring(begin,end);
 			linkDataProvider = DataAnalyzer.getLinkList(str1,nodeDataProvider.toArray());
@@ -227,7 +226,7 @@ import mx.collections.ArrayCollection;
         }
 		public function moveNode(node:Node, nodeX:Number, nodeY:Number):void {
 			TweenLite.delayedCall(delay,moveNode1, [node, nodeX,nodeY]);
-            delay += 0.3
+            delay += 0.1;
 		}
         private function moveNode1(node:Node, nodeX:Number, nodeY:Number):void {
             TweenLite.to(node,1.5,{x:nodeX,y:nodeY});
@@ -236,8 +235,11 @@ import mx.collections.ArrayCollection;
 		public function moveOut(node:Node, nodeX:Number, nodeY:Number, isLast:Boolean):void
 		{
 
+//			moveOut1(node,nodeX,nodeY,isLast);
             TweenLite.delayedCall(delay,moveOut1, [node, nodeX,nodeY,isLast]);
-            delay += 0.3
+			trace(delay);
+			if (delay<2)
+            delay += 0.05;
 
 //			g.removeElement(node);
 		}
@@ -249,15 +251,13 @@ import mx.collections.ArrayCollection;
 		{
 			g.removeElement(node);
 			if (isLast) {
-
-                if(FlexGlobals.topLevelApplication.getBtnIndex() == 1){
-                    //TODO:调用出错不能找到btnBar.selectedItem...
-                    showCoAuthorGraph()
-                    //FlexGlobals.topLevelApplication.btnBar.selectedIndex = 0
-                }
-                //requestData("");
+                if(current_layout == TopoGraph.RANDOM_LAYOUT)
+                    showCoAuthorGraph(node.rid);
+                else if(current_layout == TopoGraph.OLIVE_LAYOUT)
+                    showCoAuthorPath(node.rid);
+                else if(current_layout == TopoGraph.RADIAL_LAYOUT)
+                    showCitaionGraph(node.rid);
             }
-
 		}
 		/**
 		 * 将node移动到顶层
@@ -411,9 +411,11 @@ import mx.collections.ArrayCollection;
 		{
             resetDelayAnimationFactor()
 			var p:Point = getCenterPoint();
-			for (var j:int=0; j<linkDataProvider.length; j++){
-				var link:Link = linkDataProvider.getItemAt(j) as Link;
-				g.removeElement(link);
+			if (linkDataProvider.length>30){
+				for (var j:int=0; j<linkDataProvider.length; j++){
+					var link:Link = linkDataProvider.getItemAt(j) as Link;
+					g.removeElement(link);
+				}
 			}
 
 			for (var i:int=0; i<nodeDataProvider.length; i++){
@@ -475,16 +477,17 @@ import mx.collections.ArrayCollection;
             linkDataProvider = null;
         }
 
-        public function showCoAuthorGraph():void{
+        public function showCoAuthorGraph(id:String=""):void{
             clearCanvas();
             current_layout = TopoGraph.RANDOM_LAYOUT;
             nodeLayout = new RandomLayout();
-            requestData(SERVICE_URL,"");
+            requestData(SERVICE_PATH,id);
+//			requestData(SERVICE_URL,id);
 //            performGraphLayout();
 //            nodeLayout.performLayout();
         }
 
-        public function showCoAuthorPath():void{
+        public function showCoAuthorPath(id:String=""):void{
             clearCanvas();
             current_layout = TopoGraph.OLIVE_LAYOUT;
             nodeLayout = new OliveLayout();
@@ -493,7 +496,7 @@ import mx.collections.ArrayCollection;
 //            nodeLayout.performLayout();
         }
 
-        public function showCitaionGraph():void{
+        public function showCitaionGraph(id:String=""):void{
             clearCanvas();
         }
     }

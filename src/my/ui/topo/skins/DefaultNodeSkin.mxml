@@ -191,7 +191,7 @@
             }
 
             private function bcClick():void {
-                Alert.show("click")
+                Alert.show("Tip click");
             }
 
 			protected function img_doubleClickHandler(event:MouseEvent):void

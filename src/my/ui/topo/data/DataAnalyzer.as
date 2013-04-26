@@ -32,6 +32,7 @@ public class DataAnalyzer
 				node.labelName = obj.labelName;
 				node.info = obj.info;
 				node.id = obj.id;
+                node.rid = obj.rid;
 				if (obj.isBase=="true" || obj.isBase=="1"){
 					node.isBase = true;
                     baseNode = node;

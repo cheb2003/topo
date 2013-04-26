@@ -29,6 +29,8 @@ import my.ui.topo.layout.GraphLayout;
         private var path_margin:int = 80;
         /**最多路径条数*/
         public static const MAX_PATH:int = 5;
+        /**基础半径，用于绘制椭圆轨迹参照*/
+        public static const RADIUS:int = 15;
         public var paths:ArrayCollection = new ArrayCollection();
 
         public function OliveLayout() {
@@ -76,6 +78,26 @@ import my.ui.topo.layout.GraphLayout;
             }
         }
 
-
+       private function movePath2():void{
+           topoGraph.resetDelayAnimationFactor();
+           var centerPoint:Point = topoGraph.getCenterPoint();
+           var centerX:Number = centerPoint.x;
+           var centerY:Number = centerPoint.y;
+           var len:int = paths.length > MAX_PATH ? MAX_PATH : paths.length;
+           for(var i:int=0;i<len;i++){
+               var path:Path = Path(paths.getItemAt(i));
+//               var nodeY:Number = path_margin  + (layoutRegion.height - path_margin * 2) / (len + 1)  * (i + 1);
+               var nodeNum:int = path.length;
+               for(var j:int = 0;j<nodeNum;j++){
+                   var node:Node = Node(path.getNodes().getItemAt(j));
+                   var nodeX:Number = (peak_margin + peak_offset) + (layoutRegion.width - peak_margin * 2 - peak_offset * 2) / (nodeNum + 1) * (j+1);
+                   var cosA:Number = Math.abs(nodeX - centerX) / (RADIUS * 2) ;
+                   var angle:Number = Math.acos(cosA);
+                   var b:Number = RADIUS * Math.sin(angle);
+                   var nodeY:Number = centerY - b;
+                   topoGraph.moveNode(node, nodeX, nodeY);
+               }
+           }
+       }
     }
 }

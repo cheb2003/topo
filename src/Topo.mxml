@@ -4,14 +4,18 @@
                preinitialize="pinit()">
     <fx:Script><![CDATA[
 		import mx.collections.ArrayCollection;
-		import mx.collections.ArrayList;
+		import mx.controls.Alert;
+		import mx.core.FlexGlobals;
 		
 		import my.ui.topo.Link;
-		import my.ui.topo.Node;
-		import my.ui.topo.data.DataAnalyzer;
-		import my.ui.topo.data.TestData;
+		
+		import spark.events.IndexChangeEvent;
 
-        import spark.events.IndexChangeEvent;
+        /**html中的参数*/
+        [Bindable]
+        public var path:String;
+        [Bindable]
+        public var baseRid:String;
 
         [Bindable]
 		public var nodes:ArrayCollection = null;
@@ -29,6 +33,8 @@
 //			}
 		}
         public function fn():void{
+            path = FlexGlobals.topLevelApplication.parameters.path;
+            baseRid = FlexGlobals.topLevelApplication.parameters.rid;
             //topo1.nodeLayout.performLayout();
             var obj1:Object = new Object()
             obj1.label = 'Co-author Graph'
@@ -41,32 +47,40 @@
             obj3.index = 3
             var arr:Array = []
             var str:String = ExternalInterface.call('fn');
+
             if(str == "1"){
-                topo1.showCoAuthorGraph()
+				btnBar.selectedItem = obj1;
+                topo1.showCoAuthorGraph(baseRid)
             }
             if(str == "2"){
+				btnBar.selectedItem = obj2;
                 topo1.showCoAuthorPath()
             }
             if(str == "3"){
+				btnBar.selectedItem = obj3;
                 topo1.showCitaionGraph()
             }
             if(str == "101"){
-                topo1.showCoAuthorGraph()
+				btnBar.selectedItem = obj1;
+                topo1.showCoAuthorGraph(baseRid)
                 arr.push(obj1, obj3);
 
                 showBtn(true)
             }
             if(str == "110"){
-                topo1.showCoAuthorGraph()
+				btnBar.selectedItem = obj1;
+                topo1.showCoAuthorGraph(baseRid)
                 arr.push(obj1, obj2);
                 showBtn(true)
             }
             if(str == "111"){
-                topo1.showCoAuthorGraph()
+				btnBar.selectedItem = obj1;
+                topo1.showCoAuthorGraph(baseRid)
                 arr.push(obj1, obj2, obj3);
                 showBtn(true)
             }
             if(str == "011"){
+				btnBar.selectedItem = obj2; 
                 topo1.showCoAuthorPath()
                 arr.push(obj2, obj3)
                 showBtn(true)
@@ -93,7 +107,7 @@
         public function indexChangeHandler(evt:IndexChangeEvent):void{
 
             if(btnBar.selectedItem.index == 1){
-                topo1.showCoAuthorGraph();
+                topo1.showCoAuthorGraph(baseRid);
             }else if(btnBar.selectedItem.index == 2){
                 topo1.showCoAuthorPath();
             }else if(btnBar.selectedItem.index == 3){
@@ -109,7 +123,8 @@
         }
         ]]></fx:Script>
 
-    <topo1:TopoGraph id="topo1" nodeDataProvider="{nodes}" linkDataProvider="{links}" backgroundColor="#ffffff"  width="100%" height="100%"/>
+    <topo1:TopoGraph id="topo1" nodeDataProvider="{nodes}" linkDataProvider="{links}" backgroundColor="#ffffff"  width="100%" height="100%"
+            SERVICE_PATH="{this.path}" rid="{this.baseRid}"/>
 
     <s:ButtonBar labelField="label" id="btnBar" top="20" left="50" height="30" change="indexChangeHandler(event)" selectedIndex="0" visible="false" includeInLayout="false">
 
