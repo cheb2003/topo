@@ -52,6 +52,13 @@
 ////				uic.graphics.drawRect(0,0,120,150);
 //				uic.graphics.drawCircle(img.x+img.width/2 ,img.y+img.height/2,img.width/2);
 //				this.addElement(uic);
+
+                var w:Number = 10 + lblName.text.length * 7 + 2
+                if(w > 235) {
+                    lblName.width = w - 2 ;
+                } else {
+                    bc.width = 235
+                }
             }
             private function mouseDownHandler(event:MouseEvent):void{
                 if(img.hitTestPoint(event.stageX, event.stageY) || sve.hitTestPoint(event.stageX, event.stageY)
@@ -193,6 +200,8 @@
 					return;
 				hostComponent.topoGraph.removeAllNode(hostComponent.id);
 			}
+
+
 			
 		]]>
 	</fx:Script>
@@ -259,10 +268,10 @@
 	</s:Image>
 
     <s:Label id="label"  x="{img.x - 15}" y="{img.y+img.height+5}" width="{img.width + 30}" textAlign="center" text="{hostComponent.labelName}" />
-    <s:BorderContainer mouseOver="{bc.setStyle('backgroundColor',0x544E6C)}" mouseOut="{bc.setStyle('backgroundColor',0xffffff)}" click="bcClick()" id="bc" visible="false" includeInLayout="false" width="235" height="40" x="{img.x+img.width/2-this.width/2-30}" y="{img.y+img.height}"
+    <s:BorderContainer mouseOver="{bc.setStyle('backgroundColor',0x544E6C)}" mouseOut="{bc.setStyle('backgroundColor',0xffffff)}" click="bcClick()" id="bc" visible="false" includeInLayout="false"  height="40" x="{img.x+img.width/2-this.width/2-30}" y="{img.y+img.height}"
                        cornerRadius="5" borderWeight="2" dropShadowVisible="false" showEffect="{nodeTipEffect}" color="0x999999">
         <s:Label x="5" y="13" text=">>" color="0x4fBEF1" fontWeight="bold"/>
-        <s:Label x="20" y="5" text="{hostComponent.labelName}" color="0x45BEF4" fontSize="14"/>
+        <s:Label id="lblName" x="20" y="5" text="{hostComponent.labelName}" color="0x45BEF4" fontSize="14"/>
         <s:Label x="20" y="20" text="{hostComponent.info}" color="0x000000" fontSize="12"/>
     </s:BorderContainer>
 

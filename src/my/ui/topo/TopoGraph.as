@@ -221,7 +221,7 @@ import mx.collections.ArrayCollection;
 		/**
 		 * 移动节点位置
 		 */
-        private var delay = 1;
+        private var delay:Number = 1;
         public function resetDelayAnimationFactor():void{
             delay = 1;
         }
