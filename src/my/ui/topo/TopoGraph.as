@@ -16,7 +16,8 @@ package my.ui.topo {
     
     import mx.collections.ArrayCollection;
     import mx.controls.Alert;
-    import mx.rpc.events.ResultEvent;
+import mx.core.FlexGlobals;
+import mx.rpc.events.ResultEvent;
     import mx.rpc.http.HTTPService;
     
     import my.ui.topo.data.DataAnalyzer;
@@ -27,8 +28,10 @@ package my.ui.topo {
     import my.ui.topo.skins.DefaultTopoSkin;
     
     import spark.components.Group;
-    import spark.components.SkinnableContainer;
-    import spark.effects.Animate;
+import spark.components.Image;
+import spark.components.SkinnableContainer;
+import spark.core.SpriteVisualElement;
+import spark.effects.Animate;
     import spark.effects.animation.MotionPath;
     import spark.effects.animation.SimpleMotionPath;
 	
@@ -54,6 +57,8 @@ package my.ui.topo {
         public static const c12:Class;
         [Embed('/my/ui/topo/asserts/c13.jpg')]
         public static const c13:Class;
+        [Embed('/my/ui/topo/asserts/loading.gif')]
+        public static const loading:Class;
         [Bindable]
         private var _nodeDataProvider:ArrayCollection;
         private var _nodeDataProviderChange:Boolean;
@@ -84,6 +89,7 @@ package my.ui.topo {
         public static const OLIVE_LAYOUT:String = "olive";
         public static const RADIAL_LAYOUT:String = "radial";
         public var current_layout:String = RANDOM_LAYOUT;
+        public var loading:SpriteVisualElement;
 
         public function TopoGraph() {
             super();
@@ -97,6 +103,7 @@ package my.ui.topo {
         }
 
 		public function loadData(id:String):void{
+            showLoading(true);
 			service.addEventListener(ResultEvent.RESULT,loadComplateHandle);
 			var params:URLVariables = new URLVariables();
 			params.rid = encodeURIComponent(id);
@@ -130,6 +137,7 @@ package my.ui.topo {
 			end = str.length-1;
 			str1 = str.substring(begin,end);
 			linkDataProvider = DataAnalyzer.getLinkList(str1,nodeDataProvider.toArray());
+            showLoading(false);
             if(nodeLayout is OliveLayout)
                 OliveLayout(nodeLayout).paths = DataAnalyzer.analysePath(nodeDataProvider, linkDataProvider);
 			performGraphLayout();
@@ -137,6 +145,11 @@ package my.ui.topo {
 				nodeLayout = new RandomLayout();
 			nodeLayout.performLayout();
 		}
+
+        public function showLoading(flag:Boolean):void{
+            loading.visible = flag;
+            loading.includeInLayout = flag;
+        }
 
 		public function zoomOut():void
 		{
