@@ -1,151 +1,160 @@
 <?xml version="1.0"?>
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
-               xmlns:topo1="my.ui.topo.*" xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="fn()"
-               preinitialize="pinit()">
-    <fx:Script><![CDATA[
-
-        import mx.collections.ArrayCollection;
+			   xmlns:topo1="my.ui.topo.*" xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="fn()"
+			   preinitialize="pinit()">
+	<fx:Script><![CDATA[
+		
+		import mx.collections.ArrayCollection;
 		import mx.core.FlexGlobals;
 		
 		import my.ui.topo.Link;
-
-        import org.bytearray.gif.player.GIFPlayer;
-
-
-        import spark.events.IndexChangeEvent;
-
-        /**html中的参数*/
-        [Bindable]
-        public var path:String;
-        [Bindable]
-        public var baseRid:String;
-
-        [Bindable]
+		
+		import org.bytearray.gif.player.GIFPlayer;
+		
+		
+		import spark.events.IndexChangeEvent;
+		
+		/**html中的参数*/
+		[Bindable]
+		public var path:String;
+		[Bindable]
+		public var path2:String;
+		[Bindable]
+		public var baseRid:String;
+		[Bindable]
+		public var form:String;
+		[Bindable]
+		public var to:String;
+		[Bindable]
 		public var nodes:ArrayCollection = null;
 		[Bindable]
 		public var links:ArrayCollection = null;
 		public var isTest:Boolean = false;
-        private var gifPlayer:GIFPlayer = new GIFPlayer();
+		private var gifPlayer:GIFPlayer = new GIFPlayer();
 		public function pinit():void
 		{
-//			if (isTest)
-//			{
-//				nodes = DataAnalyzer.getNodeList(TestData.testNodeJsonStr);
-//				links = DataAnalyzer.getLinkList(TestData.testLinkJsonStr,nodes.toArray());
-//			}else{
-//				topo1.requestData("");
-//			}
+			//			if (isTest)
+			//			{
+			//				nodes = DataAnalyzer.getNodeList(TestData.testNodeJsonStr);
+			//				links = DataAnalyzer.getLinkList(TestData.testLinkJsonStr,nodes.toArray());
+			//			}else{
+			//				topo1.requestData("");
+			//			}
 		}
-        public function fn():void{
-            gifPlayer.load(new URLRequest("my/ui/topo/asserts/loading.gif"));
-            loading.addChild(gifPlayer);
-            path = FlexGlobals.topLevelApplication.parameters.path;
-            baseRid = FlexGlobals.topLevelApplication.parameters.rid;
-            //topo1.nodeLayout.performLayout();
-            var obj1:Object = new Object()
-            obj1.label = 'Co-author Graph'
-            obj1.index = 1
-            var obj2:Object = new Object()
-            obj2.label = 'Co-author Path'
-            obj2.index = 2
-            var obj3:Object = new Object()
-            obj3.label = 'Citation Graph'
-            obj3.index = 3
-            var arr:Array = []
-            var str:String = ExternalInterface.call('fn');
-
-            if(str == "1"){
+		public function fn():void{
+			gifPlayer.load(new URLRequest("my/ui/topo/asserts/loading.gif"));
+			loading.addChild(gifPlayer);
+			topo1.showLoading(true);
+			path = FlexGlobals.topLevelApplication.parameters.path;
+			path2 = FlexGlobals.topLevelApplication.parameters.path2;
+			baseRid = FlexGlobals.topLevelApplication.parameters.rid;
+			form = FlexGlobals.topLevelApplication.parameters.from;
+			to= FlexGlobals.topLevelApplication.parameters.to;
+			//topo1.nodeLayout.performLayout();
+			var obj1:Object = new Object()
+			obj1.label = 'Co-author Graph'
+			obj1.index = 1
+			var obj2:Object = new Object()
+			obj2.label = 'Co-author Path'
+			obj2.index = 2
+			var obj3:Object = new Object()
+			obj3.label = 'Citation Graph'
+			obj3.index = 3
+			var arr:Array = []
+			var str:String = ExternalInterface.call('fn');
+			
+			if(str == "1"){
 				btnBar.selectedItem = obj1;
-                topo1.showCoAuthorGraph(baseRid)
-            }
-            if(str == "2"){
+				topo1.showCoAuthorGraph(baseRid)
+			}
+			if(str == "2"){
 				btnBar.selectedItem = obj2;
-                topo1.showCoAuthorPath()
-            }
-            if(str == "3"){
+				topo1.showCoAuthorPath(form,to)
+			}
+			if(str == "3"){
 				btnBar.selectedItem = obj3;
-                topo1.showCitaionGraph()
-            }
-            if(str == "101"){
+				topo1.showCitaionGraph()
+			}
+			if(str == "101"){
 				btnBar.selectedItem = obj1;
-                topo1.showCoAuthorGraph(baseRid)
-                arr.push(obj1, obj3);
-
-                showBtn(true)
-            }
-            if(str == "110"){
+				topo1.showCoAuthorGraph(baseRid)
+				arr.push(obj1, obj3);
+				
+				showBtn(true)
+			}
+			if(str == "110"){
 				btnBar.selectedItem = obj1;
-                topo1.showCoAuthorGraph(baseRid)
-                arr.push(obj1, obj2);
-                showBtn(true)
-            }
-            if(str == "111"){
+				topo1.showCoAuthorGraph(baseRid)
+				arr.push(obj1, obj2);
+				showBtn(true)
+			}
+			if(str == "111"){
 				btnBar.selectedItem = obj1;
-                topo1.showCoAuthorGraph(baseRid)
-                arr.push(obj1, obj2, obj3);
-                showBtn(true)
-            }
-            if(str == "011"){
+				topo1.showCoAuthorGraph(baseRid)
+				arr.push(obj1, obj2, obj3);
+				showBtn(true)
+			}
+			if(str == "011"){
 				btnBar.selectedItem = obj2; 
-                topo1.showCoAuthorPath()
-                arr.push(obj2, obj3)
-                showBtn(true)
-            }
-            btnBar.dataProvider = new ArrayCollection(arr);
-        }
-
-        private function moveGraph(event:MouseEvent):void {
-            var x:Number = 20 - event.localX
-            var y:Number = 20 - event.localY
-            if(x < 0) {
-                x -= 15 * Math.abs(x/15)
-            } else {
-                x += 15 * Math.abs(x/15);
-            }
-            if(y < 0) {
-                y -= 15 * Math.abs(y/15)
-            } else {
-                y += 15 * Math.abs(y/15)
-            }
-            topo1.moveBy(x, y)
-        }
-
-        public function indexChangeHandler(evt:IndexChangeEvent):void{
-
-            if(btnBar.selectedItem.index == 1){
-                topo1.showCoAuthorGraph(baseRid);
-            }else if(btnBar.selectedItem.index == 2){
-                topo1.showCoAuthorPath();
-            }else if(btnBar.selectedItem.index == 3){
-                topo1.showCitaionGraph();
-            }
-        }
-        public function getBtnIndex():int{
-            return btnBar.selectedItem.index
-        }
-        private function showBtn(b:Boolean):void{
-            btnBar.visible = b;
-            btnBar.includeInLayout = b
-        }
-        ]]></fx:Script>
-
-    <topo1:TopoGraph id="topo1" nodeDataProvider="{nodes}" linkDataProvider="{links}" backgroundColor="#ffffff"  width="100%" height="100%"
-            SERVICE_PATH="{this.path}" rid="{this.baseRid}" loading="{loading}"/>
-
-    <s:ButtonBar labelField="label" id="btnBar" top="20" left="50" height="30" change="indexChangeHandler(event)" selectedIndex="0" visible="false" includeInLayout="false">
-
-    </s:ButtonBar>
-
-    <s:Image id="minImage" right="200" depth="{int.MAX_VALUE}" click="topo1.zoomOut()" bottom="40" source="{TopoGraph.min2}" useHandCursor="true" buttonMode="true"
-            mouseOver="{minImage.source = TopoGraph.min1}" mouseOut="{minImage.source = TopoGraph.min2}" />
-    <s:Image id="plusImage" right="170" depth="{int.MAX_VALUE}" click="topo1.zoomIn()" bottom="40" source="{TopoGraph.plus1}" useHandCursor="true" buttonMode="true"
-             mouseOver="{plusImage.source = TopoGraph.plus2}" mouseOut="{plusImage.source = TopoGraph.plus1}" />
-    <s:Image id="c" right="120" depth="{int.MAX_VALUE}" bottom="32" source="{TopoGraph.c1}" useHandCursor="true" buttonMode="true"
-             mouseOver="{c.source = TopoGraph.c2;c1.source = TopoGraph.c13}" mouseOut="{c.source = TopoGraph.c1;c1.source = TopoGraph.c11}"
-             mouseDown="moveGraph(event)"/>
-    <s:Image id="c1" right="131 " depth="{int.MAX_VALUE}" bottom="43" source="{TopoGraph.c11}" useHandCursor="true" buttonMode="true"
-             mouseOver="{c1.source = TopoGraph.c12}" mouseOut="{c1.source = TopoGraph.c13}" click="topo1.fit()"/>
-
-    <s:SpriteVisualElement id="loading" right="50" top="20" width="40" height="40" visible="false" includeInLayout="false"/>
-
+				topo1.showCoAuthorPath(form,to)
+				arr.push(obj2, obj3)
+				showBtn(true)
+			}
+			btnBar.dataProvider = new ArrayCollection(arr);
+		}
+		
+		private function moveGraph(event:MouseEvent):void {
+			var x:Number = 20 - event.localX
+			var y:Number = 20 - event.localY
+			if(x < 0) {
+				x -= 15 * Math.abs(x/15)
+			} else {
+				x += 15 * Math.abs(x/15);
+			}
+			if(y < 0) {
+				y -= 15 * Math.abs(y/15)
+			} else {
+				y += 15 * Math.abs(y/15)
+			}
+			topo1.moveBy(x, y)
+		}
+		
+		public function indexChangeHandler(evt:IndexChangeEvent):void{
+			
+			if(btnBar.selectedItem.index == 1){
+				topo1.showCoAuthorGraph(baseRid);
+			}else if(btnBar.selectedItem.index == 2){
+				topo1.showCoAuthorPath(form,to);
+			}else if(btnBar.selectedItem.index == 3){
+				topo1.showCitaionGraph();
+			}
+		}
+		public function getBtnIndex():int{
+			return btnBar.selectedItem.index
+		}
+		private function showBtn(b:Boolean):void{
+			btnBar.visible = b;
+			btnBar.includeInLayout = b
+		}
+	]]></fx:Script>
+	
+	<topo1:TopoGraph id="topo1" nodeDataProvider="{nodes}" linkDataProvider="{links}" backgroundColor="#ffffff"  width="100%" height="100%"
+					 SERVICE_PATH="{this.path}" SERVICE_PATH2="{this.path2}" rid="{this.baseRid}" form="{this.form}" to="{this.to}" loading="{loading}"/>
+	
+	<s:ButtonBar labelField="label" id="btnBar" top="20" left="50" height="30" change="indexChangeHandler(event)" selectedIndex="0" visible="false" includeInLayout="false">
+		
+	</s:ButtonBar>
+	
+	<s:Image id="minImage" right="200" depth="{int.MAX_VALUE}" click="topo1.zoomOut()" bottom="40" source="{TopoGraph.min2}" useHandCursor="true" buttonMode="true"
+			 mouseOver="{minImage.source = TopoGraph.min1}" mouseOut="{minImage.source = TopoGraph.min2}" />
+	<s:Image id="plusImage" right="170" depth="{int.MAX_VALUE}" click="topo1.zoomIn()" bottom="40" source="{TopoGraph.plus1}" useHandCursor="true" buttonMode="true"
+			 mouseOver="{plusImage.source = TopoGraph.plus2}" mouseOut="{plusImage.source = TopoGraph.plus1}" />
+	<s:Image id="c" right="120" depth="{int.MAX_VALUE}" bottom="32" source="{TopoGraph.c1}" useHandCursor="true" buttonMode="true"
+			 mouseOver="{c.source = TopoGraph.c2;c1.source = TopoGraph.c13}" mouseOut="{c.source = TopoGraph.c1;c1.source = TopoGraph.c11}"
+			 mouseDown="moveGraph(event)"/>
+	<s:Image id="c1" right="131 " depth="{int.MAX_VALUE}" bottom="43" source="{TopoGraph.c11}" useHandCursor="true" buttonMode="true"
+			 mouseOver="{c1.source = TopoGraph.c12}" mouseOut="{c1.source = TopoGraph.c13}" click="topo1.fit()"/>
+	
+	<s:SpriteVisualElement id="loading" x="{this.width/2-20}" y="{this.height/2-20}" width="40" height="40" visible="false" includeInLayout="false"/>
+	
 </s:Application>
