@@ -76,7 +76,10 @@ import spark.effects.Animate;
 		private var g:Group = new Group();
         //服务端地址
         public var SERVICE_PATH:String="THUMTSAN001.json";
+		public var SERVICE_PATH2:String = "";
         public var rid:String="";
+		public var form:String="";
+		public var to:String="";
 //		private var SERVICE_URL:String = "http://127.0.0.1:8080/TestWebData/THUMTSAN001.json";
 //		private var SERVICE_URL1:String = "http://localhost:8080/TestWebData/THUMTSAL003.json";
 		//本地测试用
@@ -102,6 +105,16 @@ import spark.effects.Animate;
 			this.addElement(g);
         }
 
+		public function loadData2(form:String,to:String):void
+		{
+			showLoading(true);
+			service.addEventListener(ResultEvent.RESULT,loadComplateHandle);
+			var params:URLVariables = new URLVariables();
+			params.form = encodeURIComponent(form);
+			params.to = encodeURIComponent(to);
+			service.send(params);
+		}
+		
 		public function loadData(id:String):void{
             showLoading(true);
 			service.addEventListener(ResultEvent.RESULT,loadComplateHandle);
@@ -123,9 +136,9 @@ import spark.effects.Animate;
 				return;
 			}
 			begin += 'nodes":'.length;
-			var end:int = str.indexOf(',"links":[');
+			var end:int = str.indexOf('"links":[');
 			if (end<0)
-				end = str.indexOf(",'links':[");
+				end = str.indexOf("'links':[");
 			if (end<0){
 				Alert.show("数据加载错误");
 				return;
@@ -133,7 +146,7 @@ import spark.effects.Animate;
 			var str1:String = str.substring(begin,end);
 			
 			nodeDataProvider = DataAnalyzer.getNodeList(str1);
-			begin = end+'"links":['.length;
+			begin = end+'"links":'.length;
 			end = str.length-1;
 			str1 = str.substring(begin,end);
 			linkDataProvider = DataAnalyzer.getLinkList(str1,nodeDataProvider.toArray());
@@ -267,7 +280,7 @@ import spark.effects.Animate;
                 if(current_layout == TopoGraph.RANDOM_LAYOUT)
                     showCoAuthorGraph(node.rid);
                 else if(current_layout == TopoGraph.OLIVE_LAYOUT)
-                    showCoAuthorPath(node.rid);
+                    showCoAuthorPath(form,to);
                 else if(current_layout == TopoGraph.RADIAL_LAYOUT)
                     showCitaionGraph(node.rid);
             }
@@ -453,6 +466,12 @@ import spark.effects.Animate;
 		
 		private var service:HTTPService = new HTTPService();
 
+		public function requestData2(url:String,form:String,to:String):void
+		{
+			service.url = url;
+			loadData2(form,to);
+		}
+			
         /**
          * 请求数据
          * @param id
@@ -500,11 +519,11 @@ import spark.effects.Animate;
 //            nodeLayout.performLayout();
         }
 
-        public function showCoAuthorPath(id:String=""):void{
+        public function showCoAuthorPath(form,to):void{
             clearCanvas();
             current_layout = TopoGraph.OLIVE_LAYOUT;
             nodeLayout = new OliveLayout();
-			requestData(SERVICE_URL1,"");
+			requestData2(SERVICE_PATH2,form,to);
 //            performGraphLayout();
 //            nodeLayout.performLayout();
         }
