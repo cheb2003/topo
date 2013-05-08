@@ -10,10 +10,12 @@
 		<![CDATA[
 			import flash.filters.BitmapFilterQuality;
 			import flash.filters.BitmapFilterType;
+			
 			import mx.controls.Alert;
 			import mx.events.EffectEvent;
+			
 			import my.ui.topo.Node;
-            import my.ui.topo.TopoGraph;
+			import my.ui.topo.TopoGraph;
 
             private var a1Playing:Boolean;
             private var isMouseOver:Boolean
@@ -191,14 +193,15 @@
             }
 
             private function bcClick():void {
-                Alert.show("Tip click");
+				ExternalInterface.call('nodeTipClick',hostComponent.labelName);
+//                Alert.show("Tip click");
             }
 
 			protected function img_doubleClickHandler(event:MouseEvent):void
 			{
 				if (hostComponent.isBase || hostComponent.isClick==0)
 					return;
-				hostComponent.topoGraph.removeAllNode(hostComponent.id);
+				hostComponent.topoGraph.removeAllNode(hostComponent.labelName);
 			}
 
 

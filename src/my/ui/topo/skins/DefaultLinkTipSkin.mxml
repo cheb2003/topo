@@ -10,7 +10,7 @@
         import mx.controls.Alert;
 
         private function lineTipClick(evt:MouseEvent):void{
-            Alert.show('Tip click')
+			ExternalInterface.call('linkTipClick',hostComponent.linkName);
         }
         ]]></fx:Script>
 	<s:states>

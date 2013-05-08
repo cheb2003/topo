@@ -16,8 +16,8 @@ package my.ui.topo {
     
     import mx.collections.ArrayCollection;
     import mx.controls.Alert;
-import mx.core.FlexGlobals;
-import mx.rpc.events.ResultEvent;
+    import mx.core.FlexGlobals;
+    import mx.rpc.events.ResultEvent;
     import mx.rpc.http.HTTPService;
     
     import my.ui.topo.data.DataAnalyzer;
@@ -28,10 +28,10 @@ import mx.rpc.events.ResultEvent;
     import my.ui.topo.skins.DefaultTopoSkin;
     
     import spark.components.Group;
-import spark.components.Image;
-import spark.components.SkinnableContainer;
-import spark.core.SpriteVisualElement;
-import spark.effects.Animate;
+    import spark.components.Image;
+    import spark.components.SkinnableContainer;
+    import spark.core.SpriteVisualElement;
+    import spark.effects.Animate;
     import spark.effects.animation.MotionPath;
     import spark.effects.animation.SimpleMotionPath;
 	
@@ -126,6 +126,8 @@ import spark.effects.Animate;
 		private function loadComplateHandle(evt:ResultEvent):void{
 			var data:Object = evt.result;
 			var str:String = data.toString();
+			if (str==null || str=="" || str.length<1)
+				return;
 			var reg:RegExp = new RegExp("'","gm");
 			str = str.replace(reg,'"');
 			var begin:int = str.indexOf('nodes":[');
@@ -258,27 +260,27 @@ import spark.effects.Animate;
             TweenLite.to(node,1.5,{x:nodeX,y:nodeY});
         }
 		
-		public function moveOut(node:Node, nodeX:Number, nodeY:Number, isLast:Boolean):void
+		public function moveOut(node:Node, nodeX:Number, nodeY:Number, isLast:Boolean,loadId:String):void
 		{
 
 //			moveOut1(node,nodeX,nodeY,isLast);
-            TweenLite.delayedCall(delay,moveOut1, [node, nodeX,nodeY,isLast]);
+            TweenLite.delayedCall(delay,moveOut1, [node, nodeX,nodeY,isLast,loadId]);
 			trace(delay);
 			if (delay<2)
             delay += 0.05;
 
 //			g.removeElement(node);
 		}
-        private function moveOut1(node:Node, nodeX:Number, nodeY:Number, isLast:Boolean):void{
-            TweenLite.to(node,1.5,{x:nodeX,y:nodeY,onComplete:testFuncabc,onCompleteParams:[node,isLast]});
+        private function moveOut1(node:Node, nodeX:Number, nodeY:Number, isLast:Boolean,loadId:String):void{
+            TweenLite.to(node,1.5,{x:nodeX,y:nodeY,onComplete:testFuncabc,onCompleteParams:[node,isLast,loadId]});
         }
 		
-		private function testFuncabc(node:Node, isLast:Boolean):void
+		private function testFuncabc(node:Node, isLast:Boolean,loadId):void
 		{
 			g.removeElement(node);
 			if (isLast) {
                 if(current_layout == TopoGraph.RANDOM_LAYOUT)
-                    showCoAuthorGraph(node.rid);
+                    showCoAuthorGraph(loadId);
                 else if(current_layout == TopoGraph.OLIVE_LAYOUT)
                     showCoAuthorPath(form,to);
                 else if(current_layout == TopoGraph.RADIAL_LAYOUT)
@@ -452,14 +454,14 @@ import spark.effects.Animate;
 				}
 				if (node.x <= p.x){
 					if (node.y <= p.y)
-						moveOut(node,this.x-node.width,this.y-node.height,i==nodeDataProvider.length-1)
+						moveOut(node,this.x-node.width,this.y-node.height,i==nodeDataProvider.length-1,id)
 					else
-						moveOut(node,this.x-node.width, this.y+this.height+node.height,i==nodeDataProvider.length-1);
+						moveOut(node,this.x-node.width, this.y+this.height+node.height,i==nodeDataProvider.length-1,id);
 				}else{
 					if (node.y <= p.y)
-						moveOut(node, this.x+this.width+node.width, this.y-node.height,i==nodeDataProvider.length-1);
+						moveOut(node, this.x+this.width+node.width, this.y-node.height,i==nodeDataProvider.length-1,id);
 					else
-						moveOut(node, this.x+this.width+node.width,this.y+this.height+node.height,i==nodeDataProvider.length-1);
+						moveOut(node, this.x+this.width+node.width,this.y+this.height+node.height,i==nodeDataProvider.length-1,id);
 				}
 			}
 		}

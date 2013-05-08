@@ -63,8 +63,24 @@
                 //1 2 3 101 110 111 011
                 return "110"
             }
-        </script>
-
+        
+        //点击节点的回调
+		//function nodeClick(name) {
+		//	alert(name);
+		//}
+		//点击节点提示
+		function nodeTipClick(name){
+			alert(name);
+		}
+		//点击线条的回调
+		function linkClick(name_from, name_to) {
+			alert(name_from+name_to);
+		}
+		//点击线条提示
+		function linkTipClick(name){
+			alert(name);
+		} 
+		</script>
     </head>
     <body>
         <!-- SWFObject's dynamic embed method replaces this alternative HTML content with Flash content when enough 

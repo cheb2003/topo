@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:SparkSkin click="Alert.show('click')" creationComplete="init()" xmlns:fx="http://ns.adobe.com/mxml/2009"
+<s:SparkSkin click="clickTip(event)" creationComplete="init()" xmlns:fx="http://ns.adobe.com/mxml/2009"
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:topo="my.ui.topo.*">
 	<!-- host component -->
@@ -13,6 +13,11 @@
             addEventListener(MouseEvent.ROLL_OVER, hostComponent.mouseOverHandler, false, 0, true);
             addEventListener(MouseEvent.ROLL_OUT, hostComponent.mouseOutHandler, false, 0, true);
         }
+		
+		private function clickTip(evt:MouseEvent):void
+		{
+			ExternalInterface.call('linkTipClick',hostComponent.linkName);
+		}
 
     ]]></fx:Script>
 	<s:states>
