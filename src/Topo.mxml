@@ -155,6 +155,6 @@
     <s:Image id="c1" right="131 " depth="{int.MAX_VALUE}" bottom="43" source="{TopoGraph.c11}" useHandCursor="true" buttonMode="true"
              mouseOver="{c1.source = TopoGraph.c12}" mouseOut="{c1.source = TopoGraph.c13}" click="topo1.fit()"/>
 
-    <s:SpriteVisualElement id="loading" right="50" top="20" width="40" height="40" visible="false" includeInLayout="false"/>
+    <s:SpriteVisualElement id="loading"  width="40" height="40" visible="false" includeInLayout="false"/>
 
 </s:Application>

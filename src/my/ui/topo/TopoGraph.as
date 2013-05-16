@@ -162,8 +162,11 @@ package my.ui.topo {
 		}
 
         public function showLoading(flag:Boolean):void{
-            loading.visible = flag;
+			loading.x = (this.x+this.width)/2;
+			loading.y = (this.y+this.height)/2;
+			loading.visible = flag;
             loading.includeInLayout = flag;
+			
         }
 
 		public function zoomOut():void

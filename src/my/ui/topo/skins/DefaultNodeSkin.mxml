@@ -201,7 +201,7 @@
 			{
 				if (hostComponent.isBase || hostComponent.isClick==0)
 					return;
-				hostComponent.topoGraph.removeAllNode(hostComponent.labelName);
+				hostComponent.topoGraph.removeAllNode(hostComponent.rid);
 			}
 
 
