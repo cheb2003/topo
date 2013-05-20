@@ -1,17 +1,15 @@
 <?xml version="1.0"?>
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
-               xmlns:topo1="my.ui.topo.*" xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="fn()"
-               preinitialize="pinit()" >
+               xmlns:topo1="my.ui.topo.*" xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="fn()">
     <fx:Script><![CDATA[
 
         import mx.collections.ArrayCollection;
-		import mx.core.FlexGlobals;
-		
-		import my.ui.topo.Link;
-
+        import mx.core.FlexGlobals;
+        
+        import my.ui.topo.Link;
+        
         import org.bytearray.gif.player.GIFPlayer;
-
-
+        
         import spark.events.IndexChangeEvent;
 
 		/**html中的参数*/
@@ -25,29 +23,25 @@
 		public var form:String;
 		[Bindable]
 		public var to:String;
-
+		[Bindable]
+		public var path3:String;
+		[Bindable]
+		public var baseRid1:String;
         [Bindable]
 		public var nodes:ArrayCollection = null;
 		[Bindable]
 		public var links:ArrayCollection = null;
 		public var isTest:Boolean = false;
         private var gifPlayer:GIFPlayer = new GIFPlayer();
-		public function pinit():void
-		{
-//			if (isTest)
-//			{
-//				nodes = DataAnalyzer.getNodeList(TestData.testNodeJsonStr);
-//				links = DataAnalyzer.getLinkList(TestData.testLinkJsonStr,nodes.toArray());
-//			}else{
-//				topo1.requestData("");
-//			}
-		}
+		
         public function fn():void{
             gifPlayer.load(new URLRequest("my/ui/topo/asserts/loading.gif"));
             loading.addChild(gifPlayer);
 			path = FlexGlobals.topLevelApplication.parameters.path;
 			path2 = FlexGlobals.topLevelApplication.parameters.path2;
+			path3 = FlexGlobals.topLevelApplication.parameters.path3;
 			baseRid = FlexGlobals.topLevelApplication.parameters.rid;
+			baseRid1 = FlexGlobals.topLevelApplication.parameters.rid1;
 			form = FlexGlobals.topLevelApplication.parameters.from;
 			to= FlexGlobals.topLevelApplication.parameters.to;
             //topo1.nodeLayout.performLayout();
@@ -73,7 +67,7 @@
             }
             if(str == "3"){
 				btnBar.selectedItem = obj3;
-                topo1.showCitaionGraph()
+                topo1.showCitaionGraph(baseRid1)
             }
             if(str == "101"){
 				btnBar.selectedItem = obj1;
@@ -120,7 +114,9 @@
         }
 
         public function indexChangeHandler(evt:IndexChangeEvent):void{
-
+			if (btnBar.selectedItem==null)
+				return;
+			
             if(btnBar.selectedItem.index == 1){
                 topo1.showCoAuthorGraph(baseRid);
             }else if(btnBar.selectedItem.index == 2){
@@ -139,7 +135,7 @@
         ]]></fx:Script>
 
     <topo1:TopoGraph id="topo1" nodeDataProvider="{nodes}" linkDataProvider="{links}" backgroundColor="#ffffff"  width="100%" height="100%"
-            SERVICE_PATH="{this.path}" SERVICE_PATH2="{this.path2}" form="{this.form}" to="{this.to}" rid="{this.baseRid}" loading="{loading}"/>
+            SERVICE_PATH="{this.path}" SERVICE_PATH2="{this.path2}" SERVICE_PATH3="{this.path3}" rid1="{this.baseRid1}" form="{this.form}" to="{this.to}" rid="{this.baseRid}" loading="{loading}"/>
 
     <s:ButtonBar labelField="label" id="btnBar" top="20" left="50" height="30" change="indexChangeHandler(event)" selectedIndex="0" visible="false" includeInLayout="false">
 

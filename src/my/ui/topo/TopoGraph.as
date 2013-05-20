@@ -17,6 +17,7 @@ package my.ui.topo {
     import mx.collections.ArrayCollection;
     import mx.controls.Alert;
     import mx.core.FlexGlobals;
+    import mx.graphics.RadialGradient;
     import mx.rpc.events.ResultEvent;
     import mx.rpc.http.HTTPService;
     
@@ -24,6 +25,7 @@ package my.ui.topo {
     import my.ui.topo.event.AdjustComplateEvent;
     import my.ui.topo.layout.GraphLayout;
     import my.ui.topo.layout.olive.OliveLayout;
+    import my.ui.topo.layout.radial.RadialLayout;
     import my.ui.topo.layout.randomlayout.RandomLayout;
     import my.ui.topo.skins.DefaultTopoSkin;
     
@@ -77,7 +79,9 @@ package my.ui.topo {
         //服务端地址
         public var SERVICE_PATH:String="THUMTSAN001.json";
 		public var SERVICE_PATH2:String = "";
+		public var SERVICE_PATH3:String = "";
         public var rid:String="";
+		public var rid1:String = "";
 		public var form:String="";
 		public var to:String="";
 //		private var SERVICE_URL:String = "http://127.0.0.1:8080/TestWebData/THUMTSAN001.json";
@@ -156,8 +160,12 @@ package my.ui.topo {
             if(nodeLayout is OliveLayout)
                 OliveLayout(nodeLayout).paths = DataAnalyzer.analysePath(nodeDataProvider, linkDataProvider);
 			performGraphLayout();
-			if (!nodeLayout)
-				nodeLayout = new RandomLayout();
+			if (!nodeLayout){
+				if (nodeLayout is RandomLayout)
+					nodeLayout = new RandomLayout();
+				else if (nodeLayout is RadialLayout)
+					nodeLayout = new RadialLayout();
+			}
 			nodeLayout.performLayout();
 		}
 
@@ -482,18 +490,6 @@ package my.ui.topo {
          * @param id
          */
 		public function requestData(url:String,id:String):void{
-//			if (id == TestData.RANDOM_DATA)//this.parentApplication.isTest)
-//			{
-//				nodeDataProvider = DataAnalyzer.getNodeList(TestData.testNodeJsonStr);
-//				linkDataProvider = DataAnalyzer.getLinkList(TestData.testLinkJsonStr,nodeDataProvider.toArray());
-//			}else if (id == TestData.OLIVE_DATA){
-//                nodeDataProvider = DataAnalyzer.getNodeList(TestData.olive_nodes);
-//                linkDataProvider = DataAnalyzer.getLinkList(TestData.olive_lines,nodeDataProvider.toArray());
-//                if(nodeLayout==null)
-//                    nodeLayout = new OliveLayout();
-//                OliveLayout(nodeLayout).paths = DataAnalyzer.analysePath(nodeDataProvider, linkDataProvider);
-//            }else
-//				loadData(id);
 			service.url = url;
 			loadData(id);
 		}
@@ -519,9 +515,6 @@ package my.ui.topo {
             current_layout = TopoGraph.RANDOM_LAYOUT;
             nodeLayout = new RandomLayout();
             requestData(SERVICE_PATH,id);
-//			requestData(SERVICE_URL,id);
-//            performGraphLayout();
-//            nodeLayout.performLayout();
         }
 
         public function showCoAuthorPath(form,to):void{
@@ -529,12 +522,13 @@ package my.ui.topo {
             current_layout = TopoGraph.OLIVE_LAYOUT;
             nodeLayout = new OliveLayout();
 			requestData2(SERVICE_PATH2,form,to);
-//            performGraphLayout();
-//            nodeLayout.performLayout();
         }
 
-        public function showCitaionGraph(id:String=""):void{
+        public function showCitaionGraph(id:String=""):void{ 
             clearCanvas();
+			current_layout = TopoGraph.RADIAL_LAYOUT;
+			nodeLayout = new RadialLayout();
+			requestData(SERVICE_PATH3,id);
         }
     }
 
