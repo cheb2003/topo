@@ -18,6 +18,9 @@ import my.ui.topo.event.AdjustComplateEvent;
 
 import my.ui.topo.layout.GraphLayout;
 
+    /**
+     * 橄榄布局类，用于图2
+     */
     public class OliveLayout extends GraphLayout {
         private var basePoint:Point;
         private var referPoint:Point;
@@ -48,6 +51,9 @@ import my.ui.topo.layout.GraphLayout;
             }
         }
 
+        /**
+         * 布局算法
+         */
         protected override function layout():void{
             super.layout()
             basePoint = new Point(peak_margin, layoutRegion.height / 2);

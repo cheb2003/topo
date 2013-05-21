@@ -6,12 +6,16 @@ import flash.events.MouseEvent;
 	import my.ui.topo.skins.DefaultLinkTipSkin;
 	
 	import spark.components.supportClasses.SkinnableComponent;
-	
+
+    /**
+     * 连线提示信息类
+     */
 	[Bindable]
 	[SkinState("normal")]
 	[SkinState("mouseOver")]
 	public class LinkTip extends SkinnableComponent
 	{
+        /**关联连线对象*/
 		public var linkLine:LinkLine;
 		private var _mouseOver:Boolean;
         public var linkName:String = "";

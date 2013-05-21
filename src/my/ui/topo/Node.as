@@ -8,6 +8,9 @@ package my.ui.topo {
     import my.ui.topo.layout.BaseLayoutFactory;
     import my.ui.topo.skins.DefaultNodeSkin;
 
+    /**
+     * 节点图元类
+     */
 	[Bindable]
     [SkinState("normal")]
     [SkinState("selected")]
@@ -150,6 +153,10 @@ package my.ui.topo {
             return _incomingLinks.concat(_outgoingLinks);
         }
 
+        /**
+         * 动态计算节点宽度
+         * @return
+         */
         public function calcWidth():Number{
             if(isBase)
                 return MAX_WIDTH;
@@ -170,6 +177,10 @@ package my.ui.topo {
             }
         }
 
+        /**
+         * 动态计算节点高度
+         * @return
+         */
         public function calcHeight():Number{
             if(isBase)
                 return MAX_HEIGHT;

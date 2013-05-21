@@ -9,6 +9,9 @@ package my.ui.topo
 	import mx.core.UIComponent;
 	import mx.events.FlexEvent;
 
+    /**
+     * 连线线条对象
+     */
 	[Bindable]
 	public class LinkLine extends UIComponent{
 		private var _xFrom:Number;
@@ -97,6 +100,11 @@ package my.ui.topo
                 this.graphics.lineTo(xTo,yTo);
             }
 		}
+
+        /**
+         * 获取连线装饰点X坐标
+         * @return
+         */
         [Bindable]
         public function getDecorationX():Number{
             if(isDirectRelation){
@@ -120,6 +128,11 @@ package my.ui.topo
                 return controlX;
             }
         }
+
+        /**
+         * 获取连线装饰点Y坐标
+         * @return
+         */
         [Bindable]
         public function getDecorationY():Number{
             if(isDirectRelation){
@@ -165,7 +178,11 @@ package my.ui.topo
 			timer.addEventListener(TimerEvent.TIMER, outTimerHandler);
 			timer.start();
 		}
-		
+
+        /**
+         * 定时器，用于实现线上装饰失去鼠标焦点后，定时隐藏
+         * @param evt
+         */
 		private function outTimerHandler(evt:TimerEvent):void{
             trace("outTimerHandler")
 			if(this.outFlag){

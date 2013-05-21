@@ -8,7 +8,13 @@
 package my.ui.topo {
 import mx.collections.ArrayCollection;
 
+/**
+ * 路径类，用于合作路径图模型解析
+ */
 public class Path {
+        /**
+         * 路径节点集合
+         */
         private var nodes:ArrayCollection = new ArrayCollection();
 
         public function Path() {

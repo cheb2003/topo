@@ -2,6 +2,9 @@ package my.ui.topo
 {
 	import my.ui.topo.skins.DefaultLinkSkin;
 
+    /**
+     * 连线图元类
+     */
 	[Bindable]
 	[SkinState("normal")]
 	[SkinState("selected")]

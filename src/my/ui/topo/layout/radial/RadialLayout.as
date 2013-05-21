@@ -17,7 +17,7 @@ import my.ui.topo.layout.GraphLayout;
 import my.ui.topo.layout.randomlayout.RandomFactory;
 
 /**
- * Radia布局，用于图3
+ * Radial布局，用于图3
  * 
  */
 public class RadialLayout extends GraphLayout {
