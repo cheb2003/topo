@@ -12,6 +12,10 @@ import my.ui.topo.Link;
 	import my.ui.topo.Node;
     import my.ui.topo.Path;
 
+	/**
+	 * 用于解析数据
+	 * 
+	 */
 public class DataAnalyzer
 	{
         //标示基础节点对象，用于计算连线是否是直接/间接关系
@@ -19,10 +23,18 @@ public class DataAnalyzer
         /**标记referNode，用于Co-author Path图*/
         private static var referNode:Node;
 
+		/**
+		 * 默认构造函数
+		 * 
+		 */
 		public function DataAnalyzer()
 		{
 		}
 		
+		/**
+		 * 解析Node对象，返回集合
+		 * 
+		 */
 		public static function getNodeList(str:String):ArrayCollection{
 			var arr:Array = JSON.decode(str) as Array;
 			var result:ArrayList = new ArrayList();
@@ -59,6 +71,10 @@ public class DataAnalyzer
 			return new ArrayCollection(result.toArray());
 		}
 		
+		/**
+		 * 解析Link对象，返回集合
+		 * 
+		 */
 		public static function getLinkList(str:String, nodeList:Array):ArrayCollection{
 			var arr:Array = JSON.decode(str) as Array;
 			var result:ArrayList = new ArrayList();
@@ -88,6 +104,10 @@ public class DataAnalyzer
 			return new ArrayCollection(result.toArray());
 		}
 
+		/**
+		 * 解析节点间path，用于图2调用
+		 * 
+		 */
         public static function analysePath(nodes:ArrayCollection,links:ArrayCollection):ArrayCollection{
             var pathCollection:ArrayCollection = new ArrayCollection();
             var path:Path
@@ -123,6 +143,10 @@ public class DataAnalyzer
             return arr;
         }
 
+		/**
+		 * 解析LinkPath，用于图2调用
+		 * 
+		 */
         private static function linkPath(path:Path, links:ArrayCollection):void {
             var node:Node = path.getLastNode();
             for each(var link:Link in links) {
@@ -137,6 +161,10 @@ public class DataAnalyzer
             }
         }
 		
+		/**
+		 * 通过ID获取Node对象
+		 * 
+		 */
 		private static function getNodeById(nodeList:Array, id:String):Node{
 			for (var i:int=0; i<nodeList.length; i++){
 				var node:Node = nodeList[i] as Node;
@@ -145,7 +173,10 @@ public class DataAnalyzer
 			}
 			return null;
 		}
-		
+		/**
+		 * 构造LineName
+		 * 
+		 */
 		private static function getLineName(startName:String, endName:String):String{
 			return startName+"-"+endName;
 		}

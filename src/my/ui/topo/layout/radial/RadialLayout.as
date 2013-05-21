@@ -16,11 +16,19 @@ import my.ui.topo.event.AdjustComplateEvent;
 import my.ui.topo.layout.GraphLayout;
 import my.ui.topo.layout.randomlayout.RandomFactory;
 
+/**
+ * Radia布局，用于图3
+ * 
+ */
 public class RadialLayout extends GraphLayout {
     public function RadialLayout() {
         super();
     }
 
+	/**
+	 * 初始化组件位置
+	 * 
+	 */
     public override function initPosition():void{
         for(var i:int=0;i<topoGraph.nodeDataProvider.length;i++){
             var node:Node = Node(topoGraph.nodeDataProvider.getItemAt(i));
@@ -33,6 +41,10 @@ public class RadialLayout extends GraphLayout {
     }
 
 	private var REGION_OFFSET:uint = 10;
+	/**
+	 * 计算随机点限制区域
+	 * 
+	 */
 	private function resetCircleLayoutRegion():Rectangle{
 		var startX:Number = layoutRegion.topLeft.x+80;
 		var startY:Number = layoutRegion.topLeft.y+80;
@@ -50,6 +62,10 @@ public class RadialLayout extends GraphLayout {
 		return new Rectangle(startX, startY, endX,endY);
 	}
 	
+	/**
+	 * 布局方法
+	 * 
+	 */
     protected override function layout():void{
 		super.layout()
 		var distance:Number = (topoGraph.nodeDataProvider.getItemAt(0) as Node).getCheckRepeatDistance();

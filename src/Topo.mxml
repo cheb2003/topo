@@ -14,19 +14,19 @@
 
 		/**html中的参数*/
 		[Bindable]
-		public var path:String;
+		public var path:String;			//图1url
 		[Bindable]
-		public var path2:String;
+		public var path2:String;		//图2url
 		[Bindable]
-		public var baseRid:String;
+		public var baseRid:String;		//图1rid参数
 		[Bindable]
-		public var form:String;
+		public var form:String;			//图2form参数
 		[Bindable]
-		public var to:String;
+		public var to:String;				//图2to参数
 		[Bindable]
-		public var path3:String;
+		public var path3:String;		//图3url
 		[Bindable]
-		public var baseRid1:String;
+		public var baseRid1:String;	//图3rid参数
         [Bindable]
 		public var nodes:ArrayCollection = null;
 		[Bindable]
@@ -34,6 +34,10 @@
 		public var isTest:Boolean = false;
         private var gifPlayer:GIFPlayer = new GIFPlayer();
 		
+		/*
+		*  组件加载完成调用方法
+		*
+		*/
         public function fn():void{
             gifPlayer.load(new URLRequest("my/ui/topo/asserts/loading.gif"));
             loading.addChild(gifPlayer);
@@ -97,6 +101,10 @@
             btnBar.dataProvider = new ArrayCollection(arr);
         }
 
+		/*
+		*  移动整个Graph方法
+		*
+		*/
         private function moveGraph(event:MouseEvent):void {
             var x:Number = 20 - event.localX
             var y:Number = 20 - event.localY
@@ -113,6 +121,10 @@
             topo1.moveBy(x, y)
         }
 
+		/*
+		*  界面导航按钮切换
+		*
+		*/
         public function indexChangeHandler(evt:IndexChangeEvent):void{
 			if (btnBar.selectedItem==null)
 				return;
@@ -125,9 +137,18 @@
                 topo1.showCitaionGraph();
             }
         }
+		/*
+		* 获取切换按钮index
+		*
+		*/
         public function getBtnIndex():int{
             return btnBar.selectedItem.index
         }
+		
+		/*
+		* 显示/隐藏导航按钮
+		*
+		*/
         private function showBtn(b:Boolean):void{
             btnBar.visible = b;
             btnBar.includeInLayout = b

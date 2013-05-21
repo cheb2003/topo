@@ -98,6 +98,10 @@ package my.ui.topo {
         public var current_layout:String = RANDOM_LAYOUT;
         public var loading:SpriteVisualElement;
 
+		/**
+		 * 初始化构造函数
+		 * 
+		 */
         public function TopoGraph() {
             super();
             setStyle("skinClass", DefaultTopoSkin);
@@ -109,6 +113,10 @@ package my.ui.topo {
 			this.addElement(g);
         }
 
+		/**
+		 * 加载数据，用于图2
+		 * 
+		 */
 		public function loadData2(form:String,to:String):void
 		{
 			showLoading(true);
@@ -119,6 +127,10 @@ package my.ui.topo {
 			service.send(params);
 		}
 		
+		/**
+		 * 加载数据，用于图1，图3
+		 * 
+		 */
 		public function loadData(id:String):void{
             showLoading(true);
 			service.addEventListener(ResultEvent.RESULT,loadComplateHandle);
@@ -127,6 +139,10 @@ package my.ui.topo {
 			service.send(params);
 		}
 		
+		/**
+		 * 加载数据完成，回调方法。用于图1，图3
+		 * 
+		 */
 		private function loadComplateHandle(evt:ResultEvent):void{
 			var data:Object = evt.result;
 			var str:String = data.toString();
@@ -169,6 +185,10 @@ package my.ui.topo {
 			nodeLayout.performLayout();
 		}
 
+		/**
+		 * 显示/隐藏加载动画
+		 * 
+		 */
         public function showLoading(flag:Boolean):void{
 			loading.x = (this.x+this.width)/2;
 			loading.y = (this.y+this.height)/2;
@@ -177,6 +197,10 @@ package my.ui.topo {
 			
         }
 
+		/**
+		 * 放大
+		 * 
+		 */
 		public function zoomOut():void
 		{
 			if (g.scaleX>0.8){
@@ -188,6 +212,10 @@ package my.ui.topo {
 			}
 		}
 		
+		/**
+		 * 缩小
+		 * 
+		 */
 		public function zoomIn():void
 		{
 			if (g.scaleX<1.4){
@@ -199,6 +227,10 @@ package my.ui.topo {
 			}
 		}
 		
+		/**
+		 * 监听鼠标滚轮，处理放大缩小
+		 * 
+		 */
         private function mouseWheelHandler(event:MouseEvent):void {
 			if (event.delta>0){
 				zoomIn();
@@ -207,6 +239,10 @@ package my.ui.topo {
 			}
         }
 		
+		/**
+		 * 计算布局中心点
+		 * 
+		 */
 		public function getCenterPoint():Point{
 			return new Point(this.x+this.width/2,this.y+this.height/2);
 		}
@@ -230,10 +266,18 @@ package my.ui.topo {
 			nodeLayout.initPosition();
 		}
 
+		/**
+		 * 添加Node对象
+		 * 
+		 */
         public function addNode(node:Node):void{
             g.addElement(node);
         }
 
+		/**
+		 * 添加Link对象
+		 * 
+		 */
 		private function addLinks(evt:AdjustComplateEvent):void
 		{
 
@@ -263,14 +307,26 @@ package my.ui.topo {
         public function resetDelayAnimationFactor():void{
             delay = 1;
         }
+		/**
+		 * 移动节点（有缓动效果）
+		 * 
+		 */
 		public function moveNode(node:Node, nodeX:Number, nodeY:Number):void {
 			TweenLite.delayedCall(delay,moveNode1, [node, nodeX,nodeY]);
             delay += 0.1;
 		}
+		/**
+		 * 移动节点（无缓动效果）
+		 * 
+		 */
         private function moveNode1(node:Node, nodeX:Number, nodeY:Number):void {
             TweenLite.to(node,1.5,{x:nodeX,y:nodeY});
         }
 		
+		/**
+		 * 移除节点（缓动）
+		 * 
+		 */
 		public function moveOut(node:Node, nodeX:Number, nodeY:Number, isLast:Boolean,loadId:String):void
 		{
 
@@ -282,10 +338,18 @@ package my.ui.topo {
 
 //			g.removeElement(node);
 		}
+		/**
+		 * 移除节点（无缓动）
+		 * 
+		 */
         private function moveOut1(node:Node, nodeX:Number, nodeY:Number, isLast:Boolean,loadId:String):void{
             TweenLite.to(node,1.5,{x:nodeX,y:nodeY,onComplete:testFuncabc,onCompleteParams:[node,isLast,loadId]});
         }
 		
+		/**
+		 * 移除完毕后回调函数，从新加载拓扑图
+		 * 
+		 */
 		private function testFuncabc(node:Node, isLast:Boolean,loadId):void
 		{
 			g.removeElement(node);
@@ -305,6 +369,10 @@ package my.ui.topo {
 			node.depth = int.MAX_VALUE;
 		}
 		
+		/**
+		 * 节点拖拽方法
+		 * 
+		 */
         private function mouseDownHandler(event:MouseEvent):void {
             event.stopPropagation();
 
@@ -314,12 +382,20 @@ package my.ui.topo {
             lastMovePoint = new Point(event.stageX, event.stageY);
         }
 
+		/**
+		 * 节点拖拽方法，处理释放拖拽
+		 * 
+		 */
         private function mouseUpHandler(event:MouseEvent):void {
             event.stopPropagation();
             stage.removeEventListener(MouseEvent.MOUSE_MOVE,mouseMoveHandler);
             stage.removeEventListener(MouseEvent.MOUSE_UP,mouseMoveHandler)
         }
 
+		/**
+		 * 监听拖拽移动
+		 * 
+		 */
         private function mouseMoveHandler(event:MouseEvent):void {
             contentGroup.move(contentGroup.x + (event.stageX - _lastMovePoint.x), contentGroup.y + (event.stageY - _lastMovePoint.y));
             //_selectedNode.x = _selectedNode.x + (newPoint.x - _lastMovePoint.x);
@@ -328,6 +404,10 @@ package my.ui.topo {
             _lastMovePoint.y = event.stageY;
         }
 
+		/**
+		 * 播放节点移动动画
+		 * 
+		 */
         public function moveBy(x:Number,y:Number):void{
             var a:Animate = new Animate(contentGroup);
             var ve:Vector.<MotionPath> = new Vector.<MotionPath>();
@@ -381,6 +461,10 @@ package my.ui.topo {
             }
         }
 
+		/**
+		 * 监听属性变更，通知界面重绘
+		 * 
+		 */
         override protected function commitProperties():void {
             super.commitProperties();
             if(_nodeDataProviderChange) {
@@ -394,6 +478,10 @@ package my.ui.topo {
             }
         }
 
+		/**
+		 * 移动选中节点
+		 * 
+		 */
         public function moveSelectedNode(newPoint:Point):void {
             _selectedNode.move(_selectedNode.x + (newPoint.x - _lastMovePoint.x), _selectedNode.y + (newPoint.y - _lastMovePoint.y));
             //_selectedNode.x = _selectedNode.x + (newPoint.x - _lastMovePoint.x);
@@ -427,6 +515,10 @@ package my.ui.topo {
 			_linkLayout = value;
 		}
 
+		/**
+		 * 整体大小还原，居中
+		 * 
+		 */
         public function fit():void{
 //			g.scaleX = 1;
 //			g.scaleY = 1;
@@ -446,6 +538,10 @@ package my.ui.topo {
             a.play()
         }
 		
+		/**
+		 * 移除所有节点
+		 * 
+		 */
 		public function removeAllNode(id:String):void
 		{
             resetDelayAnimationFactor()
@@ -479,6 +575,10 @@ package my.ui.topo {
 		
 		private var service:HTTPService = new HTTPService();
 
+		/**
+		 * 请求图2数据
+		 * 
+		 */
 		public function requestData2(url:String,form:String,to:String):void
 		{
 			service.url = url;
@@ -494,6 +594,10 @@ package my.ui.topo {
 			loadData(id);
 		}
 
+		/**
+		 * 获取居中节点
+		 * 
+		 */
 		public function getBasePoint():Point{
 			for (var i:int=0; i<nodeDataProvider.length; i++){
 				var node:Node = nodeDataProvider.getItemAt(i) as Node;
@@ -504,12 +608,20 @@ package my.ui.topo {
 			return null;
 		}
 
+		/**
+		 * 清除所有展示对象
+		 * 
+		 */
         public function clearCanvas():void{
             g.removeAllElements();
             nodeDataProvider = null;
             linkDataProvider = null;
         }
 
+		/**
+		 * 加载CoAuthor图
+		 * 
+		 */
         public function showCoAuthorGraph(id:String=""):void{
             clearCanvas();
             current_layout = TopoGraph.RANDOM_LAYOUT;
@@ -517,6 +629,10 @@ package my.ui.topo {
             requestData(SERVICE_PATH,id);
         }
 
+		/**
+		 * 加载CoAuthorPath图
+		 * 
+		 */
         public function showCoAuthorPath(form,to):void{
             clearCanvas();
             current_layout = TopoGraph.OLIVE_LAYOUT;
@@ -524,6 +640,10 @@ package my.ui.topo {
 			requestData2(SERVICE_PATH2,form,to);
         }
 
+		/**
+		 * 加载CitationGraph图
+		 * 
+		 */
         public function showCitaionGraph(id:String=""):void{ 
             clearCanvas();
 			current_layout = TopoGraph.RADIAL_LAYOUT;

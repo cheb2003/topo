@@ -9,6 +9,10 @@ package my.ui.topo.layout.randomlayout
 	import my.ui.topo.event.AdjustComplateEvent;
 	import my.ui.topo.layout.GraphLayout;
 	
+	/**
+	 * 随机布局，用于图1
+	 * 
+	 */
 	public class RandomLayout extends GraphLayout
 	{
 		
@@ -20,6 +24,10 @@ package my.ui.topo.layout.randomlayout
 		 * 重设布局边界
 		 */
 		private var REGION_OFFSET:uint = 10;
+		/**
+		 * 计算随机布局边界
+		 * 
+		 */
 		private function resetLayoutRegion():Rectangle{
 			var startX:Number = layoutRegion.topLeft.x;
 			var startY:Number = layoutRegion.topLeft.y;
@@ -34,7 +42,10 @@ package my.ui.topo.layout.randomlayout
 			endY = endY - node.skin.height - REGION_OFFSET;
 			return new Rectangle(startX, startY, endX-startX, endY-startY);
 		}
-		
+		/**
+		 * 计算圆形随机边界
+		 * 
+		 */
 		private function resetCircleLayoutRegion():Rectangle{
 			var startX:Number = layoutRegion.topLeft.x;
 			var startY:Number = layoutRegion.topLeft.y;
@@ -59,16 +70,11 @@ package my.ui.topo.layout.randomlayout
 			return new Rectangle(startX, startY, endX,endY);
 		}
 
+		/**
+		 * 初始化组件位置
+		 * 
+		 */
         public override function initPosition():void{
-//            for(var i:int=0;i<topoGraph.nodeDataProvider.length;i++){
-//                var node:Node = Node(topoGraph.nodeDataProvider.getItemAt(i));
-//                var p:Point = RandomFactory.getRandomPoint(layoutRegion);
-//                topoGraph.addNode(node);
-//                if (node.isBase)
-//                    node.depth = int.MAX_VALUE;
-//                node.x = p.x;
-//                node.y = p.y;
-//            }
             var centerPoint:Point = topoGraph.getCenterPoint();
             for(var i:int=0;i<topoGraph.nodeDataProvider.length;i++){
                 var node:Node = Node(topoGraph.nodeDataProvider.getItemAt(i));
@@ -80,6 +86,10 @@ package my.ui.topo.layout.randomlayout
             }
         }
 
+		/**
+		 * 布局方法
+		 * 
+		 */
 		protected override function layout():void{
             super.layout()
 			var distance:Number = (topoGraph.nodeDataProvider.getItemAt(0) as Node).getCheckRepeatDistance();
