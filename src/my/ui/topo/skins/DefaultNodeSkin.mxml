@@ -30,31 +30,18 @@
                 addEventListener(MouseEvent.MOUSE_DOWN, hostComponent.mouseDownHandler, false, 0, true);
                 addEventListener(MouseEvent.MOUSE_MOVE,mouseMoveHandler)
                 addEventListener(MouseEvent.ROLL_OUT, rollOutHandler, false, 0, true);
+                //图片和名称框的连接处，优化放大缩小效果
                 spr1.graphics.beginFill(0xffffff, 0);
                 spr1.graphics.drawRect(-35, -30, 75, 30);
                 spr1.graphics.endFill();
                 sve.addChild(spr1);
 				
-				/*var m:ImageMask=new ImageMask()
-                m.x = img.x+img.width/2
-                m.y = img.y+img.height/2
-                m.width = img.width
-                m.height = img.height*/
-				/*m.graphics.beginFill(0xff0000);
-				m.graphics.drawCircle(img.x+img.width/2 ,img.y+img.height/2,img.width/2);
-				m.graphics.endFill();*/
-				/*this.addElement(m);
-				*/
+                //设置图片mask，让图片成圆形
                 img.mask=mask;
 				imgWidth = img.width
                 imgHeight = img.height
-//				var uic:UIComponent=new UIComponent();
-//				uic.graphics.lineStyle(1,0x000000,1);
-//				uic.graphics.beginFill(0x000000,1);
-////				uic.graphics.drawRect(0,0,120,150);
-//				uic.graphics.drawCircle(img.x+img.width/2 ,img.y+img.height/2,img.width/2);
-//				this.addElement(uic);
 
+                //设置名称框自适应文字
                 var w:Number = 10 + lblName.text.length * 7 + 2
                 if(w > 235) {
                     lblName.width = w - 2 ;
@@ -63,6 +50,7 @@
                 }
             }
             private function mouseDownHandler(event:MouseEvent):void{
+                //判断鼠标在有效区域点击
                 if(img.hitTestPoint(event.stageX, event.stageY) || sve.hitTestPoint(event.stageX, event.stageY)
                         || (bc.visible == true && bc.hitTestPoint(event.stageX, event.stageY))) {
                     hostComponent.mouseDownHandler(event)
@@ -88,6 +76,7 @@
             }
 			
 			private function setNodeDepth(node:Node, depth:Number):void{
+                //设置节点深度，basenode在最上层
 				if (node.isBase){
 					node.depth = int.MAX_VALUE;
 					return;	
@@ -101,6 +90,7 @@
 			}
 			
             private function rollOutHandler(event:MouseEvent):void {
+                //播放缩小动画
                 if(hostComponent.topoGraph.isMoving) {
                     return
                 }
@@ -129,6 +119,7 @@
                 }
             }
             private function rollOverHandler(event:MouseEvent):void {
+                //播放放大动画
                 if(a1Playing) {
                     if(p1.isPlaying) {
 						setNodeDepth(hostComponent,Math.abs(Math.random()));
@@ -152,10 +143,12 @@
 
 			protected function effectEndHandler(event:EffectEvent):void
 			{
+
 				if (a1Playing)
 				{
 					a1Playing = false;
                     if(isMouseOver) {
+                        //显示名称框
                         showBC(true)
                     }
 				}
@@ -171,10 +164,11 @@
 				if (!a1Playing)
 				{
 					a1Playing = true;
+                    //不显示名称框
 					showBC(false)
 				}
 			}
-
+            //动画播放完后，修正节点大小
             private function fix():void {
                 if(width < 80 || width > 120) {
                     width = hostComponent.calcWidth();//80
@@ -199,6 +193,7 @@
 
 			protected function img_doubleClickHandler(event:MouseEvent):void
 			{
+                //双击事件
 				if (hostComponent.isBase || hostComponent.isClick==0)
 					return;
 				hostComponent.topoGraph.removeAllNode(hostComponent.rid);
